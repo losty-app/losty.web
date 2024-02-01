@@ -1,8 +1,6 @@
-import { Provider } from "../models";
-
 const initialState = [];
 
-const providersReducer = (state, action) => {
+const providersReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SET_PROVIDERS":
       return action.payload;
