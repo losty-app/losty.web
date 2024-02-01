@@ -62,25 +62,15 @@ export const signOut = async () => {
   }
 };
 
-export const signUser = async (phoneNumber, dispatch) => {
+export const signUser = async (phoneNumber, dispatch) => { // handle only existing user
   try {
     const profile = await findUserByPhoneNumber(phoneNumber);
     if (profile) {
-      // existing user
       await signIn(phoneNumber);
       await Auth.currentAuthenticatedUser({ bypassCache: true });
       dispatch({ type: 'SET_PROFILE', payload: profile });
-    } else {
-      // non existing user -> sign him up
-      console.log('no exisitng user found.');
-      await signUp(phoneNumber);
-      await signIn(phoneNumber);
-      await Auth.currentAuthenticatedUser({ bypassCache: true });
-      const newProfile = await findUserByPhoneNumber(phoneNumber);
-      dispatch({ type: 'SET_PROFILE', payload: newProfile });
-    }
+    } 
   } catch (e) {
-    // signing in failed
     console.log('error: ' + e.name);
     console.log(e.message);
     throw new Error(e.message);
