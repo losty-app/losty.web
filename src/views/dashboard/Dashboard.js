@@ -3,7 +3,7 @@ import { Grid, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 
 // components
-import ProductPerformance from './components/ProductPerformance';
+import ProductPerformance from './components/SosEventsHistory';
 import Blog from './components/Blog';
 
 const Dashboard = () => {
