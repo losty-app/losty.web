@@ -1,5 +1,5 @@
 import { API, graphqlOperation } from "aws-amplify";
-import { updateUser, deleteProvider } from "../graphql/mutations";
+import { deleteProvider, updateProvider } from "../graphql/mutations";
 
 export const deleteProviderMutation = async (provider) => {
   try {
@@ -12,7 +12,9 @@ export const deleteProviderMutation = async (provider) => {
 
 export const updateProviderMutation = async (updatedProvider) => {
   try {
-    await API.graphql(graphqlOperation(updateUser, { input: updatedProvider }));
+    await API.graphql(
+      graphqlOperation(updateProvider, { input: updatedProvider })
+    );
   } catch (e) {
     console.log("updateProviderMutation: ", e);
     throw new Error(e);

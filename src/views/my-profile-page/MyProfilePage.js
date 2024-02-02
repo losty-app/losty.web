@@ -14,7 +14,7 @@ import PageContainer from "src/components/container/PageContainer";
 import DashboardCard from "../../components/shared/DashboardCard";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingModal from "src/components/loading/LoadingModal";
-import { updateUserMutation } from "src/helpers/mutationsHelper";
+import { updateProviderMutation } from "src/helpers/mutationsHelper";
 const Profile = ({
   name = "",
   phoneNumber = "",
@@ -150,12 +150,12 @@ const MyProfilePage = () => {
   const handleNameChange = async (newName) => {
     setLoading(true);
     try {
-      const updatedProfile = {
+      const updatedProvider = {
         id,
         name: newName,
       };
-      dispatch({ type: "UPDATE_PROFILE", payload: updatedProfile });
-      await updateUserMutation(updatedProfile);
+      dispatch({ type: "UPDATE_PROFILE", payload: updatedProvider });
+      await updateProviderMutation(updatedProvider);
       setCurrentName(newName);
       setLoading(false);
       toast.success("שם הפרופיל שונה בהצלחה!");

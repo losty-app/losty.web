@@ -1,7 +1,7 @@
 import { Auth } from "aws-amplify";
 // import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
 import sha256 from "js-sha256";
-import { findUserByPhoneNumber } from "./queriesHelper";
+import { findProviderByPhoneNumber } from "./queriesHelper";
 import keys from "../constants/keys";
 
 export const signIn = async (phoneNumber) => {
@@ -33,9 +33,8 @@ export const signOut = async () => {
 };
 
 export const signUser = async (phoneNumber, dispatch) => {
-  // handle only existing user
   try {
-    const profile = await findUserByPhoneNumber(phoneNumber);
+    const profile = await findProviderByPhoneNumber(phoneNumber);
     if (profile) {
       await signIn(phoneNumber);
       await Auth.currentAuthenticatedUser({ bypassCache: true });
