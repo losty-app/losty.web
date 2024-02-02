@@ -2,7 +2,10 @@ import { API, graphqlOperation } from "aws-amplify";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { onCreateSosEvent, onUpdateSosEvent } from "src/graphql/subscriptions";
-import { listAllSosEventsByRequesterIds } from "src/helpers/queriesHelper";
+import {
+  listAllProviderResponsesBySosEventId,
+  listAllSosEventsByRequesterIds,
+} from "src/helpers/queriesHelper";
 
 const useSosEvents = (callFrom = "") => {
   const dispatch = useDispatch();
@@ -13,10 +16,48 @@ const useSosEvents = (callFrom = "") => {
   const fetchSosEvents = async () => {
     try {
       if (requesters?.length > 0) {
-        const requesterIds = requesters.map((requester) => requester.id);
+        /* This code block is responsible for fetching SOS events and their corresponding provider
+        responses. */
+        const requesterIds = requesters.map(({ id }) => id);
         const fetchedSosEvents = await listAllSosEventsByRequesterIds(
           requesterIds
         );
+
+        const fetchedProviderResponses = await Promise.all(
+          fetchedSosEvents.map(({ id }) =>
+            listAllProviderResponsesBySosEventId(id)
+          )
+        );
+
+        fetchedSosEvents.forEach((sosEvent, index) => {
+          const providerResponses = fetchedProviderResponses[index];
+          const groupedResponses = [[], [], [], []]; // For UNSEEN, SEEN, APPROVED_OUT, APPROVED_DEST
+          providerResponses.forEach((response) => {
+            switch (response.status) {
+              case "UNSEEN":
+                groupedResponses[0].push(response);
+                break;
+              case "SEEN":
+                groupedResponses[1].push(response);
+                break;
+              case "APPROVED_OUT":
+                groupedResponses[2].push(response);
+                break;
+              case "APPROVED_DEST":
+                groupedResponses[3].push(response);
+                break;
+              default:
+                // Handling other statuses
+                break;
+            }
+          });
+
+          sosEvent.unseen = groupedResponses[0];
+          sosEvent.seen = groupedResponses[1];
+          sosEvent.approvedOut = groupedResponses[2];
+          sosEvent.approvedDest = groupedResponses[3];
+        });
+
         dispatch({ type: "SET_SOS_EVENTS", payload: fetchedSosEvents });
       }
     } catch (error) {

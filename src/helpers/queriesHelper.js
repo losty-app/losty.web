@@ -7,6 +7,7 @@ import {
   usersByTel,
   listSosEvents,
   listRequesters,
+  providerResponsesBySosEventId,
 } from "../graphql/queries";
 
 // Event Queries
@@ -117,6 +118,17 @@ export const listAllSosEventsByRequesterIds = async (requesterIds) => {
     );
   } catch (e) {
     console.log("listAllSosEventsByAssociationIdMutation: ", e);
+    throw new Error(e);
+  }
+};
+
+export const listAllProviderResponsesBySosEventId = async (sosEventId) => {
+  try {
+    await API.graphql(
+      graphqlOperation(providerResponsesBySosEventId, { sosEventId })
+    );
+  } catch (e) {
+    console.log("listAllProviderResponsesBySosEventId: ", e);
     throw new Error(e);
   }
 };
