@@ -1,47 +1,17 @@
-import { Auth } from 'aws-amplify';
+import { Auth } from "aws-amplify";
 // import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
-import sha256 from 'js-sha256';
-import { findUserByPhoneNumber } from './queriesHelper';
-import { UserRole } from '../models';
-import { createUserMutation } from './mutationsHelper';
-import keys from '../constants/keys';
-import { toast } from 'react-toastify';
-
-export const signUp = async (phoneNumber) => {
-  try {
-    const name = '';
-    console.log('inside signUp');
-    await Auth.signUp({
-      username: phoneNumber,
-      password: keys.SIGN_UP_PASSWORD,
-      attributes: {
-        name,
-      },
-      autoSignIn: {
-        enabled: true,
-      },
-    });
-    const newUser = {
-      tel: phoneNumber,
-      role: UserRole.REQUESTER,
-      name,
-    };
-    await createUserMutation(newUser);
-  } catch (error) {
-    console.log(error);
-    if (error.code !== 'UsernameExistsException') toast.error('הרשמה נכשלה');
-  }
-};
+import sha256 from "js-sha256";
+import { findUserByPhoneNumber } from "./queriesHelper";
+import keys from "../constants/keys";
 
 export const signIn = async (phoneNumber) => {
-  console.log('inside signIn');
   try {
     return await Auth.signIn({
       username: phoneNumber,
       password: keys.SIGN_UP_PASSWORD,
     });
   } catch (e) {
-    console.log('Signing in failed:', e);
+    console.log("Signing in failed:", e);
   }
 };
 
@@ -49,7 +19,7 @@ export const removeAccount = async () => {
   try {
     await Auth.deleteUser();
   } catch (e) {
-    console.log('RemoveUser: ', e);
+    console.log("RemoveUser: ", e);
   }
 };
 
@@ -57,21 +27,22 @@ export const signOut = async () => {
   try {
     await Auth.signOut();
   } catch (e) {
-    console.log('Sign Out User: ', e);
+    console.log("Sign Out User: ", e);
     throw new Error(e.message);
   }
 };
 
-export const signUser = async (phoneNumber, dispatch) => { // handle only existing user
+export const signUser = async (phoneNumber, dispatch) => {
+  // handle only existing user
   try {
     const profile = await findUserByPhoneNumber(phoneNumber);
     if (profile) {
       await signIn(phoneNumber);
       await Auth.currentAuthenticatedUser({ bypassCache: true });
-      dispatch({ type: 'SET_PROFILE', payload: profile });
-    } 
+      dispatch({ type: "SET_PROFILE", payload: profile });
+    }
   } catch (e) {
-    console.log('error: ' + e.name);
+    console.log("error: " + e.name);
     console.log(e.message);
     throw new Error(e.message);
   }
@@ -81,7 +52,7 @@ export const encryptConfirmationCode = (preEncryption) => {
   try {
     return sha256(preEncryption);
   } catch (e) {
-    console.warn('error encrypting sign in: ', e);
+    console.warn("error encrypting sign in: ", e);
     return null; // or handle the error in some way
   }
 };
@@ -92,7 +63,7 @@ export const getGeneratedCode = async () => {
 
 export const sendConfirmationCode = async (phoneNumber, generatedCode) => {
   try {
-    const message = '  הוא קוד האימות שלך';
+    const message = "  הוא קוד האימות שלך";
     // const client = new SNSClient({
     //   region: "us-west-2",
     //   credentials: keys.AWS_SDK_CREDENTIALS,
@@ -102,10 +73,10 @@ export const sendConfirmationCode = async (phoneNumber, generatedCode) => {
     //   Message: generatedCode + message,
     // });
     // await client.send(command);
-    console.log('Imagine that I sent a confirmation message of: ');
+    console.log("Imagine that I sent a confirmation message of: ");
     console.log(generatedCode + message);
   } catch (e) {
-    console.warn('sending confirmation code failed: ', e);
+    console.warn("sending confirmation code failed: ", e);
     throw e;
   }
 };

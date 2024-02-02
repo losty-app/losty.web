@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Typography, Grid, Button, TextField, Avatar, Box, IconButton } from '@mui/material';
-import { IconEditCircle, IconCamera } from '@tabler/icons';
-import { toast } from 'react-toastify';
-import PageContainer from 'src/components/container/PageContainer';
-import DashboardCard from '../../components/shared/DashboardCard';
-import { useDispatch, useSelector } from 'react-redux';
-import { UserRole } from 'src/models';
-import LoadingModal from 'src/components/loading/LoadingModal';
-import { updateUserMutation } from 'src/helpers/mutationsHelper';
+import React, { useEffect, useState } from "react";
+import {
+  Typography,
+  Grid,
+  Button,
+  TextField,
+  Avatar,
+  Box,
+  IconButton,
+} from "@mui/material";
+import { IconEditCircle, IconCamera } from "@tabler/icons";
+import { toast } from "react-toastify";
+import PageContainer from "src/components/container/PageContainer";
+import DashboardCard from "../../components/shared/DashboardCard";
+import { useDispatch, useSelector } from "react-redux";
+import LoadingModal from "src/components/loading/LoadingModal";
+import { updateUserMutation } from "src/helpers/mutationsHelper";
 const Profile = ({
-  name = '',
-  role = null,
-  phoneNumber = '',
+  name = "",
+  phoneNumber = "",
   profilePicture,
   onNameChange,
   onPictureChange,
@@ -36,17 +42,25 @@ const Profile = ({
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={12} md={6} align="center">
-        <Avatar src={profilePicture} alt={name} sx={{ width: 150, height: 150 }} />
+        <Avatar
+          src={profilePicture}
+          alt={name}
+          sx={{ width: 150, height: 150 }}
+        />
         <Box mt={2}>
           <input
             type="file"
             accept="image/*"
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
             id="fileInput"
             onChange={onPictureChange}
           />
           <label htmlFor="fileInput">
-            <IconButton color="primary" aria-label="upload picture" component="span">
+            <IconButton
+              color="primary"
+              aria-label="upload picture"
+              component="span"
+            >
               <IconCamera />
             </IconButton>
           </label>
@@ -55,23 +69,23 @@ const Profile = ({
       <Grid item xs={12} md={6}>
         {editingName ? (
           <Box mt={2} mb={2}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <TextField
                 value={newName}
                 onChange={handleNameChange}
                 variant="outlined"
                 fullWidth
                 sx={{
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: '20px', // Add border radius
-                    '& fieldset': {
-                      borderColor: 'rgba(0, 0, 0, 0.2)',
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "20px", // Add border radius
+                    "& fieldset": {
+                      borderColor: "rgba(0, 0, 0, 0.2)",
                     },
-                    '&:hover fieldset': {
-                      borderColor: 'rgba(0, 0, 0, 0.3)',
+                    "&:hover fieldset": {
+                      borderColor: "rgba(0, 0, 0, 0.3)",
                     },
-                    '&.Mui-focused fieldset': {
-                      borderColor: 'rgba(0, 0, 0, 0.5)',
+                    "&.Mui-focused fieldset": {
+                      borderColor: "rgba(0, 0, 0, 0.5)",
                     },
                   },
                 }}
@@ -81,12 +95,12 @@ const Profile = ({
                 variant="outlined"
                 onClick={handleCancelNameEdit}
                 color="secondary"
-                style={{ margin: '8px' }}
+                style={{ margin: "8px" }}
               >
                 בטל
               </Button>
               <Button
-                style={{ margin: '8px' }}
+                style={{ margin: "8px" }}
                 variant="contained"
                 onClick={handleSaveName}
                 color="primary"
@@ -97,31 +111,18 @@ const Profile = ({
           </Box>
         ) : (
           <Typography mb={2} variant="h4" gutterBottom>
-            {name ? name : 'הכנס שם'}
+            {name ? name : "הכנס שם"}
             <IconButton color="primary" onClick={() => setEditingName(true)}>
               <IconEditCircle />
             </IconButton>
           </Typography>
         )}
-        {role != null && (
-          <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-            {(() => {
-              switch (role) {
-                case UserRole.REQUESTER:
-                  return 'מקבל שירות';
-                case UserRole.PROVIDER:
-                  return 'נותן שירות';
-                case 'ADMIN':
-                  return 'מנהל';
-                default:
-                  return '';
-              }
-            })()}
-          </Typography>
-        )}
-
         {phoneNumber && (
-          <Typography sx={{ direction: 'ltr', textAlign: 'end' }} variant="body1" paragraph>
+          <Typography
+            sx={{ direction: "ltr", textAlign: "end" }}
+            variant="body1"
+            paragraph
+          >
             {phoneNumber}
           </Typography>
         )}
@@ -131,11 +132,10 @@ const Profile = ({
 };
 
 const MyProfilePage = () => {
-  const [currentName, setCurrentName] = useState('');
-  const [role, setRole] = useState('');
-  const [tel, setTel] = useState('');
-  const [id, setId] = useState('');
-  const [profilePicture, setProfilePicture] = useState('');
+  const [currentName, setCurrentName] = useState("");
+  const [tel, setTel] = useState("");
+  const [id, setId] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -144,7 +144,6 @@ const MyProfilePage = () => {
   useEffect(() => {
     setId(profile?.id);
     setCurrentName(profile?.name);
-    setRole(profile?.role);
     setTel(profile?.tel);
   }, []);
 
@@ -155,13 +154,13 @@ const MyProfilePage = () => {
         id,
         name: newName,
       };
-      dispatch({ type: 'UPDATE_PROFILE', payload: updatedProfile });
+      dispatch({ type: "UPDATE_PROFILE", payload: updatedProfile });
       await updateUserMutation(updatedProfile);
       setCurrentName(newName);
       setLoading(false);
-      toast.success('שם הפרופיל שונה בהצלחה!');
+      toast.success("שם הפרופיל שונה בהצלחה!");
     } catch (error) {
-      toast.error('עדכון עריכת פרופיל נכשלה');
+      toast.error("עדכון עריכת פרופיל נכשלה");
       setLoading(false);
     }
   };
@@ -182,14 +181,13 @@ const MyProfilePage = () => {
       <DashboardCard title="מסך הפרופיל">
         <Profile
           name={currentName}
-          role={role ? role : null}
           phoneNumber={tel}
           profilePicture={profilePicture}
           onNameChange={handleNameChange}
           onPictureChange={handlePictureChange}
         />
       </DashboardCard>
-      <LoadingModal open={loading} text={'מעדכן פרטי פרופיל...'} />
+      <LoadingModal open={loading} text={"מעדכן פרטי פרופיל..."} />
     </PageContainer>
   );
 };
