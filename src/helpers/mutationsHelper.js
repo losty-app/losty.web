@@ -1,29 +1,20 @@
 import { API, graphqlOperation } from "aws-amplify";
-import { createUser, updateUser, deleteUser } from "../graphql/mutations";
+import { updateUser, deleteProvider } from "../graphql/mutations";
 
-export const createUserMutation = async (newUser) => {
+export const deleteProviderMutation = async (provider) => {
   try {
-    await API.graphql(graphqlOperation(createUser, { input: newUser }));
-  } catch (e) {
-    console.error("createUserMutation:", e);
-    throw new Error(e);
-  }
-};
-
-export const deleteUserMutation = async (user) => {
-  try {
-    await API.graphql(graphqlOperation(deleteUser, { input: user }));
+    await API.graphql(graphqlOperation(deleteProvider, { input: provider }));
   } catch (e) {
     console.error("deleteUserMutation:", e);
     throw new Error(e);
   }
 };
 
-export const updateUserMutation = async (updatedUser) => {
+export const updateProviderMutation = async (updatedProvider) => {
   try {
-    await API.graphql(graphqlOperation(updateUser, { input: updatedUser }));
+    await API.graphql(graphqlOperation(updateUser, { input: updatedProvider }));
   } catch (e) {
-    console.log("updateUserMutation: ", e);
+    console.log("updateProviderMutation: ", e);
     throw new Error(e);
   }
 };
