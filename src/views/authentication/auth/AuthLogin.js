@@ -1,50 +1,52 @@
-import React, { useState } from 'react';
-import { Box, Typography, Button, Stack } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { isValidPhoneNumber } from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
-import './styles.css';
+import React, { useState } from "react";
+import { Box, Typography, Button, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import "./styles.css";
 
 import {
   encryptConfirmationCode,
   getGeneratedCode,
   sendConfirmationCode,
-} from 'src/helpers/authHelper';
-import { toast } from 'react-toastify';
-import PhoneInputWithCountrySelect from 'react-phone-number-input';
+} from "src/helpers/authHelper";
+import { toast } from "react-toastify";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
   const navigate = useNavigate();
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const handleSendConfirmationCode = async () => {
     try {
       if (!isValidPhoneNumber(phoneNumber)) {
-        toast.error('מספר טלפון לא תקין');
+        toast.error("מספר טלפון לא תקין");
         return;
       }
       const generatedCode = (await getGeneratedCode()).toString();
       await sendConfirmationCode(phoneNumber, generatedCode);
       const preEncryption = phoneNumber + generatedCode;
-      const confirmationCodeEncryption = await encryptConfirmationCode(preEncryption.toString());
-      navigate('/verify', {
+      const confirmationCodeEncryption = await encryptConfirmationCode(
+        preEncryption.toString()
+      );
+      navigate("/verify", {
         state: {
           confirmationCodeEncryption,
           phoneNumber,
         },
       });
     } catch (error) {
-      toast.error('שליחת קוד אימות נכשלה');
+      toast.error("שליחת קוד אימות נכשלה");
     }
   };
 
   const inputStyle = {
-    borderRadius: '8px',
-    border: '1px solid #ccc',
-    padding: '8px',
-    fontSize: '16px',
-    width: '100%',
-    fontFamily: 'Varela Round',
+    borderRadius: "8px",
+    border: "1px solid #ccc",
+    padding: "8px",
+    fontSize: "16px",
+    width: "100%",
+    fontFamily: "Varela Round",
   };
 
   return (
@@ -63,11 +65,16 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             direction: (theme) => theme.direction,
           }}
         >
-          <Typography variant="h4" fontWeight={600} component="label" htmlFor="tel">
+          <Typography
+            variant="h5"
+            fontWeight={600}
+            component="label"
+            htmlFor="tel"
+          >
             טלפון
           </Typography>
           <PhoneInputWithCountrySelect
-            numberInputProps={{ className: 'custom-phone-input' }}
+            numberInputProps={{ className: "custom-phone-input" }}
             id="tel"
             placeholder="הכנס מספר טלפון"
             value={phoneNumber}
@@ -79,7 +86,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       </Stack>
       <Box
         sx={{
-          p: '20px',
+          p: "20px",
         }}
       >
         <Button

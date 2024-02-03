@@ -54,17 +54,22 @@ export const listAllRequestersByAssociationId = async (associationId) => {
 
 export const findProviderByPhoneNumber = async (tel) => {
   try {
-    // Check if a provider with the same tel already exists
+    const newTel = tel.replace(/^\+\d{1,3}/, "0");
     const result = await API.graphql(
-      graphqlOperation(listProviders, { filter: { tel: { eq: tel } } })
+      graphqlOperation(listProviders, {
+        filter: {
+          tel: {
+            eq: newTel,
+          },
+        },
+      })
     );
-    const providers = result.data.items;
+    const providers = result?.data?.listProviders?.items;
     if (providers?.length > 0) {
       return providers[0];
     }
     return null;
   } catch (e) {
-    console.log("findProviderByPhoneNumber: ", e);
     throw new Error(e);
   }
 };

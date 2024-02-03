@@ -34,15 +34,11 @@ export const signOut = async () => {
 
 export const signUser = async (phoneNumber, dispatch) => {
   try {
+    await signIn(phoneNumber);
     const profile = await findProviderByPhoneNumber(phoneNumber);
-    if (profile) {
-      await signIn(phoneNumber);
-      await Auth.currentAuthenticatedUser({ bypassCache: true });
-      dispatch({ type: "SET_PROFILE", payload: profile });
-    }
+    await Auth.currentAuthenticatedUser({ bypassCache: true });
+    dispatch({ type: "SET_PROFILE", payload: profile });
   } catch (e) {
-    console.log("error: " + e.name);
-    console.log(e.message);
     throw new Error(e.message);
   }
 };

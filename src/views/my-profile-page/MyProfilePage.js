@@ -179,6 +179,7 @@ const MyProfilePage = () => {
   return (
     <PageContainer title="מסך פרופיל" description="זה הוא מסך הפרופיל">
       <DashboardCard title="מסך הפרופיל">
+        p
         <Profile
           name={currentName}
           phoneNumber={tel}
