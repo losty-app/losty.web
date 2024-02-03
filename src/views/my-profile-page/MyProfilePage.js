@@ -16,27 +16,45 @@ import { useDispatch, useSelector } from "react-redux";
 import LoadingModal from "src/components/loading/LoadingModal";
 import { updateProviderMutation } from "src/helpers/mutationsHelper";
 const Profile = ({
-  name = "",
-  phoneNumber = "",
+  firstName = "",
+  lastName = "",
+  tel = "",
   profilePicture,
-  onNameChange,
+  onFirstNameChange,
+  onLastNameChange,
   onPictureChange,
 }) => {
-  const [editingName, setEditingName] = useState(false);
-  const [newName, setNewName] = useState(name);
+  const [editingFirstName, setEditingFirstName] = useState(false);
+  const [editingLastName, setEditingLastName] = useState(false);
+  const [newFirstName, setNewFirstName] = useState(firstName);
+  const [newLastName, setNewLastName] = useState(lastName);
 
-  const handleNameChange = (e) => {
-    setNewName(e.target.value);
+  const handleFirstNameChange = (e) => {
+    setNewFirstName(e.target.value);
   };
 
-  const handleSaveName = () => {
-    onNameChange(newName);
-    setEditingName(false);
+  const handleLastNameChange = (e) => {
+    setNewFirstName(e.target.value);
   };
 
-  const handleCancelNameEdit = () => {
-    setNewName(name);
-    setEditingName(false);
+  const handleSaveFirstName = () => {
+    onFirstNameChange(newName);
+    setEditingFirstName(false);
+  };
+
+  const handleSaveLastName = () => {
+    onLastNameChange(newName);
+    setEditingLastName(false);
+  };
+
+  const handleCancelFirstNameEdit = () => {
+    setNewFirstName(firstName);
+    setEditingFirstName(false);
+  };
+
+  const handleCancelLastNameEdit = () => {
+    setNewLastName(lastName);
+    setEditingLastName(false);
   };
 
   return (
@@ -67,12 +85,12 @@ const Profile = ({
         </Box>
       </Grid>
       <Grid item xs={12} md={6}>
-        {editingName ? (
+        {editingFirstName ? (
           <Box mt={2} mb={2}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <TextField
-                value={newName}
-                onChange={handleNameChange}
+                value={newFirstName}
+                onChange={handleFirstNameChange}
                 variant="outlined"
                 fullWidth
                 sx={{
@@ -93,7 +111,7 @@ const Profile = ({
 
               <Button
                 variant="outlined"
-                onClick={handleCancelNameEdit}
+                onClick={handleCancelFirstNameEdit}
                 color="secondary"
                 style={{ margin: "8px" }}
               >
@@ -102,7 +120,7 @@ const Profile = ({
               <Button
                 style={{ margin: "8px" }}
                 variant="contained"
-                onClick={handleSaveName}
+                onClick={handleSaveFirstName}
                 color="primary"
               >
                 שמור
@@ -111,19 +129,75 @@ const Profile = ({
           </Box>
         ) : (
           <Typography mb={2} variant="h4" gutterBottom>
-            {name ? name : "הכנס שם"}
-            <IconButton color="primary" onClick={() => setEditingName(true)}>
+            {firstName ? firstName : "הכנס שם פרטי"}
+            <IconButton
+              color="primary"
+              onClick={() => setEditingFirstName(true)}
+            >
               <IconEditCircle />
             </IconButton>
           </Typography>
         )}
-        {phoneNumber && (
+        {editingLastName ? (
+          <Box mt={2} mb={2}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <TextField
+                value={newLastName}
+                onChange={handleLastNameChange}
+                variant="outlined"
+                fullWidth
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "20px", // Add border radius
+                    "& fieldset": {
+                      borderColor: "rgba(0, 0, 0, 0.2)",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "rgba(0, 0, 0, 0.3)",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "rgba(0, 0, 0, 0.5)",
+                    },
+                  },
+                }}
+              />
+
+              <Button
+                variant="outlined"
+                onClick={handleCancelLastNameEdit}
+                color="secondary"
+                style={{ margin: "8px" }}
+              >
+                בטל
+              </Button>
+              <Button
+                style={{ margin: "8px" }}
+                variant="contained"
+                onClick={handleSaveLastName}
+                color="primary"
+              >
+                שמור
+              </Button>
+            </div>
+          </Box>
+        ) : (
+          <Typography mb={2} variant="h4" gutterBottom>
+            {lastName ? lastName : "הכנס שם משפחה"}
+            <IconButton
+              color="primary"
+              onClick={() => setEditingLastName(true)}
+            >
+              <IconEditCircle />
+            </IconButton>
+          </Typography>
+        )}
+        {tel && (
           <Typography
             sx={{ direction: "ltr", textAlign: "end" }}
             variant="body1"
             paragraph
           >
-            {phoneNumber}
+            {tel}
           </Typography>
         )}
       </Grid>
@@ -132,7 +206,8 @@ const Profile = ({
 };
 
 const MyProfilePage = () => {
-  const [currentName, setCurrentName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [tel, setTel] = useState("");
   const [id, setId] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
@@ -143,22 +218,41 @@ const MyProfilePage = () => {
 
   useEffect(() => {
     setId(profile?.id);
-    setCurrentName(profile?.name);
+    setFirstName(profile?.firstName);
+    setLastName(profile?.lastName);
     setTel(profile?.tel);
   }, []);
 
-  const handleNameChange = async (newName) => {
+  const handleFirstNameChange = async (newFirstName) => {
     setLoading(true);
     try {
       const updatedProvider = {
         id,
-        name: newName,
+        firstName: newFirstName,
       };
       dispatch({ type: "UPDATE_PROFILE", payload: updatedProvider });
       await updateProviderMutation(updatedProvider);
-      setCurrentName(newName);
+      setFirstName(newFirstName);
       setLoading(false);
-      toast.success("שם הפרופיל שונה בהצלחה!");
+      toast.success("שם הפרטי של הפרופיל שונה בהצלחה!");
+    } catch (error) {
+      toast.error("עדכון עריכת פרופיל נכשלה");
+      setLoading(false);
+    }
+  };
+
+  const handleLastNameChange = async (newLastName) => {
+    setLoading(true);
+    try {
+      const updatedProvider = {
+        id,
+        lastName: newLastName,
+      };
+      dispatch({ type: "UPDATE_PROFILE", payload: updatedProvider });
+      await updateProviderMutation(updatedProvider);
+      setLastName(newLastName);
+      setLoading(false);
+      toast.success("שם המשפחה של הפרופיל שונה בהצלחה!");
     } catch (error) {
       toast.error("עדכון עריכת פרופיל נכשלה");
       setLoading(false);
@@ -179,12 +273,13 @@ const MyProfilePage = () => {
   return (
     <PageContainer title="מסך פרופיל" description="זה הוא מסך הפרופיל">
       <DashboardCard title="מסך הפרופיל">
-        p
         <Profile
-          name={currentName}
-          phoneNumber={tel}
+          firstName={firstName}
+          lastName={lastName}
+          tel={tel}
           profilePicture={profilePicture}
-          onNameChange={handleNameChange}
+          onFirstNameChange={handleFirstNameChange}
+          onLastNameChange={handleLastNameChange}
           onPictureChange={handlePictureChange}
         />
       </DashboardCard>
