@@ -7,79 +7,73 @@ import {
   IconCalendarEvent,
   IconLogout,
   IconEditCircle,
-} from '@tabler/icons';
+} from "@tabler/icons";
 
-import { uniqueId } from 'lodash';
+import { uniqueId } from "lodash";
 
 const Menuitems = [
   {
     navlabel: true,
-    subheader: 'בית',
+    subheader: "בית",
   },
   {
     id: uniqueId(),
-    title: 'לו״ז',
-    icon: IconCalendarEvent,
-    href: '/schedule',
-  },
-  {
-    id: uniqueId(),
-    title: 'אירועים',
+    title: "אירועים",
     icon: IconListCheck,
-    href: '/events',
+    href: "/events",
   },
   {
     navlabel: true,
-    subheader: 'פרופיל',
+    subheader: "פרופיל",
   },
   {
     id: uniqueId(),
-    title: 'הפרופיל שלי',
+    title: "הפרופיל שלי",
     icon: IconUserCircle,
-    href: '/profile',
+    href: "/profile",
   },
   {
     navlabel: true,
-    subheader: 'מנהל',
+    subheader: "מנהל",
   },
   {
     id: uniqueId(),
-    title: 'מסך מנהל',
+    title: "מסך מנהל",
     icon: IconEditCircle,
-    href: '/admin',
+    href: "/admin",
   },
   {
     navlabel: true,
-    subheader: 'יציאה',
+    subheader: "יציאה",
   },
   {
     id: uniqueId(),
-    title: 'התנתק',
+    title: "התנתק",
     icon: IconLogout,
     isLogout: true,
   },
   {
     navlabel: true,
-    subheader: 'עזרים למפתח',
+    subheader: "עזרים למפתח",
   },
 
   {
     id: uniqueId(),
-    title: 'דאשבורד',
+    title: "דאשבורד",
     icon: IconLayoutDashboard,
-    href: '/dashboard',
+    href: "/dashboard",
   },
   {
     id: uniqueId(),
-    title: 'כתב',
+    title: "כתב",
     icon: IconTypography,
-    href: '/ui/typography',
+    href: "/ui/typography",
   },
   {
     id: uniqueId(),
-    title: 'צל',
+    title: "צל",
     icon: IconCopy,
-    href: '/ui/shadow',
+    href: "/ui/shadow",
   },
 ];
 
