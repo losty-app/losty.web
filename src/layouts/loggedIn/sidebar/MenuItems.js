@@ -18,9 +18,9 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: "אירועים",
+    title: "ראשי",
     icon: IconListCheck,
-    href: "/events",
+    href: "/",
   },
   {
     navlabel: true,
@@ -34,16 +34,6 @@ const Menuitems = [
   },
   {
     navlabel: true,
-    subheader: "מנהל",
-  },
-  {
-    id: uniqueId(),
-    title: "מסך מנהל",
-    icon: IconEditCircle,
-    href: "/admin",
-  },
-  {
-    navlabel: true,
     subheader: "יציאה",
   },
   {
@@ -51,29 +41,6 @@ const Menuitems = [
     title: "התנתק",
     icon: IconLogout,
     isLogout: true,
-  },
-  {
-    navlabel: true,
-    subheader: "עזרים למפתח",
-  },
-
-  {
-    id: uniqueId(),
-    title: "דאשבורד",
-    icon: IconLayoutDashboard,
-    href: "/dashboard",
-  },
-  {
-    id: uniqueId(),
-    title: "כתב",
-    icon: IconTypography,
-    href: "/ui/typography",
-  },
-  {
-    id: uniqueId(),
-    title: "צל",
-    icon: IconCopy,
-    href: "/ui/shadow",
   },
 ];
 

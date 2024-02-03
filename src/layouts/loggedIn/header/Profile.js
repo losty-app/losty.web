@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Avatar, Box, Menu, IconButton, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Avatar,
+  Box,
+  Menu,
+  IconButton,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 
-import { IconListCheck, IconLogout, IconUser } from '@tabler/icons';
+import { IconListCheck, IconLogout, IconUser } from "@tabler/icons";
 
-import ProfileImg from 'src/assets/images/profile/user-1.jpg';
-import LogoutConfirmationModal from 'src/components/modal/LogoutConfirmationModal';
-import { signOut } from 'src/helpers/authHelper';
-import { toast } from 'react-toastify';
-import LoadingModal from 'src/components/loading/LoadingModal';
-import { useDispatch } from 'react-redux';
+import ProfileImg from "src/assets/images/profile/user-1.jpg";
+import LogoutConfirmationModal from "src/components/modal/LogoutConfirmationModal";
+import { signOut } from "src/helpers/authHelper";
+import { toast } from "react-toastify";
+import LoadingModal from "src/components/loading/LoadingModal";
+import { useDispatch } from "react-redux";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -26,11 +34,11 @@ const Profile = () => {
     try {
       setLoading(true);
       await signOut();
-      dispatch({ type: 'SET_PROFILE', payload: null });
+      dispatch({ type: "SET_PROFILE", payload: null });
       setLoading(false);
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
-      toast.error('התנתקות נכשלה');
+      toast.error("התנתקות נכשלה");
     }
   };
 
@@ -50,8 +58,8 @@ const Profile = () => {
         aria-controls="msgs-menu"
         aria-haspopup="true"
         sx={{
-          ...(typeof anchorEl2 === 'object' && {
-            color: 'primary.main',
+          ...(typeof anchorEl2 === "object" && {
+            color: "primary.main",
           }),
         }}
         onClick={handleClick2}
@@ -74,28 +82,28 @@ const Profile = () => {
         keepMounted
         open={Boolean(anchorEl2)}
         onClose={handleClose2}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
         sx={{
-          '& .MuiMenu-paper': {
-            width: '200px',
+          "& .MuiMenu-paper": {
+            width: "200px",
           },
         }}
       >
-        <MenuItem onClick={() => navigate('/profile')}>
+        <MenuItem onClick={() => navigate("/")}>
+          <ListItemIcon>
+            <IconListCheck width={20} />
+          </ListItemIcon>
+          <ListItemText>ראשי</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={() => navigate("/profile")}>
           <ListItemIcon>
             <IconUser width={20} />
           </ListItemIcon>
           <ListItemText>הפרופיל שלי</ListItemText>
         </MenuItem>
-        <MenuItem onClick={() => navigate('/events')}>
-          <ListItemIcon>
-            <IconListCheck width={20} />
-          </ListItemIcon>
-          <ListItemText>האירועים שלי</ListItemText>
-        </MenuItem>
-        <MenuItem sx={{ color: 'red' }} onClick={handleLogout}>
-          <ListItemIcon sx={{ color: 'red' }}>
+        <MenuItem sx={{ color: "red" }} onClick={handleLogout}>
+          <ListItemIcon sx={{ color: "red" }}>
             <IconLogout width={20} />
           </ListItemIcon>
           <ListItemText>התנתק</ListItemText>
@@ -108,7 +116,7 @@ const Profile = () => {
         onClose={() => setIsLogoutModalOpen(false)}
         onConfirm={confirmLogout}
       />
-      <LoadingModal open={loading} text={'מתנתק...'} />
+      <LoadingModal open={loading} text={"מתנתק..."} />
     </Box>
   );
 };

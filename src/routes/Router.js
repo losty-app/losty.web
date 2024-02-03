@@ -2,6 +2,7 @@ import React, { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Loadable from "../layouts/loggedIn/shared/loadable/Loadable";
 import MyProfilePage from "src/views/my-profile-page/MyProfilePage";
+import MainPage from "../views/main-page/MainPage";
 
 /* *** Layouts **** */
 const LoggedInLayout = Loadable(
@@ -15,7 +16,7 @@ const BlankLayout = Loadable(
 );
 
 /* ****Pages***** */
-const Events = Loadable(lazy(() => import("../views/events-page/EventsPage")));
+const Events = Loadable(lazy(() => import("../views/main-page/MainPage")));
 const Error = Loadable(lazy(() => import("../views/authentication/Error")));
 const Login = Loadable(lazy(() => import("../views/authentication/Login")));
 const ConfirmationCode = Loadable(
@@ -27,8 +28,7 @@ const Router = [
     path: "/",
     element: <LoggedInLayout />,
     children: [
-      { path: "/", element: <Navigate to="/events" /> },
-      { path: "/events", exact: true, element: <Events /> },
+      { path: "/", exact: true, element: <MainPage /> },
       { path: "/profile", exact: true, element: <MyProfilePage /> },
     ],
   },
