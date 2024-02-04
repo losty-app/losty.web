@@ -9,8 +9,8 @@ import {
   TableRow,
 } from "@mui/material";
 import DashboardCard from "../../../components/shared/DashboardCard";
-import useSosEvents from "src/hooks/useSosEvents";
 import useRequesters from "src/hooks/useRequesters";
+import useSosEvents from "src/hooks/useSosEvents";
 
 const SosEventsHistory = () => {
   const { requesters } = useRequesters();
@@ -29,44 +29,29 @@ const SosEventsHistory = () => {
             <TableRow>
               <TableCell>
                 <Typography variant="subtitle2" fontWeight={600}>
-                  שעת מצוקה
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  מיקום תחילת האירוע
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
                   שם
                 </Typography>
               </TableCell>
-              <TableCell align="right">
+              <TableCell>
                 <Typography variant="subtitle2" fontWeight={600}>
-                  מאשרי היציאה
+                  סטטוס
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="subtitle2" fontWeight={600}>
-                  מאשרי ההגעה
+                  תאריך עדכון אחרון
                 </Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="subtitle2" fontWeight={600}>
-                  מיקום תחילת האירוע
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  שעת עדכון אחרון
+                  מיקום אחרון
                 </Typography>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {sosEvents.map((sosEvent) => (
-              <TableRow key={sosEvent.id}>
+            {requesters.map((requester) => (
+              <TableRow key={requester.id}>
                 <TableCell>
                   <Typography
                     sx={{
@@ -74,7 +59,7 @@ const SosEventsHistory = () => {
                       fontWeight: "500",
                     }}
                   >
-                    {sosEvent.createdAt}
+                    {requester.firstName + " " + requester.lastName}
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -86,7 +71,7 @@ const SosEventsHistory = () => {
                   >
                     <Box>
                       <Typography variant="subtitle2" fontWeight={600}>
-                        {sosEvent.geoPlace}
+                        {requester.geoPlace}
                       </Typography>
                     </Box>
                   </Box>
