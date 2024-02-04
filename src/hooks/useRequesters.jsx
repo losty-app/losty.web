@@ -4,20 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   onCreateRequesterProvider,
   onUpdateRequester,
-  onUpdateSosEvent,
 } from "../graphql/subscriptions";
-import {
-  OnCreateRequesterProviderSubscription,
-  OnUpdateRequesterSubscription,
-  OnUpdateSosEventSubscription,
-} from "../API";
-import { GraphQLSubscription } from "@aws-amplify/api";
-import {
-  getPendingSosEventsByRequestersIds,
-  getUserList,
-} from "../helpers/APIhelper";
-import { scheduleSOSPushNotification } from "../helpers/NotificationAPI";
-import { SosEventStatus } from "../models";
 import { listAllRequestersByAssociationId } from "src/helpers/queriesHelper";
 
 const useRequesters = (callFrom = "") => {
@@ -112,7 +99,6 @@ const useRequesters = (callFrom = "") => {
 
   return {
     requesters,
-    isRequesterInPendingSosEvent,
     loading,
   };
 };
