@@ -38,12 +38,12 @@ const Profile = ({
   };
 
   const handleSaveFirstName = () => {
-    onFirstNameChange(newName);
+    onFirstNameChange(newFirstName);
     setEditingFirstName(false);
   };
 
   const handleSaveLastName = () => {
-    onLastNameChange(newName);
+    onLastNameChange(newLastName);
     setEditingLastName(false);
   };
 
@@ -62,7 +62,7 @@ const Profile = ({
       <Grid item xs={12} md={6} align="center">
         <Avatar
           src={profilePicture}
-          alt={name}
+          alt={firstName + " " + lastName}
           sx={{ width: 150, height: 150 }}
         />
         <Box mt={2}>

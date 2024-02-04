@@ -11,7 +11,7 @@
     "@mui/x-date-pickers": "^5.0.6",
     "@reduxjs/toolkit": "^1.8.3",
     "@splinetool/react-spline": "^2.2.6",
-    "@splinetool/runtime": "^0.9.463",
+    "@splinetool/runtime": "^1.0.47",
     "@tabler/icons": "^1.84.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
