@@ -87,7 +87,7 @@ const SosEventsHistory = () => {
                           fontSize: "13px",
                         }}
                       >
-                        {isRequesterInSos(requester.status)}
+                        {isRequesterInSos(requester.id)}
                       </Typography>
                     </Box>
                   </Box>
