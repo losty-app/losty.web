@@ -23,7 +23,7 @@ export const listAllSosEventsByRequesterIds = async (requesterIds) => {
       })
     );
   } catch (e) {
-    console.log("listAllSosEventsByAssociationIdMutation: ", e);
+    console.log("listAllSosEventsByRequesterIds: ", e);
     throw new Error(e);
   }
 };

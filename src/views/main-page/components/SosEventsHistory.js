@@ -7,10 +7,8 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Chip,
 } from "@mui/material";
 import DashboardCard from "../../../components/shared/DashboardCard";
-import { ProviderResponseStatus } from "src/models";
 import useSosEvents from "src/hooks/useSosEvents";
 
 const SosEventsHistory = () => {
