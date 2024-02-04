@@ -34,11 +34,14 @@ export const signOut = async () => {
 
 export const signUser = async (phoneNumber, dispatch) => {
   try {
+    console.log("Signing");
     await signIn(phoneNumber);
+    console.log("Finding Provider By Phone Number");
     const profile = await findProviderByPhoneNumber(phoneNumber);
     await Auth.currentAuthenticatedUser({ bypassCache: true });
     dispatch({ type: "SET_PROFILE", payload: profile });
   } catch (e) {
+    console.error(e);
     throw new Error(e.message);
   }
 };
