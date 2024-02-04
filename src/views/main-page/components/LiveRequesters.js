@@ -11,10 +11,21 @@ import {
 import DashboardCard from "../../../components/shared/DashboardCard";
 import useRequesters from "src/hooks/useRequesters";
 import useSosEvents from "src/hooks/useSosEvents";
+import { SosEventStatus } from "src/models";
 
 const SosEventsHistory = () => {
   const { requesters } = useRequesters();
   const { sosEvents } = useSosEvents();
+
+  const isRequesterInSos = (requesterId) => {
+    if (sosEvents?.length > 0) {
+      return sosEvents.some(
+        ({ sosEventSentById, status }) =>
+          sosEventSentById === requesterId && status === SosEventStatus.PENDING
+      );
+    }
+    return false;
+  };
   return (
     <DashboardCard title="טבלה">
       <Box sx={{ overflow: "auto", width: { xs: "280px", sm: "auto" } }}>
@@ -76,7 +87,7 @@ const SosEventsHistory = () => {
                           fontSize: "13px",
                         }}
                       >
-                        {requester.status || "-"}
+                        {isRequesterInSos(requester.status)}
                       </Typography>
                     </Box>
                   </Box>
