@@ -70,8 +70,13 @@ const SosEventsHistory = () => {
                     }}
                   >
                     <Box>
-                      <Typography variant="subtitle2" fontWeight={600}>
-                        {requester.geoPlace}
+                      <Typography
+                        color="textSecondary"
+                        sx={{
+                          fontSize: "13px",
+                        }}
+                      >
+                        {requester.status || "-"}
                       </Typography>
                     </Box>
                   </Box>
@@ -84,13 +89,8 @@ const SosEventsHistory = () => {
                     }}
                   >
                     <Box>
-                      <Typography
-                        color="textSecondary"
-                        sx={{
-                          fontSize: "13px",
-                        }}
-                      >
-                        {sosEvent.sentBy.name}
+                      <Typography variant="subtitle2" fontWeight={600}>
+                        {requester.updatedAt}
                       </Typography>
                     </Box>
                   </Box>
@@ -102,39 +102,11 @@ const SosEventsHistory = () => {
                       alignItems: "center",
                     }}
                   >
-                    {sosEvent.unseenBy.map((provider) => (
-                      <Box>
-                        <Typography
-                          color="textSecondary"
-                          sx={{
-                            fontSize: "13px",
-                          }}
-                        >
-                          {provider.name}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    {sosEvent.seenBy.map((provider) => (
-                      <Box>
-                        <Typography
-                          color="textSecondary"
-                          sx={{
-                            fontSize: "13px",
-                          }}
-                        >
-                          {provider.name}
-                        </Typography>
-                      </Box>
-                    ))}
+                    <Box>
+                      <Typography variant="subtitle2" fontWeight={600}>
+                        {requester.geoPlace}
+                      </Typography>
+                    </Box>
                   </Box>
                 </TableCell>
               </TableRow>
