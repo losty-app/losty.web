@@ -14,8 +14,8 @@ import useSosEvents from "src/hooks/useSosEvents";
 import { SosEventStatus } from "src/models";
 
 const LiveRequesters = () => {
-  const { requesters } = useRequesters();
-  const { sosEvents } = useSosEvents();
+  const { requesters } = useRequesters("HOME");
+  const { sosEvents } = useSosEvents("HOME");
 
   const isRequesterInSos = (requesterId) => {
     if (sosEvents?.length > 0) {
@@ -26,6 +26,7 @@ const LiveRequesters = () => {
     }
     return false;
   };
+
   return (
     <DashboardCard title="טבלה">
       <Box sx={{ overflow: "auto", width: { xs: "280px", sm: "auto" } }}>
