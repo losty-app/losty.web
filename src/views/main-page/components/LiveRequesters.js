@@ -13,7 +13,7 @@ import useRequesters from "src/hooks/useRequesters";
 import useSosEvents from "src/hooks/useSosEvents";
 import { SosEventStatus } from "src/models";
 
-const SosEventsHistory = () => {
+const LiveRequesters = () => {
   const { requesters } = useRequesters();
   const { sosEvents } = useSosEvents();
 
@@ -129,4 +129,4 @@ const SosEventsHistory = () => {
   );
 };
 
-export default SosEventsHistory;
+export default LiveRequesters;

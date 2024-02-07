@@ -11,6 +11,7 @@ const MainPage = () => {
     >
       <DashboardCard title="מסך ראשי">
         <Typography>במסך זה תהיה רשימת החניכים ו האירועים של העמותה</Typography>
+        <SosEvents
       </DashboardCard>
     </PageContainer>
   );
