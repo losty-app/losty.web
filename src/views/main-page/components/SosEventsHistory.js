@@ -10,10 +10,8 @@ import {
 } from "@mui/material";
 import DashboardCard from "../../../components/shared/DashboardCard";
 import useSosEvents from "src/hooks/useSosEvents";
-import useRequesters from "src/hooks/useRequesters";
 
 const SosEventsHistory = () => {
-  const { requesters } = useRequesters();
   const { sosEvents } = useSosEvents();
   return (
     <DashboardCard title="טבלה">
