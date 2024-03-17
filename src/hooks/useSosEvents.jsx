@@ -111,7 +111,7 @@ const useSosEvents = (callFrom = "") => {
     const onSosEventUpdatedSubscription = API.graphql(
       graphqlOperation(onUpdateSosEvent, {
         filter: {
-          id: {
+          requesterId: {
             in: requesterIds, // Filter providers where the ID is in the list of providerIds
           },
         },

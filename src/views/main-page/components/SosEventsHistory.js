@@ -52,11 +52,6 @@ const SosEventsHistory = () => {
               </TableCell>
               <TableCell>
                 <Typography variant="subtitle2" fontWeight={600}>
-                  מיקום תחילת האירוע
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
                   שעת עדכון אחרון
                 </Typography>
               </TableCell>
@@ -103,7 +98,7 @@ const SosEventsHistory = () => {
                           fontSize: "13px",
                         }}
                       >
-                        {sosEvent.sentBy.name}
+                        {sosEvent.requesterId}
                       </Typography>
                     </Box>
                   </Box>
@@ -115,7 +110,7 @@ const SosEventsHistory = () => {
                       alignItems: "center",
                     }}
                   >
-                    {sosEvent.unseenBy.map((provider) => (
+                    {sosEvent.approvedOut.map((provider) => (
                       <Box>
                         <Typography
                           color="textSecondary"
@@ -136,7 +131,7 @@ const SosEventsHistory = () => {
                       alignItems: "center",
                     }}
                   >
-                    {sosEvent.seenBy.map((provider) => (
+                    {sosEvent.approvedDest.map((provider) => (
                       <Box>
                         <Typography
                           color="textSecondary"
@@ -149,6 +144,16 @@ const SosEventsHistory = () => {
                       </Box>
                     ))}
                   </Box>
+                </TableCell>
+                <TableCell>
+                  <Typography
+                    sx={{
+                      fontSize: "15px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    {sosEvent.updatedAt}
+                  </Typography>
                 </TableCell>
               </TableRow>
             ))}
