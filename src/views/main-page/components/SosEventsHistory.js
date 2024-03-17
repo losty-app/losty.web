@@ -14,6 +14,7 @@ import { formatDateToIsraelLocale } from "src/utils/utils";
 
 const SosEventsHistory = () => {
   const { sosEvents } = useSosEvents("HOME");
+
   return (
     <DashboardCard title="טבלת מקרי חירום">
       <Box

@@ -7,13 +7,13 @@ import {
   listAllProviderResponsesBySosEventId,
   listAllSosEventsByRequesterIds,
 } from "src/helpers/queriesHelper";
+import useProviders from "./useProviders";
 
 const useSosEvents = (callFrom = "") => {
   const dispatch = useDispatch();
   const sosEvents = useSelector((state) => state.sosEvents);
   const requesters = useSelector((state) => state.requesters);
-  const providers = useSelector((state) => state.providers);
-  const profile = useSelector((state) => state.profile);
+  const providers = useProviders("HOME");
 
   const fetchSosEvents = async () => {
     try {

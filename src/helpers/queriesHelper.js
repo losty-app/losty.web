@@ -57,6 +57,20 @@ export const listAllRequestersByAssociationId = async (associationId) => {
   }
 };
 
+export const listAllProvidersByAssociationId = async (associationId) => {
+  try {
+    const result = await API.graphql(
+      graphqlOperation(listProviders, {
+        filter: { associationId: { eq: associationId } },
+      })
+    );
+    return result.data.listProviders.items;
+  } catch (e) {
+    console.log("listAllProvidersByAssociationId: ", e);
+    throw new Error(e);
+  }
+};
+
 export const findProviderByPhoneNumber = async (tel) => {
   try {
     const newTel = tel.replace(/^\+\d{1,3}/, "0");
