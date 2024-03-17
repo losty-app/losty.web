@@ -61,69 +61,75 @@ const LiveRequesters = () => {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {requesters.map((requester) => (
-              <TableRow key={requester.id}>
-                <TableCell>
-                  <Typography
-                    sx={{
-                      fontSize: "15px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    {requester.firstName + " " + requester.lastName}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Box>
-                      <Typography
-                        color="textSecondary"
-                        sx={{
-                          fontSize: "13px",
-                        }}
-                      >
-                        {isRequesterInSos(requester.id)}
-                      </Typography>
+          {!requesters ? (
+            <TableBody>
+              <Typography>אין משתמשים נוכחים</Typography>
+            </TableBody>
+          ) : (
+            <TableBody>
+              {requesters.map((requester) => (
+                <TableRow key={requester.id}>
+                  <TableCell>
+                    <Typography
+                      sx={{
+                        fontSize: "15px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {requester.firstName + " " + requester.lastName}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box>
+                        <Typography
+                          color="textSecondary"
+                          sx={{
+                            fontSize: "13px",
+                          }}
+                        >
+                          {isRequesterInSos(requester.id)}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Box>
-                      <Typography variant="subtitle2" fontWeight={600}>
-                        {requester.updatedAt}
-                      </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          {requester.updatedAt}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Box>
-                      <Typography variant="subtitle2" fontWeight={600}>
-                        {requester.geoPlace}
-                      </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box>
+                        <Typography variant="subtitle2" fontWeight={600}>
+                          {requester.geoPlace}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
         </Table>
       </Box>
     </DashboardCard>
