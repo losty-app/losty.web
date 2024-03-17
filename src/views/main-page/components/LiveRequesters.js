@@ -10,8 +10,6 @@ import {
 } from "@mui/material";
 import DashboardCard from "../../../components/shared/DashboardCard";
 import useRequesters from "src/hooks/useRequesters";
-import useSosEvents from "src/hooks/useSosEvents";
-import { SosEventStatus } from "src/models";
 
 const LiveRequesters = () => {
   const { requesters } = useRequesters("HOME");
