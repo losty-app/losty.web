@@ -11,19 +11,22 @@ import {
   listProviders,
 } from "../graphql/queries";
 
-export const listAllSosEventsByRequesterIds = async (requesterIds) => {
+export const getSosEventsByRequesterId = async (requesterId) => {
   try {
     const result = await API.graphql(
       graphqlOperation(listSosEvents, {
         filter: {
           requesterId: {
-            in: requesterIds, // Filter requesters where the ID is in the list of requesterIds
+            eq: requesterId, // Filter requesters where the ID is in the list of requesterIds
           },
         },
       })
     );
+
     return result.data.listSosEvents.items;
   } catch (e) {
+    console.log("no result:");
+
     throw new Error(e);
   }
 };

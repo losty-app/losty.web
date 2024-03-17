@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import DashboardCard from "../../../components/shared/DashboardCard";
 import useRequesters from "src/hooks/useRequesters";
+import { formatDateToIsraelLocale } from "src/utils/utils";
 
 const LiveRequesters = () => {
   const { requesters } = useRequesters("HOME");
@@ -133,7 +134,7 @@ const LiveRequesters = () => {
                           fontWeight={600}
                           textAlign={"right"}
                         >
-                          {requester.updatedAt}
+                          {formatDateToIsraelLocale(requester.updatedAt)}
                         </Typography>
                       </Box>
                     </Box>

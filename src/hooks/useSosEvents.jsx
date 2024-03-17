@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { onCreateSosEvent, onUpdateSosEvent } from "src/graphql/subscriptions";
 import {
+  getSosEventsByRequesterId,
   listAllProviderResponsesBySosEventId,
   listAllSosEventsByRequesterIds,
 } from "src/helpers/queriesHelper";
@@ -11,6 +12,7 @@ const useSosEvents = (callFrom = "") => {
   const dispatch = useDispatch();
   const sosEvents = useSelector((state) => state.sosEvents);
   const requesters = useSelector((state) => state.requesters);
+  const providers = useSelector((state) => state.providers);
   const profile = useSelector((state) => state.profile);
 
   const fetchSosEvents = async () => {
@@ -19,9 +21,13 @@ const useSosEvents = (callFrom = "") => {
         /* This code block is responsible for fetching SOS events and their corresponding provider
         responses. */
         const requesterIds = requesters.map(({ id }) => id);
-        const fetchedSosEvents = await listAllSosEventsByRequesterIds(
-          requesterIds
-        );
+
+        const fetchedSosEvents = [];
+
+        for (const requesterId of requesterIds) {
+          const sosEvents = await getSosEventsByRequesterId(requesterId);
+          fetchedSosEvents.push(...sosEvents);
+        }
 
         const fetchedProviderResponses = await Promise.all(
           fetchedSosEvents.map(({ id }) =>
@@ -33,18 +39,29 @@ const useSosEvents = (callFrom = "") => {
           const providerResponses = fetchedProviderResponses[index];
           const groupedResponses = [[], [], [], []]; // For UNSEEN, SEEN, APPROVED_OUT, APPROVED_DEST
           providerResponses.forEach((response) => {
+            const currProvider = providers.find(
+              (provider) => provider.id === response.providerResponseProviderId
+            );
             switch (response.status) {
               case "UNSEEN":
-                groupedResponses[0].push(response);
+                groupedResponses[0].push(
+                  currProvider.firstName + " " + currProvider.lastName
+                );
                 break;
               case "SEEN":
-                groupedResponses[1].push(response);
+                groupedResponses[1].push(
+                  currProvider.firstName + " " + currProvider.lastName
+                );
                 break;
               case "APPROVED_OUT":
-                groupedResponses[2].push(response);
+                groupedResponses[2].push(
+                  currProvider.firstName + " " + currProvider.lastName
+                );
                 break;
               case "APPROVED_DEST":
-                groupedResponses[3].push(response);
+                groupedResponses[3].push(
+                  currProvider.firstName + " " + currProvider.lastName
+                );
                 break;
               default:
                 // Handling other statuses
@@ -52,11 +69,19 @@ const useSosEvents = (callFrom = "") => {
             }
           });
 
+          const currRequester = requesters.find(
+            (requester) => requester.id === sosEvent.requesterId
+          );
+          sosEvent.fullName =
+            currRequester.firstName + " " + currRequester.lastName;
           sosEvent.unseen = groupedResponses[0];
           sosEvent.seen = groupedResponses[1];
           sosEvent.approvedOut = groupedResponses[2];
           sosEvent.approvedDest = groupedResponses[3];
         });
+
+        console.log("fetchedSosEvents: ");
+        console.log(fetchedSosEvents);
 
         dispatch({ type: "SET_SOS_EVENTS", payload: fetchedSosEvents });
       }

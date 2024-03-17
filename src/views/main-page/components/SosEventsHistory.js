@@ -10,12 +10,28 @@ import {
 } from "@mui/material";
 import DashboardCard from "../../../components/shared/DashboardCard";
 import useSosEvents from "src/hooks/useSosEvents";
+import { formatDateToIsraelLocale } from "src/utils/utils";
 
 const SosEventsHistory = () => {
   const { sosEvents } = useSosEvents("HOME");
   return (
     <DashboardCard title="טבלת מקרי חירום">
-      <Box sx={{ overflow: "auto", width: { xs: "280px", sm: "auto" } }}>
+      <Box
+        sx={{
+          direction: "rtl",
+          maxHeight: "30vh",
+          overflow: "auto",
+          width: { xs: "280px", sm: "auto" },
+          "&::-webkit-scrollbar": {
+            width: "8px",
+            backgroundColor: "#f5f5f5", // Change this color as needed
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888", // Change this color as needed
+            borderRadius: "4px",
+          },
+        }}
+      >
         <Table
           aria-label="simple table"
           sx={{
@@ -105,7 +121,7 @@ const SosEventsHistory = () => {
                             fontSize: "13px",
                           }}
                         >
-                          {sosEvent.requesterId}
+                          {sosEvent.fullName}
                         </Typography>
                       </Box>
                     </Box>
@@ -118,7 +134,7 @@ const SosEventsHistory = () => {
                         fontWeight: "500",
                       }}
                     >
-                      {sosEvent.createdAt}
+                      {formatDateToIsraelLocale(sosEvent.createdAt)}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -191,7 +207,7 @@ const SosEventsHistory = () => {
                         fontWeight: "500",
                       }}
                     >
-                      {sosEvent.updatedAt}
+                      {formatDateToIsraelLocale(sosEvent.updatedAt)}
                     </Typography>
                   </TableCell>
                 </TableRow>
