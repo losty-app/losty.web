@@ -13,7 +13,8 @@ const useSosEvents = (callFrom = "") => {
   const dispatch = useDispatch();
   const sosEvents = useSelector((state) => state.sosEvents);
   const requesters = useSelector((state) => state.requesters);
-  const providers = useProviders("HOME");
+  const { providers } = useProviders("HOME");
+  const profile = useSelector((state) => state.profile);
 
   const fetchSosEvents = async () => {
     try {
@@ -59,6 +60,9 @@ const useSosEvents = (callFrom = "") => {
                 );
                 break;
               case "APPROVED_DEST":
+                groupedResponses[2].push(
+                  currProvider.firstName + " " + currProvider.lastName
+                );
                 groupedResponses[3].push(
                   currProvider.firstName + " " + currProvider.lastName
                 );
@@ -110,7 +114,7 @@ const useSosEvents = (callFrom = "") => {
       })
     ).subscribe({
       next: ({ value }) => {
-        const newSosEvent = value?.data?.onCreateSosEvent?.provider;
+        const newSosEvent = value?.data?.onCreateSosEvent;
         if (newSosEvent) {
           dispatch({
             type: "SET_SOS_EVENTS",

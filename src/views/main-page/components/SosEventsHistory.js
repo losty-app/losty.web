@@ -43,7 +43,7 @@ const SosEventsHistory = () => {
         >
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell align="right">
                 <Typography
                   textAlign={"right"}
                   variant="subtitle2"
@@ -52,7 +52,7 @@ const SosEventsHistory = () => {
                   שם
                 </Typography>
               </TableCell>
-              <TableCell>
+              <TableCell align="right">
                 <Typography
                   textAlign={"right"}
                   variant="subtitle2"
@@ -61,7 +61,7 @@ const SosEventsHistory = () => {
                   שעת מצוקה
                 </Typography>
               </TableCell>
-              <TableCell>
+              <TableCell align="right">
                 <Typography
                   textAlign={"right"}
                   variant="subtitle2"
@@ -147,9 +147,13 @@ const SosEventsHistory = () => {
                     >
                       <Box>
                         <Typography
-                          textAlign={"right"}
                           variant="subtitle2"
                           fontWeight={600}
+                          sx={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
                         >
                           {sosEvent.geoPlace}
                         </Typography>
@@ -163,19 +167,21 @@ const SosEventsHistory = () => {
                         alignItems: "center",
                       }}
                     >
-                      {sosEvent.approvedOut.map((provider) => (
-                        <Box>
-                          <Typography
-                            textAlign={"right"}
-                            color="textSecondary"
-                            sx={{
-                              fontSize: "13px",
-                            }}
-                          >
-                            {provider.name}
-                          </Typography>
-                        </Box>
-                      ))}
+                      {sosEvent.approvedOut &&
+                        sosEvent.approvedOut.length > 0 &&
+                        sosEvent.approvedOut.map((providerName) => (
+                          <Box key={providerName}>
+                            <Typography
+                              textAlign={"right"}
+                              color="textSecondary"
+                              sx={{
+                                fontSize: "13px",
+                              }}
+                            >
+                              {providerName}
+                            </Typography>
+                          </Box>
+                        ))}
                     </Box>
                   </TableCell>
                   <TableCell>
@@ -185,19 +191,21 @@ const SosEventsHistory = () => {
                         alignItems: "center",
                       }}
                     >
-                      {sosEvent.approvedDest.map((provider) => (
-                        <Box>
-                          <Typography
-                            textAlign={"right"}
-                            color="textSecondary"
-                            sx={{
-                              fontSize: "13px",
-                            }}
-                          >
-                            {provider.name}
-                          </Typography>
-                        </Box>
-                      ))}
+                      {sosEvent.approvedDest &&
+                        sosEvent.approvedDest.length > 0 &&
+                        sosEvent.approvedDest.map((providerName) => (
+                          <Box>
+                            <Typography
+                              textAlign={"right"}
+                              color="textSecondary"
+                              sx={{
+                                fontSize: "13px",
+                              }}
+                            >
+                              {providerName}
+                            </Typography>
+                          </Box>
+                        ))}
                     </Box>
                   </TableCell>
                   <TableCell>
