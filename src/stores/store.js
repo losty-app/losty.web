@@ -1,11 +1,11 @@
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // Use local storage
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // Use local storage
 
-import rootReducer from '../reducer/rootReducer';
-import { legacy_createStore as createStore } from 'redux'; // Use regular createStore
+import rootReducer from "../reducer/rootReducer";
+import { legacy_createStore as createStore } from "redux"; // Use regular createStore
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage, // Use local storage
 };
 
