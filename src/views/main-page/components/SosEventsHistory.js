@@ -12,7 +12,7 @@ import DashboardCard from "../../../components/shared/DashboardCard";
 import useSosEvents from "src/hooks/useSosEvents";
 
 const SosEventsHistory = () => {
-  const { sosEvents } = useSosEvents();
+  const { sosEvents } = useSosEvents("HOME");
   return (
     <DashboardCard title="טבלת מקרי חירום">
       <Box sx={{ overflow: "auto", width: { xs: "280px", sm: "auto" } }}>
