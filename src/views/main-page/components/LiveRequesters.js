@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Box,
@@ -15,20 +15,14 @@ import { SosEventStatus } from "src/models";
 
 const LiveRequesters = () => {
   const { requesters } = useRequesters("HOME");
-  const { sosEvents } = useSosEvents("HOME");
+  const [sortedRequesters, setSortedRequesters] = useState([]);
 
-  const isRequesterInSos = (currRequesterId) => {
-    if (sosEvents?.length > 0) {
-      return sosEvents.some(
-        ({ requesterId, status }) =>
-          requesterId === currRequesterId && status === SosEventStatus.PENDING
-      );
-    }
-    return false;
-  };
+  useEffect(() => {
+    setSortedRequesters([...requesters].sort((a, b) => (b.isSOS ? 1 : -1)));
+  }, [requesters]);
 
   return (
-    <DashboardCard title="טבלה">
+    <DashboardCard title="טבלת מקבלי שירות">
       <Box sx={{ overflow: "auto", width: { xs: "280px", sm: "auto" } }}>
         <Table
           aria-label="simple table"
@@ -61,13 +55,13 @@ const LiveRequesters = () => {
               </TableCell>
             </TableRow>
           </TableHead>
-          {!requesters ? (
+          {!requesters || requesters.length === 0 ? (
             <TableBody>
               <Typography>אין משתמשים נוכחים</Typography>
             </TableBody>
           ) : (
             <TableBody>
-              {requesters.map((requester) => (
+              {sortedRequesters.map((requester) => (
                 <TableRow key={requester.id}>
                   <TableCell>
                     <Typography
@@ -87,14 +81,25 @@ const LiveRequesters = () => {
                       }}
                     >
                       <Box>
-                        <Typography
-                          color="textSecondary"
-                          sx={{
-                            fontSize: "13px",
-                          }}
-                        >
-                          {isRequesterInSos(requester.id)}
-                        </Typography>
+                        {requester.isSOS ? (
+                          <Typography
+                            sx={{
+                              fontSize: "16px",
+                              color: "red",
+                            }}
+                          >
+                            במצב חירום
+                          </Typography>
+                        ) : (
+                          <Typography
+                            color="textSecondary"
+                            sx={{
+                              fontSize: "13px",
+                            }}
+                          >
+                            במצב בטוח
+                          </Typography>
+                        )}
                       </Box>
                     </Box>
                   </TableCell>
