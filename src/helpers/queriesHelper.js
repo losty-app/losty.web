@@ -13,7 +13,7 @@ import {
 
 export const listAllSosEventsByRequesterIds = async (requesterIds) => {
   try {
-    await API.graphql(
+    const result = await API.graphql(
       graphqlOperation(listSosEvents, {
         filter: {
           requesterId: {
@@ -22,17 +22,18 @@ export const listAllSosEventsByRequesterIds = async (requesterIds) => {
         },
       })
     );
+    return result.data.listSosEvents.items;
   } catch (e) {
-    console.log("listAllSosEventsByRequesterIds: ", e);
     throw new Error(e);
   }
 };
 
 export const listAllProviderResponsesBySosEventId = async (sosEventId) => {
   try {
-    await API.graphql(
+    const result = await API.graphql(
       graphqlOperation(providerResponsesBySosEventId, { sosEventId })
     );
+    return result.data.providerResponsesBySosEventId.items;
   } catch (e) {
     console.log("listAllProviderResponsesBySosEventId: ", e);
     throw new Error(e);
@@ -41,11 +42,12 @@ export const listAllProviderResponsesBySosEventId = async (sosEventId) => {
 
 export const listAllRequestersByAssociationId = async (associationId) => {
   try {
-    await API.graphql(
+    const result = await API.graphql(
       graphqlOperation(listRequesters, {
         filter: { associationId: { eq: associationId } },
       })
     );
+    return result.data.listRequesters.items;
   } catch (e) {
     console.log("listAllRequestersByAssociationId: ", e);
     throw new Error(e);

@@ -16,10 +16,15 @@ const useRequesters = (callFrom = "") => {
   const fetchRequesters = async () => {
     try {
       setLoading(true);
+      console.log("profile.associationId");
+      console.log(profile.associationId);
       const fetchedRequesters = await listAllRequestersByAssociationId(
         profile.associationId
       );
-      dispatch({ type: "SET_REQUESTERS", payload: fetchedRequesters });
+
+      console.log("Fetched requesters");
+      console.log(fetchedRequesters);
+      // dispatch({ type: "SET_REQUESTERS", payload: fetchedRequesters });
       setLoading(false);
     } catch (error) {
       throw error;
