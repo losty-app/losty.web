@@ -81,7 +81,7 @@ const useSosEvents = (callFrom = "") => {
     // Subscribe to new providers
     const onSosEventCreatedSubscription = API.graphql(
       graphqlOperation(onCreateSosEvent, {
-        filter: { sosEventSentById: { in: requesterIds } },
+        filter: { requesterId: { in: requesterIds } },
       })
     ).subscribe({
       next: ({ value }) => {

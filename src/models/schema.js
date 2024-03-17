@@ -774,23 +774,12 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "sentBy": {
-                    "name": "sentBy",
+                "requesterId": {
+                    "name": "requesterId",
                     "isArray": false,
-                    "type": {
-                        "model": "Requester"
-                    },
+                    "type": "ID",
                     "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "sosEventSentById"
-                        ]
-                    }
+                    "attributes": []
                 },
                 "providerResponses": {
                     "name": "providerResponses",
@@ -837,13 +826,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "sosEventSentById": {
-                    "name": "sosEventSentById",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1041,6 +1023,81 @@ export const schema = {
             },
             "syncable": true,
             "pluralName": "Associations",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "Invitation": {
+            "name": "Invitation",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "invitationStatus": {
+                    "name": "invitationStatus",
+                    "isArray": false,
+                    "type": {
+                        "enum": "InvitationResponseStatus"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "providerId": {
+                    "name": "providerId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "requesterId": {
+                    "name": "requesterId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Invitations",
             "attributes": [
                 {
                     "type": "model",
@@ -1284,9 +1341,17 @@ export const schema = {
                 "APPROVED_OUT",
                 "APPROVED_DEST"
             ]
+        },
+        "InvitationResponseStatus": {
+            "name": "InvitationResponseStatus",
+            "values": [
+                "PENDING",
+                "DECLINED",
+                "APPROVED"
+            ]
         }
     },
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "7ef1fc405c2f97bfbcf1eb694aafe15a"
+    "version": "50e1a7e1dfcfd603df4ad3c648cc8900"
 };

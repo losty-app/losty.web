@@ -19,7 +19,13 @@ const ProviderResponseStatus = {
   "APPROVED_DEST": "APPROVED_DEST"
 };
 
-const { Requester, Provider, Attachment, ChatRoom, Message, SosEvent, ProviderResponse, Association, RequesterProvider, ProviderChatRoom } = initSchema(schema);
+const InvitationResponseStatus = {
+  "PENDING": "PENDING",
+  "DECLINED": "DECLINED",
+  "APPROVED": "APPROVED"
+};
+
+const { Requester, Provider, Attachment, ChatRoom, Message, SosEvent, ProviderResponse, Association, Invitation, RequesterProvider, ProviderChatRoom } = initSchema(schema);
 
 export {
   Requester,
@@ -30,9 +36,11 @@ export {
   SosEvent,
   ProviderResponse,
   Association,
+  Invitation,
   RequesterProvider,
   ProviderChatRoom,
   AttachmentType,
   SosEventStatus,
-  ProviderResponseStatus
+  ProviderResponseStatus,
+  InvitationResponseStatus
 };

@@ -16,7 +16,7 @@ export const listAllSosEventsByRequesterIds = async (requesterIds) => {
     await API.graphql(
       graphqlOperation(listSosEvents, {
         filter: {
-          sosEventSentById: {
+          requesterId: {
             in: requesterIds, // Filter requesters where the ID is in the list of requesterIds
           },
         },

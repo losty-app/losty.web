@@ -19,6 +19,12 @@ export enum ProviderResponseStatus {
   APPROVED_DEST = "APPROVED_DEST"
 }
 
+export enum InvitationResponseStatus {
+  PENDING = "PENDING",
+  DECLINED = "DECLINED",
+  APPROVED = "APPROVED"
+}
+
 
 
 type EagerRequester = {
@@ -258,13 +264,12 @@ type EagerSosEvent = {
   };
   readonly id: string;
   readonly status: SosEventStatus | keyof typeof SosEventStatus;
-  readonly sentBy: Requester;
+  readonly requesterId: string;
   readonly providerResponses?: (ProviderResponse | null)[] | null;
   readonly place?: string | null;
   readonly geoPlace?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly sosEventSentById: string;
 }
 
 type LazySosEvent = {
@@ -274,13 +279,12 @@ type LazySosEvent = {
   };
   readonly id: string;
   readonly status: SosEventStatus | keyof typeof SosEventStatus;
-  readonly sentBy: AsyncItem<Requester>;
+  readonly requesterId: string;
   readonly providerResponses: AsyncCollection<ProviderResponse>;
   readonly place?: string | null;
   readonly geoPlace?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly sosEventSentById: string;
 }
 
 export declare type SosEvent = LazyLoading extends LazyLoadingDisabled ? EagerSosEvent : LazySosEvent
@@ -353,6 +357,38 @@ export declare type Association = LazyLoading extends LazyLoadingDisabled ? Eage
 
 export declare const Association: (new (init: ModelInit<Association>) => Association) & {
   copyOf(source: Association, mutator: (draft: MutableModel<Association>) => MutableModel<Association> | void): Association;
+}
+
+type EagerInvitation = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Invitation, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly invitationStatus?: InvitationResponseStatus | keyof typeof InvitationResponseStatus | null;
+  readonly providerId: string;
+  readonly requesterId: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyInvitation = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Invitation, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly invitationStatus?: InvitationResponseStatus | keyof typeof InvitationResponseStatus | null;
+  readonly providerId: string;
+  readonly requesterId: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Invitation = LazyLoading extends LazyLoadingDisabled ? EagerInvitation : LazyInvitation
+
+export declare const Invitation: (new (init: ModelInit<Invitation>) => Invitation) & {
+  copyOf(source: Invitation, mutator: (draft: MutableModel<Invitation>) => MutableModel<Invitation> | void): Invitation;
 }
 
 type EagerRequesterProvider = {

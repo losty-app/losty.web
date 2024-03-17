@@ -17,11 +17,11 @@ const LiveRequesters = () => {
   const { requesters } = useRequesters("HOME");
   const { sosEvents } = useSosEvents("HOME");
 
-  const isRequesterInSos = (requesterId) => {
+  const isRequesterInSos = (currRequesterId) => {
     if (sosEvents?.length > 0) {
       return sosEvents.some(
-        ({ sosEventSentById, status }) =>
-          sosEventSentById === requesterId && status === SosEventStatus.PENDING
+        ({ requesterId, status }) =>
+          requesterId === currRequesterId && status === SosEventStatus.PENDING
       );
     }
     return false;

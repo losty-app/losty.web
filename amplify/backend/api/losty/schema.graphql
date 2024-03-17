@@ -96,7 +96,7 @@ enum SosEventStatus {
 type SosEvent @model @auth(rules: [{ allow: private }]) {
   id: ID!
   status: SosEventStatus!
-  sentBy: Requester! @hasOne
+  requesterId: ID!
   providerResponses: [ProviderResponse]
     @hasMany(indexName: "bySosEvent", fields: ["id"])
   place: AWSJSON
@@ -122,4 +122,17 @@ type Association @model @auth(rules: [{ allow: private }]) {
   name: String
   providers: [Provider] @hasMany(indexName: "byAssociation", fields: ["id"])
   requesters: [Requester] @hasMany(indexName: "byAssociation", fields: ["id"])
+}
+
+enum InvitationResponseStatus {
+  PENDING
+  DECLINED
+  APPROVED
+}
+
+type Invitation @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  invitationStatus: InvitationResponseStatus @default(value: "PENDING")
+  providerId: String!
+  requesterId: String!
 }

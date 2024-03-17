@@ -510,24 +510,7 @@ export const onCreateSosEvent = /* GraphQL */ `
     onCreateSosEvent(filter: $filter) {
       id
       status
-      sentBy {
-        id
-        firstName
-        lastName
-        age
-        state
-        gender
-        tel
-        place
-        geoPlace
-        lastSeen
-        associationId
-        uriImage
-        expoPushToken
-        createdAt
-        updatedAt
-        __typename
-      }
+      requesterId
       providerResponses {
         nextToken
         __typename
@@ -536,7 +519,6 @@ export const onCreateSosEvent = /* GraphQL */ `
       geoPlace
       createdAt
       updatedAt
-      sosEventSentById
       __typename
     }
   }
@@ -546,24 +528,7 @@ export const onUpdateSosEvent = /* GraphQL */ `
     onUpdateSosEvent(filter: $filter) {
       id
       status
-      sentBy {
-        id
-        firstName
-        lastName
-        age
-        state
-        gender
-        tel
-        place
-        geoPlace
-        lastSeen
-        associationId
-        uriImage
-        expoPushToken
-        createdAt
-        updatedAt
-        __typename
-      }
+      requesterId
       providerResponses {
         nextToken
         __typename
@@ -572,7 +537,6 @@ export const onUpdateSosEvent = /* GraphQL */ `
       geoPlace
       createdAt
       updatedAt
-      sosEventSentById
       __typename
     }
   }
@@ -582,24 +546,7 @@ export const onDeleteSosEvent = /* GraphQL */ `
     onDeleteSosEvent(filter: $filter) {
       id
       status
-      sentBy {
-        id
-        firstName
-        lastName
-        age
-        state
-        gender
-        tel
-        place
-        geoPlace
-        lastSeen
-        associationId
-        uriImage
-        expoPushToken
-        createdAt
-        updatedAt
-        __typename
-      }
+      requesterId
       providerResponses {
         nextToken
         __typename
@@ -608,7 +555,6 @@ export const onDeleteSosEvent = /* GraphQL */ `
       geoPlace
       createdAt
       updatedAt
-      sosEventSentById
       __typename
     }
   }
@@ -769,6 +715,51 @@ export const onDeleteAssociation = /* GraphQL */ `
         nextToken
         __typename
       }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateInvitation = /* GraphQL */ `
+  subscription OnCreateInvitation(
+    $filter: ModelSubscriptionInvitationFilterInput
+  ) {
+    onCreateInvitation(filter: $filter) {
+      id
+      invitationStatus
+      providerId
+      requesterId
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateInvitation = /* GraphQL */ `
+  subscription OnUpdateInvitation(
+    $filter: ModelSubscriptionInvitationFilterInput
+  ) {
+    onUpdateInvitation(filter: $filter) {
+      id
+      invitationStatus
+      providerId
+      requesterId
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteInvitation = /* GraphQL */ `
+  subscription OnDeleteInvitation(
+    $filter: ModelSubscriptionInvitationFilterInput
+  ) {
+    onDeleteInvitation(filter: $filter) {
+      id
+      invitationStatus
+      providerId
+      requesterId
       createdAt
       updatedAt
       __typename

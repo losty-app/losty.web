@@ -546,24 +546,7 @@ export const createSosEvent = /* GraphQL */ `
     createSosEvent(input: $input, condition: $condition) {
       id
       status
-      sentBy {
-        id
-        firstName
-        lastName
-        age
-        state
-        gender
-        tel
-        place
-        geoPlace
-        lastSeen
-        associationId
-        uriImage
-        expoPushToken
-        createdAt
-        updatedAt
-        __typename
-      }
+      requesterId
       providerResponses {
         nextToken
         __typename
@@ -572,7 +555,6 @@ export const createSosEvent = /* GraphQL */ `
       geoPlace
       createdAt
       updatedAt
-      sosEventSentById
       __typename
     }
   }
@@ -585,24 +567,7 @@ export const updateSosEvent = /* GraphQL */ `
     updateSosEvent(input: $input, condition: $condition) {
       id
       status
-      sentBy {
-        id
-        firstName
-        lastName
-        age
-        state
-        gender
-        tel
-        place
-        geoPlace
-        lastSeen
-        associationId
-        uriImage
-        expoPushToken
-        createdAt
-        updatedAt
-        __typename
-      }
+      requesterId
       providerResponses {
         nextToken
         __typename
@@ -611,7 +576,6 @@ export const updateSosEvent = /* GraphQL */ `
       geoPlace
       createdAt
       updatedAt
-      sosEventSentById
       __typename
     }
   }
@@ -624,24 +588,7 @@ export const deleteSosEvent = /* GraphQL */ `
     deleteSosEvent(input: $input, condition: $condition) {
       id
       status
-      sentBy {
-        id
-        firstName
-        lastName
-        age
-        state
-        gender
-        tel
-        place
-        geoPlace
-        lastSeen
-        associationId
-        uriImage
-        expoPushToken
-        createdAt
-        updatedAt
-        __typename
-      }
+      requesterId
       providerResponses {
         nextToken
         __typename
@@ -650,7 +597,6 @@ export const deleteSosEvent = /* GraphQL */ `
       geoPlace
       createdAt
       updatedAt
-      sosEventSentById
       __typename
     }
   }
@@ -817,6 +763,54 @@ export const deleteAssociation = /* GraphQL */ `
         nextToken
         __typename
       }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createInvitation = /* GraphQL */ `
+  mutation CreateInvitation(
+    $input: CreateInvitationInput!
+    $condition: ModelInvitationConditionInput
+  ) {
+    createInvitation(input: $input, condition: $condition) {
+      id
+      invitationStatus
+      providerId
+      requesterId
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateInvitation = /* GraphQL */ `
+  mutation UpdateInvitation(
+    $input: UpdateInvitationInput!
+    $condition: ModelInvitationConditionInput
+  ) {
+    updateInvitation(input: $input, condition: $condition) {
+      id
+      invitationStatus
+      providerId
+      requesterId
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteInvitation = /* GraphQL */ `
+  mutation DeleteInvitation(
+    $input: DeleteInvitationInput!
+    $condition: ModelInvitationConditionInput
+  ) {
+    deleteInvitation(input: $input, condition: $condition) {
+      id
+      invitationStatus
+      providerId
+      requesterId
       createdAt
       updatedAt
       __typename

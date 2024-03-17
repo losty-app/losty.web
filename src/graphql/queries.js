@@ -300,24 +300,7 @@ export const getSosEvent = /* GraphQL */ `
     getSosEvent(id: $id) {
       id
       status
-      sentBy {
-        id
-        firstName
-        lastName
-        age
-        state
-        gender
-        tel
-        place
-        geoPlace
-        lastSeen
-        associationId
-        uriImage
-        expoPushToken
-        createdAt
-        updatedAt
-        __typename
-      }
+      requesterId
       providerResponses {
         nextToken
         __typename
@@ -326,7 +309,6 @@ export const getSosEvent = /* GraphQL */ `
       geoPlace
       createdAt
       updatedAt
-      sosEventSentById
       __typename
     }
   }
@@ -341,11 +323,11 @@ export const listSosEvents = /* GraphQL */ `
       items {
         id
         status
+        requesterId
         place
         geoPlace
         createdAt
         updatedAt
-        sosEventSentById
         __typename
       }
       nextToken
@@ -438,6 +420,40 @@ export const listAssociations = /* GraphQL */ `
       items {
         id
         name
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getInvitation = /* GraphQL */ `
+  query GetInvitation($id: ID!) {
+    getInvitation(id: $id) {
+      id
+      invitationStatus
+      providerId
+      requesterId
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listInvitations = /* GraphQL */ `
+  query ListInvitations(
+    $filter: ModelInvitationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listInvitations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        invitationStatus
+        providerId
+        requesterId
         createdAt
         updatedAt
         __typename
