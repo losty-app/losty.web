@@ -14,7 +14,7 @@ import useSosEvents from "src/hooks/useSosEvents";
 const SosEventsHistory = () => {
   const { sosEvents } = useSosEvents();
   return (
-    <DashboardCard title="טבלה">
+    <DashboardCard title="טבלת מקרי חירום">
       <Box sx={{ overflow: "auto", width: { xs: "280px", sm: "auto" } }}>
         <Table
           aria-label="simple table"

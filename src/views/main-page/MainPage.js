@@ -11,9 +11,6 @@ const MainPage = () => {
       title="מסך ראשי"
       description="פרטי הדיירים והיסטוריית מקרי מצוקה"
     >
-      <DashboardCard title="מסך ראשי">
-        <Typography>במסך זה תהיה רשימת החניכים ו האירועים של העמותה</Typography>
-      </DashboardCard>
       <LiveRequesters />
       <SosEventsHistory />
     </PageContainer>
