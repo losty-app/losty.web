@@ -5,7 +5,6 @@ import { onCreateSosEvent, onUpdateSosEvent } from "src/graphql/subscriptions";
 import {
   getSosEventsByRequesterId,
   listAllProviderResponsesBySosEventId,
-  listAllSosEventsByRequesterIds,
 } from "src/helpers/queriesHelper";
 import useProviders from "./useProviders";
 
