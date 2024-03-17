@@ -32,22 +32,38 @@ const LiveRequesters = () => {
           <TableHead>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
+                <Typography
+                  textAlign={"right"}
+                  variant="subtitle2"
+                  fontWeight={600}
+                >
                   שם
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
+                <Typography
+                  textAlign={"right"}
+                  variant="subtitle2"
+                  fontWeight={600}
+                >
                   סטטוס
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
+                <Typography
+                  textAlign={"right"}
+                  variant="subtitle2"
+                  fontWeight={600}
+                >
                   תאריך עדכון אחרון
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
+                <Typography
+                  textAlign={"right"}
+                  variant="subtitle2"
+                  fontWeight={600}
+                >
                   מיקום אחרון
                 </Typography>
               </TableCell>
@@ -55,7 +71,7 @@ const LiveRequesters = () => {
           </TableHead>
           {!requesters || requesters.length === 0 ? (
             <TableBody>
-              <Typography>אין משתמשים נוכחים</Typography>
+              <Typography textAlign={"right"}>אין משתמשים נוכחים</Typography>
             </TableBody>
           ) : (
             <TableBody>
@@ -63,6 +79,7 @@ const LiveRequesters = () => {
                 <TableRow key={requester.id}>
                   <TableCell>
                     <Typography
+                      textAlign={"right"}
                       sx={{
                         fontSize: "15px",
                         fontWeight: "500",
@@ -81,6 +98,7 @@ const LiveRequesters = () => {
                       <Box>
                         {requester.isSOS ? (
                           <Typography
+                            textAlign={"right"}
                             sx={{
                               fontSize: "16px",
                               color: "red",
@@ -90,6 +108,7 @@ const LiveRequesters = () => {
                           </Typography>
                         ) : (
                           <Typography
+                            textAlign={"right"}
                             color="textSecondary"
                             sx={{
                               fontSize: "13px",
@@ -109,7 +128,11 @@ const LiveRequesters = () => {
                       }}
                     >
                       <Box>
-                        <Typography variant="subtitle2" fontWeight={600}>
+                        <Typography
+                          variant="subtitle2"
+                          fontWeight={600}
+                          textAlign={"right"}
+                        >
                           {requester.updatedAt}
                         </Typography>
                       </Box>
@@ -123,7 +146,11 @@ const LiveRequesters = () => {
                       }}
                     >
                       <Box>
-                        <Typography variant="subtitle2" fontWeight={600}>
+                        <Typography
+                          textAlign={"right"}
+                          variant="subtitle2"
+                          fontWeight={600}
+                        >
                           {requester.geoPlace}
                         </Typography>
                       </Box>

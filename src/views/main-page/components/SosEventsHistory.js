@@ -21,143 +21,183 @@ const SosEventsHistory = () => {
           sx={{
             whiteSpace: "nowrap",
             mt: 2,
+            mb: 2,
           }}
         >
           <TableHead>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
+                <Typography
+                  textAlign={"right"}
+                  variant="subtitle2"
+                  fontWeight={600}
+                >
+                  שם
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  textAlign={"right"}
+                  variant="subtitle2"
+                  fontWeight={600}
+                >
                   שעת מצוקה
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
+                <Typography
+                  textAlign={"right"}
+                  variant="subtitle2"
+                  fontWeight={600}
+                >
                   מיקום תחילת האירוע
                 </Typography>
               </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  שם
-                </Typography>
-              </TableCell>
               <TableCell align="right">
-                <Typography variant="subtitle2" fontWeight={600}>
+                <Typography
+                  textAlign={"right"}
+                  variant="subtitle2"
+                  fontWeight={600}
+                >
                   מאשרי היציאה
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
+                <Typography
+                  textAlign={"right"}
+                  variant="subtitle2"
+                  fontWeight={600}
+                >
                   מאשרי ההגעה
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
+                <Typography
+                  textAlign={"right"}
+                  variant="subtitle2"
+                  fontWeight={600}
+                >
                   שעת עדכון אחרון
                 </Typography>
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {sosEvents.map((sosEvent) => (
-              <TableRow key={sosEvent.id}>
-                <TableCell>
-                  <Typography
-                    sx={{
-                      fontSize: "15px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    {sosEvent.createdAt}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Box>
-                      <Typography variant="subtitle2" fontWeight={600}>
-                        {sosEvent.geoPlace}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Box>
-                      <Typography
-                        color="textSecondary"
-                        sx={{
-                          fontSize: "13px",
-                        }}
-                      >
-                        {sosEvent.requesterId}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    {sosEvent.approvedOut.map((provider) => (
+          {!sosEvents || sosEvents.length === 0 ? (
+            <TableBody>
+              <Typography textAlign={"right"}>אין מקרי מצוקה קיימים</Typography>
+            </TableBody>
+          ) : (
+            <TableBody>
+              {sosEvents.map((sosEvent) => (
+                <TableRow key={sosEvent.id}>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
                       <Box>
                         <Typography
+                          textAlign={"right"}
                           color="textSecondary"
                           sx={{
                             fontSize: "13px",
                           }}
                         >
-                          {provider.name}
+                          {sosEvent.requesterId}
                         </Typography>
                       </Box>
-                    ))}
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    {sosEvent.approvedDest.map((provider) => (
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      textAlign={"right"}
+                      sx={{
+                        fontSize: "15px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {sosEvent.createdAt}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
                       <Box>
                         <Typography
-                          color="textSecondary"
-                          sx={{
-                            fontSize: "13px",
-                          }}
+                          textAlign={"right"}
+                          variant="subtitle2"
+                          fontWeight={600}
                         >
-                          {provider.name}
+                          {sosEvent.geoPlace}
                         </Typography>
                       </Box>
-                    ))}
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    sx={{
-                      fontSize: "15px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    {sosEvent.updatedAt}
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      {sosEvent.approvedOut.map((provider) => (
+                        <Box>
+                          <Typography
+                            textAlign={"right"}
+                            color="textSecondary"
+                            sx={{
+                              fontSize: "13px",
+                            }}
+                          >
+                            {provider.name}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      {sosEvent.approvedDest.map((provider) => (
+                        <Box>
+                          <Typography
+                            textAlign={"right"}
+                            color="textSecondary"
+                            sx={{
+                              fontSize: "13px",
+                            }}
+                          >
+                            {provider.name}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      textAlign={"right"}
+                      sx={{
+                        fontSize: "15px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {sosEvent.updatedAt}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
         </Table>
       </Box>
     </DashboardCard>
