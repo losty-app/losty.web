@@ -33,7 +33,7 @@ const useRequesters = (callFrom = "") => {
           await fetchRequesters();
         }
       } catch (err) {
-        console.log("Failed to fetch events");
+        console.log("Failed to fetch requesters: ", err);
       }
     };
 
