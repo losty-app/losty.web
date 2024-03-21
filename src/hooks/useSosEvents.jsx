@@ -140,9 +140,10 @@ const useSosEvents = (callFrom = "") => {
             payload: { id, isSOS: true },
           });
           newSosEvent.fullName = firstName + " " + lastName;
+
           dispatch({
-            type: "SET_SOS_EVENTS",
-            payload: [newSosEvent, ...sosEvents],
+            type: "UPDATE_SOS_EVENT",
+            payload: newSosEvent,
           });
         }
       },
@@ -241,6 +242,11 @@ const useSosEvents = (callFrom = "") => {
             ];
             break;
         }
+
+        dispatch({
+          type: "UPDATE_SOS_EVENT",
+          payload: currSosEvent,
+        });
       },
       error: (error) => console.error(error),
     });
@@ -299,6 +305,11 @@ const useSosEvents = (callFrom = "") => {
             ];
             break;
         }
+
+        dispatch({
+          type: "UPDATE_SOS_EVENT",
+          payload: currSosEvent,
+        });
       },
       error: (error) => console.error(error),
     });
