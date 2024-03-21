@@ -133,6 +133,6 @@ enum InvitationResponseStatus {
 type Invitation @model @auth(rules: [{ allow: private }]) {
   id: ID!
   invitationStatus: InvitationResponseStatus @default(value: "PENDING")
-  providerId: String!
-  requesterId: String!
+  providerId: ID!
+  requesterId: ID!
 }

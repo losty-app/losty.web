@@ -26,7 +26,7 @@ export const getSosEventsByRequesterId = async (requesterId) => {
     return result.data.listSosEvents.items;
   } catch (e) {
     console.log("no result:");
-
+    console.log(e);
     throw new Error(e);
   }
 };

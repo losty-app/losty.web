@@ -1068,14 +1068,14 @@ export const schema = {
                 "providerId": {
                     "name": "providerId",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
                     "isRequired": true,
                     "attributes": []
                 },
                 "requesterId": {
                     "name": "requesterId",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -1353,5 +1353,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "50e1a7e1dfcfd603df4ad3c648cc8900"
+    "version": "63afc1e9c22b4bb8e394df2380f14cc3"
 };
