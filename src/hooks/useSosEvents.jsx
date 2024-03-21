@@ -94,6 +94,8 @@ const useSosEvents = (callFrom = "") => {
   };
 
   useEffect(() => {
+    if (!profile) return;
+    if (!requesters || requesters.length === 0) return;
     // Fetch providers if not available in Redux
     if (!sosEvents || sosEvents?.length === 0 || callFrom === "HOME") {
       fetchSosEvents();
