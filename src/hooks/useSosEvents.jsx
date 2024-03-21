@@ -101,9 +101,6 @@ const useSosEvents = (callFrom = "") => {
           sosEvent.approvedDest = groupedResponses[3];
         });
 
-        console.log("fetchedSosEvents: ");
-        console.log(fetchedSosEvents);
-
         dispatch({ type: "SET_SOS_EVENTS", payload: fetchedSosEvents });
       }
     } catch (error) {
