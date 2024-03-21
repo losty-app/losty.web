@@ -20,7 +20,12 @@ const useRequesters = (callFrom = "") => {
         profile.associationId
       );
 
-      dispatch({ type: "SET_REQUESTERS", payload: fetchedRequesters });
+      for (let fetchedRequester of fetchedRequesters) {
+        dispatch({
+          type: "UPDATE_REQUESTER",
+          payload: fetchedRequester,
+        });
+      }
       setLoading(false);
     } catch (error) {
       throw error;
@@ -51,12 +56,10 @@ const useRequesters = (callFrom = "") => {
     ).subscribe({
       next: ({ value }) => {
         const newRequester = value?.data?.onCreateRequesterProvider?.requester;
-        if (newRequester) {
-          dispatch({
-            type: "SET_REQUESTERS",
-            payload: [newRequester, ...requesters],
-          });
-        }
+        dispatch({
+          type: "UPDATE_REQUESTER",
+          payload: newRequester,
+        });
       },
       error: (error) => console.error(error),
     });
