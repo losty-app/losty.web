@@ -13,7 +13,6 @@ import {
 
 export const getSosEventsByRequesterId = async (requesterId) => {
   try {
-    console.log("requesterId: " + requesterId);
     const result = await API.graphql(
       graphqlOperation(listSosEvents, {
         filter: {
@@ -23,7 +22,6 @@ export const getSosEventsByRequesterId = async (requesterId) => {
         },
       })
     );
-    console.log("result: " + result);
 
     return result.data.listSosEvents.items;
   } catch (e) {

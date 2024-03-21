@@ -1,0 +1,138 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+
+type Requester @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  age: Int
+  state: String @default(value: "ישראל")
+  gender: String
+  tel: String!
+  place: AWSJSON
+  geoPlace: String
+  lastSeen: AWSDateTime
+  associationId: ID! @index(name: "byAssociation")
+  uriImage: String
+    @default(
+      value: "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
+    )
+  expoPushToken: String
+  providers: [Provider] @manyToMany(relationName: "RequesterProvider")
+}
+
+type Provider @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  age: Int
+  state: String @default(value: "ישראל")
+  gender: String
+  tel: String!
+  place: AWSJSON
+  geoPlace: String
+  lastSeen: AWSDateTime
+  associationId: ID! @index(name: "byAssociation")
+  uriImage: String
+    @default(
+      value: "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
+    )
+  expoPushToken: String
+  ChatRooms: [ChatRoom] @manyToMany(relationName: "ProviderChatRoom")
+  requesters: [Requester] @manyToMany(relationName: "RequesterProvider")
+}
+
+enum AttachmentType {
+  IMAGE
+  VIDEO
+}
+
+type Attachment @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  storageKey: String!
+  type: AttachmentType!
+  width: Int
+  height: Int
+  duration: Int
+  messageId: ID! @index(name: "byMessage")
+  chatroomId: ID! @index(name: "byChatRoom")
+}
+
+type ChatRoom @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  name: String
+  uriImage: String
+    @default(
+      value: "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
+    )
+  isGroup: Boolean
+  Messages: [Message] @hasMany(indexName: "byChatRoom", fields: ["id"])
+  Providers: [Provider] @manyToMany(relationName: "ProviderChatRoom")
+  LastMessage: Message @hasOne
+  mutualRequester: Requester @hasOne
+  Attachments: [Attachment] @hasMany(indexName: "byChatRoom", fields: ["id"])
+}
+
+type Message @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  createdAt: AWSDateTime!
+  text: String!
+  chatroomId: ID!
+    @index(
+      name: "byChatRoom"
+      sortKeyFields: ["createdAt"]
+      queryField: "listMessagesByChatRoom"
+    )
+  SentBy: Provider! @hasOne
+  images: [String]
+  Attachments: [Attachment] @hasMany(indexName: "byMessage", fields: ["id"])
+}
+
+enum SosEventStatus {
+  PENDING
+  FINISHED
+}
+
+type SosEvent @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  status: SosEventStatus!
+  requesterId: ID!
+  providerResponses: [ProviderResponse]
+    @hasMany(indexName: "bySosEvent", fields: ["id"])
+  place: AWSJSON
+  geoPlace: String
+}
+
+enum ProviderResponseStatus {
+  UNSEEN
+  SEEN
+  APPROVED_OUT
+  APPROVED_DEST
+}
+
+type ProviderResponse @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  sosEventId: ID! @index(name: "bySosEvent")
+  provider: Provider! @hasOne
+  status: ProviderResponseStatus!
+}
+
+type Association @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  name: String
+  providers: [Provider] @hasMany(indexName: "byAssociation", fields: ["id"])
+  requesters: [Requester] @hasMany(indexName: "byAssociation", fields: ["id"])
+}
+
+enum InvitationResponseStatus {
+  PENDING
+  DECLINED
+  APPROVED
+}
+
+type Invitation @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  invitationStatus: InvitationResponseStatus @default(value: "PENDING")
+  providerId: ID!
+  requesterId: ID!
+}
