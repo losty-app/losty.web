@@ -98,7 +98,6 @@ type SosEvent @model @auth(rules: [{ allow: private }]) {
   providerResponses: [ProviderResponse]
     @hasMany(indexName: "bySosEvent", fields: ["id"])
   place: AWSJSON
-  geoPlace: String
 }
 
 enum ProviderResponseStatus {
