@@ -212,6 +212,7 @@ const useSosEvents = (callFrom = "") => {
     ).subscribe({
       next: ({ value }) => {
         const updatedProviderResponse = value.data.onUpdateProviderResponse;
+
         const currSosEvent = sosEvents.find(
           (sosEvent) => sosEvent.id === updatedProviderResponse.sosEventId
         );

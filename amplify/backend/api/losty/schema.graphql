@@ -10,7 +10,6 @@ type Requester @model @auth(rules: [{ allow: private }]) {
   gender: String
   tel: String!
   place: AWSJSON
-  geoPlace: String
   lastSeen: AWSDateTime
   associationId: ID! @index(name: "byAssociation")
   uriImage: String
@@ -30,7 +29,6 @@ type Provider @model @auth(rules: [{ allow: private }]) {
   gender: String
   tel: String!
   place: AWSJSON
-  geoPlace: String
   lastSeen: AWSDateTime
   associationId: ID! @index(name: "byAssociation")
   uriImage: String
