@@ -29,15 +29,15 @@ const Profile = () => {
   const profile = useSelector((state) => state.profile);
 
   const fetchProfileImage = async () => {
-    if (profile && profile.profileImage && profile.profileImage !== "") {
-      const profileProfileImage = await getImageFromS3(profile.profileImage);
-      setFile(profileProfileImage);
+    if (profile && profile.uriImage && profile.uriImage !== "") {
+      const image = await getImageFromS3(profile.uriImage);
+      setFile(image);
     }
   };
 
   useEffect(() => {
     fetchProfileImage();
-  }, [profile && profile.profileImage]);
+  }, [profile && profile.uriImage]);
 
   const handleLogout = () => {
     setIsLogoutModalOpen(true); // Open the logout confirmation modal

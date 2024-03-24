@@ -19,7 +19,7 @@ const Profile = ({
   firstName = "",
   lastName = "",
   tel = "",
-  profilePicture,
+  profileImageFile,
   onFirstNameChange,
   onLastNameChange,
   onPictureChange,
@@ -34,7 +34,7 @@ const Profile = ({
   };
 
   const handleLastNameChange = (e) => {
-    setNewFirstName(e.target.value);
+    setNewLastName(e.target.value);
   };
 
   const handleSaveFirstName = () => {
@@ -61,7 +61,7 @@ const Profile = ({
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={12} md={6} align="center">
         <Avatar
-          src={profilePicture}
+          src={profileImageFile}
           alt={firstName + " " + lastName}
           sx={{ width: 150, height: 150 }}
         />
@@ -206,13 +206,24 @@ const Profile = ({
 };
 
 const MyProfilePage = () => {
+  const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [tel, setTel] = useState("");
   const [id, setId] = useState("");
-  const [profilePicture, setProfilePicture] = useState("");
+  const [profileImageFile, setProfileImageFile] = useState("");
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+
+  const fetchProfileImage = async () => {
+    if (profile && profile.uriImage && profile.uriImage !== "") {
+      const image = await getImageFromS3(profile.uriImage);
+      setProfileImageFile(image);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfileImage();
+  }, [profile && profile.uriImage]);
 
   const profile = useSelector((state) => state.profile);
 
@@ -264,7 +275,7 @@ const MyProfilePage = () => {
     const reader = new FileReader();
 
     reader.onload = (event) => {
-      setProfilePicture(event.target.result);
+      setProfileImageFile(event.target.result);
     };
 
     reader.readAsDataURL(file);
@@ -277,7 +288,7 @@ const MyProfilePage = () => {
           firstName={firstName}
           lastName={lastName}
           tel={tel}
-          profilePicture={profilePicture}
+          profileImageFile={profileImageFile}
           onFirstNameChange={handleFirstNameChange}
           onLastNameChange={handleLastNameChange}
           onPictureChange={handlePictureChange}
