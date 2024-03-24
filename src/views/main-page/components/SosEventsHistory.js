@@ -12,7 +12,14 @@ import {
 import DashboardCard from "../../../components/shared/DashboardCard";
 import useSosEvents from "src/hooks/useSosEvents";
 import { formatDateToIsraelLocale } from "src/utils/utils";
-import { ArrowUpward, ArrowDownward, SortByAlpha } from "@mui/icons-material";
+import {
+  ArrowUpward,
+  ArrowDownward,
+  SortByAlpha,
+  Numbers,
+  SortOutlined,
+} from "@mui/icons-material";
+import { IconExchange } from "@tabler/icons";
 
 const SosEventsHistory = () => {
   const { sosEvents } = useSosEvents("HOME");
@@ -35,6 +42,11 @@ const SosEventsHistory = () => {
         return sortOrder === "asc"
           ? new Date(a.updatedAt) - new Date(b.updatedAt)
           : new Date(b.updatedAt) - new Date(a.updatedAt);
+      }
+      if (sortBy === "createdAt") {
+        return sortOrder === "asc"
+          ? new Date(a.createdAt) - new Date(b.createdAt)
+          : new Date(b.createdAt) - new Date(a.createdAt);
       }
       return 0;
     });
@@ -83,6 +95,7 @@ const SosEventsHistory = () => {
                   textAlign={"right"}
                   variant="subtitle2"
                   fontWeight={600}
+                  onClick={() => handleSort("fullName")}
                   style={{ cursor: "pointer" }}
                 >
                   שם
@@ -111,6 +124,20 @@ const SosEventsHistory = () => {
                   style={{ cursor: "pointer" }}
                 >
                   שעת מצוקה
+                  <IconButton
+                    size="small"
+                    onClick={() => handleSort("createdAt")}
+                  >
+                    {sortBy === "createdAt" ? (
+                      sortOrder === "desc" ? (
+                        <ArrowDownward />
+                      ) : (
+                        <ArrowUpward />
+                      )
+                    ) : (
+                      <SortOutlined />
+                    )}
+                  </IconButton>
                 </Typography>
               </TableCell>
               <TableCell align="right">
@@ -118,7 +145,6 @@ const SosEventsHistory = () => {
                   textAlign={"right"}
                   variant="subtitle2"
                   fontWeight={600}
-                  onClick={() => handleSort("place")}
                   style={{ cursor: "pointer" }}
                 >
                   מיקום תחילת האירוע
@@ -148,8 +174,23 @@ const SosEventsHistory = () => {
                   variant="subtitle2"
                   fontWeight={600}
                   style={{ cursor: "pointer" }}
+                  onClick={() => handleSort("updatedAt")}
                 >
                   שעת עדכון אחרון
+                  <IconButton
+                    size="small"
+                    onClick={() => handleSort("updatedAt")}
+                  >
+                    {sortBy === "updatedAt" ? (
+                      sortOrder === "desc" ? (
+                        <ArrowDownward />
+                      ) : (
+                        <ArrowUpward />
+                      )
+                    ) : (
+                      <SortOutlined />
+                    )}
+                  </IconButton>
                 </Typography>
               </TableCell>
             </TableRow>
