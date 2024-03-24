@@ -15,7 +15,7 @@ import DashboardCard from "../../components/shared/DashboardCard";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingModal from "src/components/loading/LoadingModal";
 import { updateProviderMutation } from "src/helpers/mutationsHelper";
-import { uploadFileToS3Bucket } from "src/helpers/s3Helper";
+import { getImageFromS3, uploadFileToS3Bucket } from "src/helpers/s3Helper";
 const Profile = ({
   firstName = "",
   lastName = "",
@@ -222,6 +222,7 @@ const MyProfilePage = () => {
   const [id, setId] = useState("");
   const [profileImageFile, setProfileImageFile] = useState("");
   const [loading, setLoading] = useState(false);
+  const profile = useSelector((state) => state.profile);
 
   const fetchProfileImage = async () => {
     if (profile && profile.uriImage && profile.uriImage !== "") {
@@ -233,8 +234,6 @@ const MyProfilePage = () => {
   useEffect(() => {
     fetchProfileImage();
   }, [profile && profile.uriImage]);
-
-  const profile = useSelector((state) => state.profile);
 
   useEffect(() => {
     setId(profile?.id);

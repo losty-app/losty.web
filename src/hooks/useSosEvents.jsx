@@ -249,7 +249,7 @@ const useSosEvents = (callFrom = "") => {
           payload: currSosEvent,
         });
       },
-      error: (error) => console.error(error),
+      error: (error) => console.log("Failed to updated sos event"),
     });
 
     return () => {
@@ -276,43 +276,45 @@ const useSosEvents = (callFrom = "") => {
     ).subscribe({
       next: ({ value }) => {
         const createdProviderResponse = value.data.onCreateProviderResponse;
-        const currSosEvent = sosEvents.find(
-          (sosEvent) => sosEvent.id === createdProviderResponse.sosEventId
-        );
+        if (createdProviderResponse) {
+          const currSosEvent = sosEvents.find(
+            (sosEvent) => sosEvent.id === createdProviderResponse.sosEventId
+          );
 
-        switch (createdProviderResponse.status) {
-          case ProviderResponseStatus.UNSEEN:
-            currSosEvent.unseen = [
-              ...currSosEvent.unseen,
-              createdProviderResponse,
-            ];
-            break;
-          case ProviderResponseStatus.SEEN:
-            currSosEvent.seen = [
-              ...currSosEvent.unseen,
-              createdProviderResponse,
-            ];
-            break;
-          case ProviderResponseStatus.APPROVED_OUT:
-            currSosEvent.approvedOut = [
-              ...currSosEvent.unseen,
-              createdProviderResponse,
-            ];
-            break;
-          case ProviderResponseStatus.APPROVED_DEST:
-            currSosEvent.approvedDest = [
-              ...currSosEvent.unseen,
-              createdProviderResponse,
-            ];
-            break;
+          switch (createdProviderResponse.status) {
+            case ProviderResponseStatus.UNSEEN:
+              currSosEvent.unseen = [
+                ...currSosEvent.unseen,
+                createdProviderResponse,
+              ];
+              break;
+            case ProviderResponseStatus.SEEN:
+              currSosEvent.seen = [
+                ...currSosEvent.unseen,
+                createdProviderResponse,
+              ];
+              break;
+            case ProviderResponseStatus.APPROVED_OUT:
+              currSosEvent.approvedOut = [
+                ...currSosEvent.unseen,
+                createdProviderResponse,
+              ];
+              break;
+            case ProviderResponseStatus.APPROVED_DEST:
+              currSosEvent.approvedDest = [
+                ...currSosEvent.unseen,
+                createdProviderResponse,
+              ];
+              break;
+          }
+
+          dispatch({
+            type: "UPDATE_SOS_EVENT",
+            payload: currSosEvent,
+          });
         }
-
-        dispatch({
-          type: "UPDATE_SOS_EVENT",
-          payload: currSosEvent,
-        });
       },
-      error: (error) => console.error(error),
+      error: (error) => console.log("Failed to updated sos event"),
     });
 
     return () => {
