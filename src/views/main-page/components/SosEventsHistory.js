@@ -16,10 +16,8 @@ import {
   ArrowUpward,
   ArrowDownward,
   SortByAlpha,
-  Numbers,
   SortOutlined,
 } from "@mui/icons-material";
-import { IconExchange } from "@tabler/icons";
 
 const SosEventsHistory = () => {
   const { sosEvents } = useSosEvents("HOME");
