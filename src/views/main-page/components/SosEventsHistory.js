@@ -155,7 +155,7 @@ const SosEventsHistory = () => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {sosEvent.geoPlace}
+                          {sosEvent.place.slice(0, 30) + "..." || " "}
                         </Typography>
                       </Box>
                     </Box>

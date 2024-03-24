@@ -152,7 +152,7 @@ const LiveRequesters = () => {
                           variant="subtitle2"
                           fontWeight={600}
                         >
-                          {requester.geoPlace}
+                          {requester.place.slice(0, 30) + "..." || " "}
                         </Typography>
                       </Box>
                     </Box>
