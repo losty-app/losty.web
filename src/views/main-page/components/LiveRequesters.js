@@ -7,18 +7,48 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  IconButton,
 } from "@mui/material";
 import DashboardCard from "../../../components/shared/DashboardCard";
 import useRequesters from "src/hooks/useRequesters";
 import { formatDateToIsraelLocale } from "src/utils/utils";
+import { SortByAlpha, ArrowDownward, ArrowUpward } from "@mui/icons-material";
 
 const LiveRequesters = () => {
   const { requesters } = useRequesters("HOME");
   const [sortedRequesters, setSortedRequesters] = useState([]);
+  const [sortBy, setSortBy] = useState("status");
+  const [sortOrder, setSortOrder] = useState("desc");
 
   useEffect(() => {
-    setSortedRequesters([...requesters].sort((a, b) => (b.isSOS ? 1 : -1)));
-  }, [requesters]);
+    if (!sortBy) return;
+    const sortedData = [...requesters].sort((a, b) => {
+      if (sortBy === "name") {
+        return sortOrder === "asc"
+          ? a.firstName.localeCompare(b.firstName)
+          : b.firstName.localeCompare(a.firstName);
+      }
+      if (sortBy === "status") {
+        return sortOrder === "desc" ? (a.isSOS ? -1 : 1) : a.isSOS ? 1 : -1;
+      }
+      if (sortBy === "updatedAt") {
+        return sortOrder === "asc"
+          ? new Date(a.updatedAt) - new Date(b.updatedAt)
+          : new Date(b.updatedAt) - new Date(a.updatedAt);
+      }
+      return 0;
+    });
+    setSortedRequesters(sortedData);
+  }, [requesters, sortBy, sortOrder]);
+
+  const handleSort = (column) => {
+    if (sortBy === column) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(column);
+      setSortOrder("desc");
+    }
+  };
 
   return (
     <DashboardCard title="טבלת מקבלי שירות">
@@ -37,8 +67,21 @@ const LiveRequesters = () => {
                   textAlign={"right"}
                   variant="subtitle2"
                   fontWeight={600}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleSort("name")}
                 >
                   שם
+                  <IconButton size="small" onClick={() => handleSort("name")}>
+                    {sortBy === "name" ? (
+                      sortOrder === "desc" ? (
+                        <ArrowDownward />
+                      ) : (
+                        <ArrowUpward />
+                      )
+                    ) : (
+                      <SortByAlpha />
+                    )}
+                  </IconButton>
                 </Typography>
               </TableCell>
               <TableCell>
@@ -46,8 +89,21 @@ const LiveRequesters = () => {
                   textAlign={"right"}
                   variant="subtitle2"
                   fontWeight={600}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleSort("status")}
                 >
                   סטטוס
+                  <IconButton size="small" onClick={() => handleSort("status")}>
+                    {sortBy === "status" ? (
+                      sortOrder === "desc" ? (
+                        <ArrowDownward />
+                      ) : (
+                        <ArrowUpward />
+                      )
+                    ) : (
+                      <SortByAlpha />
+                    )}
+                  </IconButton>
                 </Typography>
               </TableCell>
               <TableCell>
@@ -55,8 +111,24 @@ const LiveRequesters = () => {
                   textAlign={"right"}
                   variant="subtitle2"
                   fontWeight={600}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleSort("updatedAt")}
                 >
                   תאריך עדכון אחרון
+                  <IconButton
+                    size="small"
+                    onClick={() => handleSort("updatedAt")}
+                  >
+                    {sortBy === "updatedAt" ? (
+                      sortOrder === "desc" ? (
+                        <ArrowDownward />
+                      ) : (
+                        <ArrowUpward />
+                      )
+                    ) : (
+                      <SortByAlpha />
+                    )}
+                  </IconButton>
                 </Typography>
               </TableCell>
               <TableCell>
