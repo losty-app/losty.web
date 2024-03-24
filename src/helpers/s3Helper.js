@@ -1,6 +1,5 @@
 import { Storage } from "aws-amplify";
 import Compressor from "compressorjs";
-import placeholder from "@assets/black_background.png";
 
 const getFileFromS3 = async (key) => {
   try {
@@ -16,7 +15,7 @@ const getImageFromS3 = async (key) => {
     const imageURL = await Storage.get(key);
     return imageURL;
   } catch (error) {
-    return placeholder;
+    return "";
   }
 };
 
