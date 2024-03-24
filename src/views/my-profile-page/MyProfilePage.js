@@ -58,6 +58,14 @@ const Profile = ({
     setEditingLastName(false);
   };
 
+  const handleFileSelect = async (event) => {
+    const file = event.target.files[0];
+    onProfileImageFileChange(file);
+    if (file) {
+    } else {
+      toast.error("נכשל להוסיף תמונה");
+    }
+  };
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={12} md={6} align="center">
@@ -72,7 +80,7 @@ const Profile = ({
             accept="image/*"
             style={{ display: "none" }}
             id="fileInput"
-            onChange={onPictureChange}
+            onChange={handleFileSelect}
           />
           <label htmlFor="fileInput">
             <IconButton
