@@ -15,6 +15,7 @@ import DashboardCard from "../../components/shared/DashboardCard";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingModal from "src/components/loading/LoadingModal";
 import { updateProviderMutation } from "src/helpers/mutationsHelper";
+import { uploadFileToS3Bucket } from "src/helpers/s3Helper";
 const Profile = ({
   firstName = "",
   lastName = "",
@@ -22,7 +23,7 @@ const Profile = ({
   profileImageFile,
   onFirstNameChange,
   onLastNameChange,
-  onPictureChange,
+  onProfileImageFileChange,
 }) => {
   const [editingFirstName, setEditingFirstName] = useState(false);
   const [editingLastName, setEditingLastName] = useState(false);
@@ -252,7 +253,7 @@ const MyProfilePage = () => {
     }
   };
 
-  const handleLastNameChange = async (newLastName) => {
+  const onLastNameChange = async (newLastName) => {
     setLoading(true);
     try {
       const updatedProvider = {
@@ -270,15 +271,22 @@ const MyProfilePage = () => {
     }
   };
 
-  const handlePictureChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      setProfileImageFile(event.target.result);
-    };
-
-    reader.readAsDataURL(file);
+  const onProfileImageFileChange = async (file) => {
+    setLoading(true);
+    try {
+      const uploadedProfileImageUri = await uploadFileToS3Bucket(file);
+      const updatedProvider = {
+        id,
+        uriImage: uploadedProfileImageUri,
+      };
+      dispatch({ type: "UPDATE_PROFILE", payload: updatedProvider });
+      await updateProviderMutation(updatedProvider);
+      setLoading(false);
+      toast.success("תמונת הפרופיל שונה בהצלחה!");
+    } catch (error) {
+      toast.error("עדכון תמונת הפרופיל נכשלה");
+      setLoading(false);
+    }
   };
 
   return (
@@ -290,8 +298,8 @@ const MyProfilePage = () => {
           tel={tel}
           profileImageFile={profileImageFile}
           onFirstNameChange={handleFirstNameChange}
-          onLastNameChange={handleLastNameChange}
-          onPictureChange={handlePictureChange}
+          onLastNameChange={onLastNameChange}
+          onProfileImageFileChange={onProfileImageFileChange}
         />
       </DashboardCard>
       <LoadingModal open={loading} text={"מעדכן פרטי פרופיל..."} />
