@@ -12,12 +12,12 @@ import {
 
 import { IconListCheck, IconLogout, IconUser } from "@tabler/icons";
 
-import ProfileImg from "src/assets/images/profile/user-1.jpg";
 import LogoutConfirmationModal from "src/components/modal/LogoutConfirmationModal";
 import { signOut } from "src/helpers/authHelper";
 import { toast } from "react-toastify";
 import LoadingModal from "src/components/loading/LoadingModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getImageFromS3 } from "src/helpers/s3Helper";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -25,6 +25,19 @@ const Profile = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false); // State to control the modal
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [file, setFile] = useState(null);
+  const profile = useSelector((state) => state.profile);
+
+  const fetchProfileImage = async () => {
+    if (profile && profile.profileImage && profile.profileImage !== "") {
+      const profileProfileImage = await getImageFromS3(profile.profileImage);
+      setFile(profileProfileImage);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfileImage();
+  }, [profile && profile.profileImage]);
 
   const handleLogout = () => {
     setIsLogoutModalOpen(true); // Open the logout confirmation modal
@@ -65,8 +78,8 @@ const Profile = () => {
         onClick={handleClick2}
       >
         <Avatar
-          src={ProfileImg}
-          alt={ProfileImg}
+          src={file}
+          alt={"Profile Image"}
           sx={{
             width: 35,
             height: 35,
