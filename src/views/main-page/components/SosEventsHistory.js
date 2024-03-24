@@ -24,7 +24,7 @@ import { IconExchange } from "@tabler/icons";
 const SosEventsHistory = () => {
   const { sosEvents } = useSosEvents("HOME");
   const [sortedSosEvents, setSortedSosEvents] = useState([]);
-  const [sortBy, setSortBy] = useState("status");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
 
   useEffect(() => {
@@ -176,7 +176,7 @@ const SosEventsHistory = () => {
                   style={{ cursor: "pointer" }}
                   onClick={() => handleSort("updatedAt")}
                 >
-                  שעת עדכון אחרון
+                  זמן עדכון אחרון
                   <IconButton
                     size="small"
                     onClick={() => handleSort("updatedAt")}

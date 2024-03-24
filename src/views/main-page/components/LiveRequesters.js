@@ -12,7 +12,12 @@ import {
 import DashboardCard from "../../../components/shared/DashboardCard";
 import useRequesters from "src/hooks/useRequesters";
 import { formatDateToIsraelLocale } from "src/utils/utils";
-import { SortByAlpha, ArrowDownward, ArrowUpward } from "@mui/icons-material";
+import {
+  SortByAlpha,
+  ArrowDownward,
+  ArrowUpward,
+  SortOutlined,
+} from "@mui/icons-material";
 
 const LiveRequesters = () => {
   const { requesters } = useRequesters("HOME");
@@ -114,7 +119,7 @@ const LiveRequesters = () => {
                   style={{ cursor: "pointer" }}
                   onClick={() => handleSort("updatedAt")}
                 >
-                  תאריך עדכון אחרון
+                  זמן עדכון אחרון
                   <IconButton
                     size="small"
                     onClick={() => handleSort("updatedAt")}
@@ -126,7 +131,7 @@ const LiveRequesters = () => {
                         <ArrowUpward />
                       )
                     ) : (
-                      <SortByAlpha />
+                      <SortOutlined />
                     )}
                   </IconButton>
                 </Typography>
