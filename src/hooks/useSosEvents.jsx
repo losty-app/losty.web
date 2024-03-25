@@ -263,6 +263,7 @@ const useSosEvents = (callFrom = "") => {
   useEffect(() => {
     if (!profile) return;
     if (!requesters || requesters.length === 0) return;
+    if (!providers || providers.length === 0) return;
     if (!sosEvents || sosEvents.length === 0) return;
 
     const sosEventsIds = sosEvents.map((sosEvent) => sosEvent.id);
