@@ -9,7 +9,15 @@ import {
 import { formatDateToIsraelLocale } from "src/utils/utils";
 import { MapSharp } from "@mui/icons-material";
 
-const SosEventHistory = () => {
+const SosEventHistory = (sosEvent) => {
+  const openGoogleMaps = () => {
+    if (!sosEvent?.place) return;
+    const { latitude, longitude } = JSON.parse(sosEvent.place);
+    const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+    const windowName = `google_maps_${latitude}_${longitude}`; // Unique window name
+    window.open(url, windowName, "_blank");
+  };
+
   return (
     <TableRow key={sosEvent.id}>
       <TableCell>
@@ -58,17 +66,10 @@ const SosEventHistory = () => {
               color={"#1a237e"} // Dark blue color
               size="small"
               sx={{ cursor: "pointer" }} // Set cursor to pointer
-              onClick={(requester) => {
-                openGoogleMaps(requester);
-              }}
+              onClick={openGoogleMaps}
             >
               {"לחצ/י למיקום"}
-              <IconButton
-                sx={{ color: "#1a237e" }}
-                onClick={(requester) => {
-                  openGoogleMaps(requester);
-                }}
-              >
+              <IconButton sx={{ color: "#1a237e" }} onClick={openGoogleMaps}>
                 <MapSharp sx={{ fontSize: 20, color: "#1a237e" }} />
               </IconButton>
             </Typography>
