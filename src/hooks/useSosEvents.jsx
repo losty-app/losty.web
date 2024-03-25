@@ -196,6 +196,7 @@ const useSosEvents = (callFrom = "") => {
   useEffect(() => {
     if (!profile) return;
     if (!requesters || requesters.length === 0) return;
+    if (!providers || providers.length === 0) return;
     if (!sosEvents || sosEvents.length === 0) return;
 
     const sosEventsIds = sosEvents.map((sosEvent) => sosEvent.id);
@@ -212,36 +213,38 @@ const useSosEvents = (callFrom = "") => {
     ).subscribe({
       next: ({ value }) => {
         const updatedProviderResponse = value.data.onUpdateProviderResponse;
+        if (updatedProviderResponse) {
+          const currSosEvent = sosEvents.find(
+            (sosEvent) => sosEvent.id === updatedProviderResponse.sosEventId
+          );
 
-        const currSosEvent = sosEvents.find(
-          (sosEvent) => sosEvent.id === updatedProviderResponse.sosEventId
-        );
+          const currProvider = providers.find(
+            (provider) =>
+              provider.id === updatedProviderResponse.providerResponseProviderId
+          );
 
-        switch (updatedProviderResponse.status) {
-          case ProviderResponseStatus.UNSEEN:
-            currSosEvent.unseen = [
-              ...currSosEvent.unseen,
-              updatedProviderResponse,
-            ];
-            break;
-          case ProviderResponseStatus.SEEN:
-            currSosEvent.seen = [
-              ...currSosEvent.unseen,
-              updatedProviderResponse,
-            ];
-            break;
-          case ProviderResponseStatus.APPROVED_OUT:
-            currSosEvent.approvedOut = [
-              ...currSosEvent.unseen,
-              updatedProviderResponse,
-            ];
-            break;
-          case ProviderResponseStatus.APPROVED_DEST:
-            currSosEvent.approvedDest = [
-              ...currSosEvent.unseen,
-              updatedProviderResponse,
-            ];
-            break;
+          switch (updatedProviderResponse.status) {
+            case ProviderResponseStatus.UNSEEN:
+              currSosEvent.unseen.push(
+                currProvider.firstName + " " + currProvider.lastName
+              );
+              break;
+            case ProviderResponseStatus.SEEN:
+              currSosEvent.seen.push(
+                currProvider.firstName + " " + currProvider.lastName
+              );
+              break;
+            case ProviderResponseStatus.APPROVED_OUT:
+              currSosEvent.approvedOut.push(
+                currProvider.firstName + " " + currProvider.lastName
+              );
+              break;
+            case ProviderResponseStatus.APPROVED_DEST:
+              currSosEvent.approvedDest.push(
+                currProvider.firstName + " " + currProvider.lastName
+              );
+              break;
+          }
         }
 
         dispatch({
@@ -277,34 +280,30 @@ const useSosEvents = (callFrom = "") => {
       next: ({ value }) => {
         const createdProviderResponse = value.data.onCreateProviderResponse;
         if (createdProviderResponse) {
-          const currSosEvent = sosEvents.find(
-            (sosEvent) => sosEvent.id === createdProviderResponse.sosEventId
+          const currProvider = providers.find(
+            (provider) =>
+              provider.id === createdProviderResponse.providerResponseProviderId
           );
-
           switch (createdProviderResponse.status) {
             case ProviderResponseStatus.UNSEEN:
-              currSosEvent.unseen = [
-                ...currSosEvent.unseen,
-                createdProviderResponse,
-              ];
+              currSosEvent.unseen.push(
+                currProvider.firstName + " " + currProvider.lastName
+              );
               break;
             case ProviderResponseStatus.SEEN:
-              currSosEvent.seen = [
-                ...currSosEvent.unseen,
-                createdProviderResponse,
-              ];
+              currSosEvent.seen.push(
+                currProvider.firstName + " " + currProvider.lastName
+              );
               break;
             case ProviderResponseStatus.APPROVED_OUT:
-              currSosEvent.approvedOut = [
-                ...currSosEvent.unseen,
-                createdProviderResponse,
-              ];
+              currSosEvent.approvedOut.push(
+                currProvider.firstName + " " + currProvider.lastName
+              );
               break;
             case ProviderResponseStatus.APPROVED_DEST:
-              currSosEvent.approvedDest = [
-                ...currSosEvent.unseen,
-                createdProviderResponse,
-              ];
+              currSosEvent.approvedDest.push(
+                currProvider.firstName + " " + currProvider.lastName
+              );
               break;
           }
 
