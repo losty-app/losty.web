@@ -154,11 +154,7 @@ const LiveRequesters = () => {
           ) : (
             <TableBody>
               {sortedRequesters.map((requester) => (
-                <LiveRequester
-                  key={requester.id}
-                  requester={requester}
-                  handleLocationClick={handleLocationClick}
-                />
+                <LiveRequester key={requester.id} requester={requester} />
               ))}
             </TableBody>
           )}
