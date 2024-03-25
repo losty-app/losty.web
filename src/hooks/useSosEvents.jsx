@@ -115,7 +115,7 @@ const useSosEvents = (callFrom = "") => {
     if (!sosEvents || sosEvents?.length === 0 || callFrom === "HOME") {
       fetchSosEvents();
     }
-  }, []);
+  }, [requesters?.length > 0]);
 
   useEffect(() => {
     if (!profile) return;
