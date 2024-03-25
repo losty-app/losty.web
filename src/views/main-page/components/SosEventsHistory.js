@@ -197,7 +197,7 @@ const SosEventsHistory = () => {
           </TableHead>
           <TableBody>
             {sortedSosEvents.map((sosEvent) => (
-              <SosEventHistory sosEvent={sosEvent} />
+              <SosEventHistory key={sosEvent.id} sosEvent={sosEvent} />
             ))}
           </TableBody>
         </Table>
