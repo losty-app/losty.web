@@ -9,7 +9,7 @@ import {
 import { formatDateToIsraelLocale } from "src/utils/utils";
 import { MapSharp } from "@mui/icons-material";
 
-const SosEventHistory = (sosEvent) => {
+const SosEventHistory = ({ sosEvent }) => {
   const openGoogleMaps = () => {
     if (!sosEvent?.place) return;
     const { latitude, longitude } = JSON.parse(sosEvent.place);
