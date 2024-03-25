@@ -57,7 +57,22 @@ const LiveRequesters = () => {
 
   return (
     <DashboardCard title="טבלת מקבלי שירות">
-      <Box sx={{ overflow: "auto", width: { xs: "280px", sm: "auto" } }}>
+      <Box
+        sx={{
+          direction: "rtl",
+          maxHeight: "30vh",
+          overflow: "auto",
+          width: { xs: "280px", sm: "auto" },
+          "&::-webkit-scrollbar": {
+            width: "8px",
+            backgroundColor: "#f5f5f5", // Change this color as needed
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888", // Change this color as needed vgbnh
+            borderRadius: "4px",
+          },
+        }}
+      >
         <Table
           aria-label="simple table"
           sx={{

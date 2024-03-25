@@ -27,13 +27,6 @@ const SosEventsHistory = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
 
-  const openGoogleMaps = (requester) => {
-    const { latitude, longitude } = JSON.parse(requester.place);
-    const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
-    const windowName = `google_maps_${latitude}_${longitude}`; // Unique window name
-    window.open(url, windowName, "_blank");
-  };
-
   useEffect(() => {
     if (!sortBy) return;
     const sortedData = [...sosEvents].sort((a, b) => {
