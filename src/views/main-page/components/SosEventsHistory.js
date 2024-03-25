@@ -17,6 +17,7 @@ import {
   ArrowDownward,
   SortByAlpha,
   SortOutlined,
+  MapSharp,
 } from "@mui/icons-material";
 
 const SosEventsHistory = () => {
@@ -24,6 +25,13 @@ const SosEventsHistory = () => {
   const [sortedSosEvents, setSortedSosEvents] = useState([]);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
+
+  const openGoogleMaps = (requester) => {
+    const { latitude, longitude } = JSON.parse(requester.place);
+    const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+    const windowName = `google_maps_${latitude}_${longitude}`; // Unique window name
+    window.open(url, windowName, "_blank");
+  };
 
   useEffect(() => {
     if (!sortBy) return;
@@ -73,7 +81,7 @@ const SosEventsHistory = () => {
             backgroundColor: "#f5f5f5", // Change this color as needed
           },
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#888", // Change this color as needed
+            backgroundColor: "#888", // Change this color as needed vgbnh
             borderRadius: "4px",
           },
         }}
@@ -236,15 +244,25 @@ const SosEventsHistory = () => {
                   >
                     <Box>
                       <Typography
+                        textAlign={"right"}
                         variant="subtitle2"
                         fontWeight={600}
-                        sx={{
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
+                        color={"#1a237e"} // Dark blue color
+                        size="small"
+                        sx={{ cursor: "pointer" }} // Set cursor to pointer
+                        onClick={(requester) => {
+                          openGoogleMaps(requester);
                         }}
                       >
-                        {sosEvent.place.slice(0, 30) + "..." || " "}
+                        {"לחצ/י למיקום"}
+                        <IconButton
+                          sx={{ color: "#1a237e" }}
+                          onClick={(requester) => {
+                            openGoogleMaps(requester);
+                          }}
+                        >
+                          <MapSharp sx={{ fontSize: 20, color: "#1a237e" }} />
+                        </IconButton>
                       </Typography>
                     </Box>
                   </Box>
