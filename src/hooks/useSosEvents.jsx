@@ -281,6 +281,9 @@ const useSosEvents = (callFrom = "") => {
       next: ({ value }) => {
         const createdProviderResponse = value.data.onCreateProviderResponse;
         if (createdProviderResponse) {
+          const currSosEvent = sosEvents.find(
+            (sosEvent) => sosEvent.id === createdProviderResponse.sosEventId
+          );
           const currProvider = providers.find(
             (provider) =>
               provider.id === createdProviderResponse.providerResponseProviderId
