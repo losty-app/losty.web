@@ -245,12 +245,12 @@ const useSosEvents = (callFrom = "") => {
               );
               break;
           }
-        }
 
-        dispatch({
-          type: "UPDATE_SOS_EVENT",
-          payload: currSosEvent,
-        });
+          dispatch({
+            type: "UPDATE_SOS_EVENT",
+            payload: currSosEvent,
+          });
+        }
       },
       error: (error) => console.log("Failed to updated sos event"),
     });
