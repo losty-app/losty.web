@@ -2,6 +2,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  onCreateProviderResponse,
   onCreateSosEvent,
   onUpdateProviderResponse,
   onUpdateSosEvent,
@@ -270,7 +271,7 @@ const useSosEvents = (callFrom = "") => {
 
     // Subscribe to created provider responses
     const onProviderResponseCreatedSubscription = API.graphql(
-      graphqlOperation(onUpdateProviderResponse, {
+      graphqlOperation(onCreateProviderResponse, {
         filter: {
           sosEventId: {
             in: sosEventsIds, // Filter providers where the ID is in the list of providerIds
