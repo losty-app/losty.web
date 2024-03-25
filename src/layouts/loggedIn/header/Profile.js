@@ -37,7 +37,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchProfileImage();
-  }, [profile && profile.uriImage]);
+  }, []);
 
   const handleLogout = () => {
     setIsLogoutModalOpen(true); // Open the logout confirmation modal
