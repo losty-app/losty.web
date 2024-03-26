@@ -13,6 +13,12 @@ import {
 } from "src/helpers/queriesHelper";
 import useProviders from "./useProviders";
 import { ProviderResponseStatus, SosEventStatus } from "src/models";
+import {
+  onCreateProviderResponseSubscription,
+  onCreateSosEventSubscription,
+  onUpdateProviderResponseSubscription,
+  onUpdateSosEventSubscription,
+} from "src/helpers/customSubscriptions";
 
 const useSosEvents = (callFrom = "") => {
   const dispatch = useDispatch();
@@ -126,7 +132,7 @@ const useSosEvents = (callFrom = "") => {
 
     // Subscribe to new providers
     const onSosEventCreatedSubscription = API.graphql(
-      graphqlOperation(onCreateSosEvent, {
+      graphqlOperation(onCreateSosEventSubscription, {
         filter: { requesterId: { in: requesterIds } },
       })
     ).subscribe({
@@ -164,7 +170,7 @@ const useSosEvents = (callFrom = "") => {
 
     // onSosEventUpdatedSubscription
     const onSosEventUpdatedSubscription = API.graphql(
-      graphqlOperation(onUpdateSosEvent, {
+      graphqlOperation(onUpdateSosEventSubscription, {
         filter: {
           requesterId: {
             in: requesterIds, // Filter providers where the ID is in the list of providerIds
@@ -200,11 +206,15 @@ const useSosEvents = (callFrom = "") => {
     if (!providers || providers.length === 0) return;
     if (!sosEvents || sosEvents.length === 0) return;
 
-    const sosEventsIds = sosEvents.map((sosEvent) => sosEvent.id);
-
+    const sosEventsIds = sosEvents.reduce((acc, sosEvent) => {
+      if (sosEvent.status === SosEventStatus.PENDING) {
+        acc.push(sosEvent.id);
+      }
+      return acc;
+    }, []);
     // Subscribe to updated providers
     const onProviderResponseUpdatedSubscription = API.graphql(
-      graphqlOperation(onUpdateProviderResponse, {
+      graphqlOperation(onUpdateProviderResponseSubscription, {
         filter: {
           sosEventId: {
             in: sosEventsIds, // Filter providers where the ID is in the list of providerIds
@@ -226,24 +236,28 @@ const useSosEvents = (callFrom = "") => {
 
           switch (updatedProviderResponse.status) {
             case ProviderResponseStatus.UNSEEN:
-              currSosEvent.unseen.push(
-                currProvider.firstName + " " + currProvider.lastName
-              );
+              currSosEvent.unseen = [
+                ...currSosEvent.unseen,
+                currProvider.firstName + " " + currProvider.lastName,
+              ];
               break;
             case ProviderResponseStatus.SEEN:
-              currSosEvent.seen.push(
-                currProvider.firstName + " " + currProvider.lastName
-              );
+              currSosEvent.seen = [
+                ...currSosEvent.seen,
+                currProvider.firstName + " " + currProvider.lastName,
+              ];
               break;
             case ProviderResponseStatus.APPROVED_OUT:
-              currSosEvent.approvedOut.push(
-                currProvider.firstName + " " + currProvider.lastName
-              );
+              currSosEvent.approvedOut = [
+                ...currSosEvent.approvedOut,
+                currProvider.firstName + " " + currProvider.lastName,
+              ];
               break;
             case ProviderResponseStatus.APPROVED_DEST:
-              currSosEvent.approvedDest.push(
-                currProvider.firstName + " " + currProvider.lastName
-              );
+              currSosEvent.approvedDest = [
+                ...currSosEvent.approvedDest,
+                currProvider.firstName + " " + currProvider.lastName,
+              ];
               break;
           }
 
@@ -267,11 +281,16 @@ const useSosEvents = (callFrom = "") => {
     if (!providers || providers.length === 0) return;
     if (!sosEvents || sosEvents.length === 0) return;
 
-    const sosEventsIds = sosEvents.map((sosEvent) => sosEvent.id);
+    const sosEventsIds = sosEvents.reduce((acc, sosEvent) => {
+      if (sosEvent.status === SosEventStatus.PENDING) {
+        acc.push(sosEvent.id);
+      }
+      return acc;
+    }, []);
 
     // Subscribe to created provider responses
     const onProviderResponseCreatedSubscription = API.graphql(
-      graphqlOperation(onCreateProviderResponse, {
+      graphqlOperation(onCreateProviderResponseSubscription, {
         filter: {
           sosEventId: {
             in: sosEventsIds, // Filter providers where the ID is in the list of providerIds
@@ -291,24 +310,28 @@ const useSosEvents = (callFrom = "") => {
           );
           switch (createdProviderResponse.status) {
             case ProviderResponseStatus.UNSEEN:
-              currSosEvent.unseen.push(
-                currProvider.firstName + " " + currProvider.lastName
-              );
+              currSosEvent.unseen = [
+                ...currSosEvent.unseen,
+                currProvider.firstName + " " + currProvider.lastName,
+              ];
               break;
             case ProviderResponseStatus.SEEN:
-              currSosEvent.seen.push(
-                currProvider.firstName + " " + currProvider.lastName
-              );
+              currSosEvent.seen = [
+                ...currSosEvent.seen,
+                currProvider.firstName + " " + currProvider.lastName,
+              ];
               break;
             case ProviderResponseStatus.APPROVED_OUT:
-              currSosEvent.approvedOut.push(
-                currProvider.firstName + " " + currProvider.lastName
-              );
+              currSosEvent.approvedOut = [
+                ...currSosEvent.approvedOut,
+                currProvider.firstName + " " + currProvider.lastName,
+              ];
               break;
             case ProviderResponseStatus.APPROVED_DEST:
-              currSosEvent.approvedDest.push(
-                currProvider.firstName + " " + currProvider.lastName
-              );
+              currSosEvent.approvedDest = [
+                ...currSosEvent.approvedDest,
+                currProvider.firstName + " " + currProvider.lastName,
+              ];
               break;
           }
 
@@ -318,7 +341,7 @@ const useSosEvents = (callFrom = "") => {
           });
         }
       },
-      error: (error) => console.log("Failed to updated sos event"),
+      error: (error) => console.log(error),
     });
 
     return () => {
