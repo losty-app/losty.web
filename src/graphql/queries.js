@@ -12,7 +12,6 @@ export const getRequester = /* GraphQL */ `
       gender
       tel
       place
-      geoPlace
       lastSeen
       associationId
       uriImage
@@ -43,7 +42,6 @@ export const listRequesters = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -68,7 +66,6 @@ export const getProvider = /* GraphQL */ `
       gender
       tel
       place
-      geoPlace
       lastSeen
       associationId
       uriImage
@@ -103,7 +100,6 @@ export const listProviders = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -193,7 +189,6 @@ export const getChatRoom = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -253,7 +248,6 @@ export const getMessage = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -306,7 +300,6 @@ export const getSosEvent = /* GraphQL */ `
         __typename
       }
       place
-      geoPlace
       createdAt
       updatedAt
       __typename
@@ -325,7 +318,6 @@ export const listSosEvents = /* GraphQL */ `
         status
         requesterId
         place
-        geoPlace
         createdAt
         updatedAt
         __typename
@@ -349,7 +341,6 @@ export const getProviderResponse = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -478,7 +469,6 @@ export const getRequesterProvider = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -496,7 +486,6 @@ export const getRequesterProvider = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -550,7 +539,6 @@ export const getProviderChatRoom = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -624,7 +612,6 @@ export const requestersByAssociationId = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -662,7 +649,6 @@ export const providersByAssociationId = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage

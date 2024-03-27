@@ -14,7 +14,6 @@ export const onCreateRequester = /* GraphQL */ `
       gender
       tel
       place
-      geoPlace
       lastSeen
       associationId
       uriImage
@@ -42,7 +41,6 @@ export const onUpdateRequester = /* GraphQL */ `
       gender
       tel
       place
-      geoPlace
       lastSeen
       associationId
       uriImage
@@ -70,7 +68,6 @@ export const onDeleteRequester = /* GraphQL */ `
       gender
       tel
       place
-      geoPlace
       lastSeen
       associationId
       uriImage
@@ -96,7 +93,6 @@ export const onCreateProvider = /* GraphQL */ `
       gender
       tel
       place
-      geoPlace
       lastSeen
       associationId
       uriImage
@@ -126,7 +122,6 @@ export const onUpdateProvider = /* GraphQL */ `
       gender
       tel
       place
-      geoPlace
       lastSeen
       associationId
       uriImage
@@ -156,7 +151,6 @@ export const onDeleteProvider = /* GraphQL */ `
       gender
       tel
       place
-      geoPlace
       lastSeen
       associationId
       uriImage
@@ -266,7 +260,6 @@ export const onCreateChatRoom = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -321,7 +314,6 @@ export const onUpdateChatRoom = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -376,7 +368,6 @@ export const onDeleteChatRoom = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -413,7 +404,6 @@ export const onCreateMessage = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -449,7 +439,6 @@ export const onUpdateMessage = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -485,7 +474,6 @@ export const onDeleteMessage = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -516,7 +504,6 @@ export const onCreateSosEvent = /* GraphQL */ `
         __typename
       }
       place
-      geoPlace
       createdAt
       updatedAt
       __typename
@@ -534,7 +521,6 @@ export const onUpdateSosEvent = /* GraphQL */ `
         __typename
       }
       place
-      geoPlace
       createdAt
       updatedAt
       __typename
@@ -552,7 +538,6 @@ export const onDeleteSosEvent = /* GraphQL */ `
         __typename
       }
       place
-      geoPlace
       createdAt
       updatedAt
       __typename
@@ -575,7 +560,6 @@ export const onCreateProviderResponse = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -608,7 +592,6 @@ export const onUpdateProviderResponse = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -641,7 +624,6 @@ export const onDeleteProviderResponse = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -783,7 +765,6 @@ export const onCreateRequesterProvider = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -801,7 +782,6 @@ export const onCreateRequesterProvider = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -833,7 +813,6 @@ export const onUpdateRequesterProvider = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -851,7 +830,6 @@ export const onUpdateRequesterProvider = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -883,7 +861,6 @@ export const onDeleteRequesterProvider = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -901,7 +878,6 @@ export const onDeleteRequesterProvider = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -933,7 +909,6 @@ export const onCreateProviderChatRoom = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -976,7 +951,6 @@ export const onUpdateProviderChatRoom = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage
@@ -1019,7 +993,6 @@ export const onDeleteProviderChatRoom = /* GraphQL */ `
         gender
         tel
         place
-        geoPlace
         lastSeen
         associationId
         uriImage

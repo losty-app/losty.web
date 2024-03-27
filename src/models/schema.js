@@ -59,13 +59,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "geoPlace": {
-                    "name": "geoPlace",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "lastSeen": {
                     "name": "lastSeen",
                     "isArray": false,
@@ -217,13 +210,6 @@ export const schema = {
                     "name": "place",
                     "isArray": false,
                     "type": "AWSJSON",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "geoPlace": {
-                    "name": "geoPlace",
-                    "isArray": false,
-                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -804,13 +790,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "geoPlace": {
-                    "name": "geoPlace",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -1353,5 +1332,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "63afc1e9c22b4bb8e394df2380f14cc3"
+    "version": "e2c85086f33100a605d43df4126f4796"
 };

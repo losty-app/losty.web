@@ -7,22 +7,72 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  IconButton,
 } from "@mui/material";
 import DashboardCard from "../../../components/shared/DashboardCard";
 import useRequesters from "src/hooks/useRequesters";
-import { formatDateToIsraelLocale } from "src/utils/utils";
+import {
+  SortByAlpha,
+  ArrowDownward,
+  ArrowUpward,
+  SortOutlined,
+} from "@mui/icons-material";
+import LiveRequester from "./requesters/LiveRequester";
 
 const LiveRequesters = () => {
   const { requesters } = useRequesters("HOME");
   const [sortedRequesters, setSortedRequesters] = useState([]);
+  const [sortBy, setSortBy] = useState("status");
+  const [sortOrder, setSortOrder] = useState("desc");
 
   useEffect(() => {
-    setSortedRequesters([...requesters].sort((a, b) => (b.isSOS ? 1 : -1)));
-  }, [requesters]);
+    if (!sortBy) return;
+    const sortedData = [...requesters].sort((a, b) => {
+      if (sortBy === "name") {
+        return sortOrder === "asc"
+          ? a.firstName.localeCompare(b.firstName)
+          : b.firstName.localeCompare(a.firstName);
+      }
+      if (sortBy === "status") {
+        return sortOrder === "desc" ? (a.isSOS ? -1 : 1) : a.isSOS ? 1 : -1;
+      }
+      if (sortBy === "updatedAt") {
+        return sortOrder === "asc"
+          ? new Date(a.updatedAt) - new Date(b.updatedAt)
+          : new Date(b.updatedAt) - new Date(a.updatedAt);
+      }
+      return 0;
+    });
+    setSortedRequesters(sortedData);
+  }, [requesters, sortBy, sortOrder]);
+
+  const handleSort = (column) => {
+    if (sortBy === column) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(column);
+      setSortOrder("desc");
+    }
+  };
 
   return (
     <DashboardCard title="טבלת מקבלי שירות">
-      <Box sx={{ overflow: "auto", width: { xs: "280px", sm: "auto" } }}>
+      <Box
+        sx={{
+          direction: "rtl",
+          maxHeight: "30vh",
+          overflow: "auto",
+          width: { xs: "280px", sm: "auto" },
+          "&::-webkit-scrollbar": {
+            width: "8px",
+            backgroundColor: "#f5f5f5", // Change this color as needed
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888", // Change this color as needed vgbnh
+            borderRadius: "4px",
+          },
+        }}
+      >
         <Table
           aria-label="simple table"
           sx={{
@@ -37,8 +87,21 @@ const LiveRequesters = () => {
                   textAlign={"right"}
                   variant="subtitle2"
                   fontWeight={600}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleSort("name")}
                 >
                   שם
+                  <IconButton size="small" onClick={() => handleSort("name")}>
+                    {sortBy === "name" ? (
+                      sortOrder === "desc" ? (
+                        <ArrowDownward />
+                      ) : (
+                        <ArrowUpward />
+                      )
+                    ) : (
+                      <SortByAlpha />
+                    )}
+                  </IconButton>
                 </Typography>
               </TableCell>
               <TableCell>
@@ -46,8 +109,21 @@ const LiveRequesters = () => {
                   textAlign={"right"}
                   variant="subtitle2"
                   fontWeight={600}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleSort("status")}
                 >
                   סטטוס
+                  <IconButton size="small" onClick={() => handleSort("status")}>
+                    {sortBy === "status" ? (
+                      sortOrder === "desc" ? (
+                        <ArrowDownward />
+                      ) : (
+                        <ArrowUpward />
+                      )
+                    ) : (
+                      <SortByAlpha />
+                    )}
+                  </IconButton>
                 </Typography>
               </TableCell>
               <TableCell>
@@ -55,8 +131,24 @@ const LiveRequesters = () => {
                   textAlign={"right"}
                   variant="subtitle2"
                   fontWeight={600}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleSort("updatedAt")}
                 >
-                  תאריך עדכון אחרון
+                  זמן עדכון אחרון
+                  <IconButton
+                    size="small"
+                    onClick={() => handleSort("updatedAt")}
+                  >
+                    {sortBy === "updatedAt" ? (
+                      sortOrder === "desc" ? (
+                        <ArrowDownward />
+                      ) : (
+                        <ArrowUpward />
+                      )
+                    ) : (
+                      <SortOutlined />
+                    )}
+                  </IconButton>
                 </Typography>
               </TableCell>
               <TableCell>
@@ -77,87 +169,7 @@ const LiveRequesters = () => {
           ) : (
             <TableBody>
               {sortedRequesters.map((requester) => (
-                <TableRow key={requester.id}>
-                  <TableCell>
-                    <Typography
-                      textAlign={"right"}
-                      sx={{
-                        fontSize: "15px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      {requester.firstName + " " + requester.lastName}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Box>
-                        {requester.isSOS ? (
-                          <Typography
-                            textAlign={"right"}
-                            sx={{
-                              fontSize: "16px",
-                              color: "red",
-                            }}
-                          >
-                            במצב חירום
-                          </Typography>
-                        ) : (
-                          <Typography
-                            textAlign={"right"}
-                            color="textSecondary"
-                            sx={{
-                              fontSize: "13px",
-                            }}
-                          >
-                            במצב בטוח
-                          </Typography>
-                        )}
-                      </Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Box>
-                        <Typography
-                          variant="subtitle2"
-                          fontWeight={600}
-                          textAlign={"right"}
-                        >
-                          {formatDateToIsraelLocale(requester.updatedAt)}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Box>
-                        <Typography
-                          textAlign={"right"}
-                          variant="subtitle2"
-                          fontWeight={600}
-                        >
-                          {requester.geoPlace}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </TableCell>
-                </TableRow>
+                <LiveRequester key={requester.id} requester={requester} />
               ))}
             </TableBody>
           )}

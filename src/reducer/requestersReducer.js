@@ -2,8 +2,6 @@ const initialState = [];
 
 const requestersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_REQUESTERS":
-      return action.payload;
     case "UPDATE_REQUESTER":
       const updatedRequester = action.payload;
       const isRequesterPresent = state.some(

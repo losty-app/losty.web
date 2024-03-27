@@ -1,12 +1,24 @@
 import { API, graphqlOperation } from "aws-amplify";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { onCreateSosEvent, onUpdateSosEvent } from "src/graphql/subscriptions";
+import {
+  onCreateProviderResponse,
+  onCreateSosEvent,
+  onUpdateProviderResponse,
+  onUpdateSosEvent,
+} from "src/graphql/subscriptions";
 import {
   getSosEventsByRequesterId,
   listAllProviderResponsesBySosEventId,
 } from "src/helpers/queriesHelper";
 import useProviders from "./useProviders";
+import { ProviderResponseStatus, SosEventStatus } from "src/models";
+import {
+  onCreateProviderResponseSubscription,
+  onCreateSosEventSubscription,
+  onUpdateProviderResponseSubscription,
+  onUpdateSosEventSubscription,
+} from "src/helpers/customSubscriptions";
 
 const useSosEvents = (callFrom = "") => {
   const dispatch = useDispatch();
@@ -22,12 +34,19 @@ const useSosEvents = (callFrom = "") => {
         responses. */
         const requesterIds = requesters.map(({ id }) => id);
 
-        const fetchedSosEvents = [];
-
-        for (const requesterId of requesterIds) {
-          const sosEvents = await getSosEventsByRequesterId(requesterId);
-          fetchedSosEvents.push(...sosEvents);
-        }
+        const fetchedSosEvents = (
+          await Promise.all(
+            requesterIds.map(
+              async (requesterId) =>
+                await getSosEventsByRequesterId(requesterId)
+            )
+          )
+        )
+          .flat()
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
 
         const fetchedProviderResponses = await Promise.all(
           fetchedSosEvents.map(({ id }) =>
@@ -35,7 +54,26 @@ const useSosEvents = (callFrom = "") => {
           )
         );
 
+        // Reset isSOS for all requesters
+        requesters.forEach(({ id, isSOS }) => {
+          if (isSOS) {
+            dispatch({
+              type: "UPDATE_REQUESTER",
+              payload: { id, isSOS: false },
+            });
+          }
+        });
+
         fetchedSosEvents.forEach((sosEvent, index) => {
+          const currRequester = requesters.find(
+            (requester) => requester.id === sosEvent.requesterId
+          );
+          if (sosEvent.status === SosEventStatus.PENDING) {
+            dispatch({
+              type: "UPDATE_REQUESTER",
+              payload: { id: sosEvent.requesterId, isSOS: true },
+            });
+          }
           const providerResponses = fetchedProviderResponses[index];
           const groupedResponses = [[], [], [], []]; // For UNSEEN, SEEN, APPROVED_OUT, APPROVED_DEST
           providerResponses.forEach((response) => {
@@ -72,9 +110,6 @@ const useSosEvents = (callFrom = "") => {
             }
           });
 
-          const currRequester = requesters.find(
-            (requester) => requester.id === sosEvent.requesterId
-          );
           sosEvent.fullName =
             currRequester.firstName + " " + currRequester.lastName;
           sosEvent.unseen = groupedResponses[0];
@@ -82,9 +117,6 @@ const useSosEvents = (callFrom = "") => {
           sosEvent.approvedOut = groupedResponses[2];
           sosEvent.approvedDest = groupedResponses[3];
         });
-
-        console.log("fetchedSosEvents: ");
-        console.log(fetchedSosEvents);
 
         dispatch({ type: "SET_SOS_EVENTS", payload: fetchedSosEvents });
       }
@@ -100,7 +132,7 @@ const useSosEvents = (callFrom = "") => {
     if (!sosEvents || sosEvents?.length === 0 || callFrom === "HOME") {
       fetchSosEvents();
     }
-  }, []);
+  }, [requesters?.length > 0]);
 
   useEffect(() => {
     if (!profile) return;
@@ -110,16 +142,25 @@ const useSosEvents = (callFrom = "") => {
 
     // Subscribe to new providers
     const onSosEventCreatedSubscription = API.graphql(
-      graphqlOperation(onCreateSosEvent, {
+      graphqlOperation(onCreateSosEventSubscription, {
         filter: { requesterId: { in: requesterIds } },
       })
     ).subscribe({
       next: ({ value }) => {
         const newSosEvent = value?.data?.onCreateSosEvent;
         if (newSosEvent) {
+          const { id, firstName, lastName } = requesters.find(
+            (requester) => requester.id === newSosEvent.requesterId
+          );
           dispatch({
-            type: "SET_SOS_EVENTS",
-            payload: [newSosEvent, ...sosEvents],
+            type: "UPDATE_REQUESTER",
+            payload: { id, isSOS: true },
+          });
+          newSosEvent.fullName = firstName + " " + lastName;
+
+          dispatch({
+            type: "UPDATE_SOS_EVENT",
+            payload: newSosEvent,
           });
         }
       },
@@ -137,9 +178,9 @@ const useSosEvents = (callFrom = "") => {
 
     const requesterIds = requesters.map((requester) => requester.id);
 
-    // Subscribe to updated providers
+    // onSosEventUpdatedSubscription
     const onSosEventUpdatedSubscription = API.graphql(
-      graphqlOperation(onUpdateSosEvent, {
+      graphqlOperation(onUpdateSosEventSubscription, {
         filter: {
           requesterId: {
             in: requesterIds, // Filter providers where the ID is in the list of providerIds
@@ -149,7 +190,12 @@ const useSosEvents = (callFrom = "") => {
     ).subscribe({
       next: ({ value }) => {
         const updatedSosEvent = value.data.onUpdateSosEvent;
-
+        if (updatedSosEvent.status === SosEventStatus.FINISHED) {
+          dispatch({
+            type: "UPDATE_REQUESTER",
+            payload: { id: updatedSosEvent.requesterId, isSOS: false },
+          });
+        }
         // Dispatch or perform other actions here
         dispatch({
           type: "UPDATE_SOS_EVENT",
@@ -161,6 +207,158 @@ const useSosEvents = (callFrom = "") => {
 
     return () => {
       onSosEventUpdatedSubscription.unsubscribe();
+    };
+  }, [dispatch, sosEvents]);
+
+  useEffect(() => {
+    if (!profile) return;
+    if (!requesters || requesters.length === 0) return;
+    if (!providers || providers.length === 0) return;
+    if (!sosEvents || sosEvents.length === 0) return;
+
+    const sosEventsIds = sosEvents.reduce((acc, sosEvent) => {
+      if (sosEvent.status === SosEventStatus.PENDING) {
+        acc.push(sosEvent.id);
+      }
+      return acc;
+    }, []);
+    // Subscribe to updated providers
+    const onProviderResponseUpdatedSubscription = API.graphql(
+      graphqlOperation(onUpdateProviderResponseSubscription, {
+        filter: {
+          sosEventId: {
+            in: sosEventsIds, // Filter providers where the ID is in the list of providerIds
+          },
+        },
+      })
+    ).subscribe({
+      next: ({ value }) => {
+        const updatedProviderResponse = value.data.onUpdateProviderResponse;
+        if (updatedProviderResponse) {
+          const currSosEvent = sosEvents.find(
+            (sosEvent) => sosEvent.id === updatedProviderResponse.sosEventId
+          );
+
+          const currProvider = providers.find(
+            (provider) =>
+              provider.id === updatedProviderResponse.providerResponseProviderId
+          );
+
+          const fullName = currProvider.firstName + " " + currProvider.lastName;
+
+          switch (updatedProviderResponse.status) {
+            case ProviderResponseStatus.UNSEEN:
+              if (!currSosEvent.unseen) {
+                currSosEvent.unseen = [];
+              }
+              currSosEvent.unseen.push(fullName);
+              break;
+            case ProviderResponseStatus.SEEN:
+              if (!currSosEvent.seen) {
+                currSosEvent.seen = [];
+              }
+              currSosEvent.seen.push(fullName);
+              break;
+            case ProviderResponseStatus.APPROVED_OUT:
+              if (!currSosEvent.approvedOut) {
+                currSosEvent.approvedOut = [];
+              }
+              currSosEvent.approvedOut.push(fullName);
+              break;
+            case ProviderResponseStatus.APPROVED_DEST:
+              if (!currSosEvent.approvedDest) {
+                currSosEvent.approvedDest = [];
+              }
+              currSosEvent.approvedDest.push(fullName);
+              break;
+          }
+
+          dispatch({
+            type: "UPDATE_SOS_EVENT",
+            payload: currSosEvent,
+          });
+        }
+      },
+      error: (error) => console.log("Failed to updated sos event"),
+    });
+
+    return () => {
+      onProviderResponseUpdatedSubscription.unsubscribe();
+    };
+  }, [dispatch, sosEvents]);
+
+  useEffect(() => {
+    if (!profile) return;
+    if (!requesters || requesters.length === 0) return;
+    if (!providers || providers.length === 0) return;
+    if (!sosEvents || sosEvents.length === 0) return;
+
+    const sosEventsIds = sosEvents.reduce((acc, sosEvent) => {
+      if (sosEvent.status === SosEventStatus.PENDING) {
+        acc.push(sosEvent.id);
+      }
+      return acc;
+    }, []);
+
+    // Subscribe to created provider responses
+    const onProviderResponseCreatedSubscription = API.graphql(
+      graphqlOperation(onCreateProviderResponseSubscription, {
+        filter: {
+          sosEventId: {
+            in: sosEventsIds, // Filter providers where the ID is in the list of providerIds
+          },
+        },
+      })
+    ).subscribe({
+      next: ({ value }) => {
+        const createdProviderResponse = value.data.onCreateProviderResponse;
+        if (createdProviderResponse) {
+          const currSosEvent = sosEvents.find(
+            (sosEvent) => sosEvent.id === createdProviderResponse.sosEventId
+          );
+          const currProvider = providers.find(
+            (provider) =>
+              provider.id === createdProviderResponse.providerResponseProviderId
+          );
+          const fullName = currProvider.firstName + " " + currProvider.lastName;
+          switch (createdProviderResponse.status) {
+            case ProviderResponseStatus.UNSEEN:
+              if (!currSosEvent.unseen) {
+                currSosEvent.unseen = [];
+              }
+              currSosEvent.unseen.push(fullName);
+              break;
+            case ProviderResponseStatus.SEEN:
+              if (!currSosEvent.seen) {
+                currSosEvent.seen = [];
+              }
+              currSosEvent.seen.push(fullName);
+              break;
+            case ProviderResponseStatus.APPROVED_OUT:
+              if (!currSosEvent.approvedOut) {
+                currSosEvent.approvedOut = [];
+              }
+              currSosEvent.approvedOut.push(fullName);
+              break;
+            case ProviderResponseStatus.APPROVED_DEST:
+              if (!currSosEvent.approvedDest) {
+                currSosEvent.approvedDest = [];
+              }
+              currSosEvent.approvedDest.push(fullName);
+              break;
+          }
+
+          dispatch({
+            type: "UPDATE_SOS_EVENT",
+            payload: currSosEvent,
+          });
+        }
+      },
+      error: (error) => console.log(error),
+    });
+
+    return () => {
+      onProviderResponseCreatedSubscription.unsubscribe();
     };
   }, [dispatch, sosEvents]);
 

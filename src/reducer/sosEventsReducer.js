@@ -5,13 +5,21 @@ const sosEventsReducer = (state = initialState, action) => {
     case "SET_SOS_EVENTS":
       return action.payload;
     case "UPDATE_SOS_EVENT":
-      // Find the project to update in the array
       const updatedSosEvent = action.payload;
-      const updatedSosEvents = state.map((sosEvent) =>
-        sosEvent.id === updatedSosEvent.id ? updatedSosEvent : sosEvent
+      const isSosEventPresent = state.some(
+        (sosEvent) => sosEvent.id === updatedSosEvent.id
       );
-      return updatedSosEvents;
 
+      if (!isSosEventPresent) {
+        return [...state, updatedSosEvent];
+      } else {
+        const updatedSosEvents = state.map((sosEvent) =>
+          sosEvent.id === updatedSosEvent.id
+            ? { ...sosEvent, ...updatedSosEvent }
+            : sosEvent
+        );
+        return updatedSosEvents;
+      }
     default:
       return state;
   }

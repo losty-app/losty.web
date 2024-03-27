@@ -40,7 +40,6 @@ type EagerRequester = {
   readonly gender?: string | null;
   readonly tel: string;
   readonly place?: string | null;
-  readonly geoPlace?: string | null;
   readonly lastSeen?: string | null;
   readonly associationId: string;
   readonly uriImage?: string | null;
@@ -63,7 +62,6 @@ type LazyRequester = {
   readonly gender?: string | null;
   readonly tel: string;
   readonly place?: string | null;
-  readonly geoPlace?: string | null;
   readonly lastSeen?: string | null;
   readonly associationId: string;
   readonly uriImage?: string | null;
@@ -92,7 +90,6 @@ type EagerProvider = {
   readonly gender?: string | null;
   readonly tel: string;
   readonly place?: string | null;
-  readonly geoPlace?: string | null;
   readonly lastSeen?: string | null;
   readonly associationId: string;
   readonly uriImage?: string | null;
@@ -116,7 +113,6 @@ type LazyProvider = {
   readonly gender?: string | null;
   readonly tel: string;
   readonly place?: string | null;
-  readonly geoPlace?: string | null;
   readonly lastSeen?: string | null;
   readonly associationId: string;
   readonly uriImage?: string | null;
@@ -267,7 +263,6 @@ type EagerSosEvent = {
   readonly requesterId: string;
   readonly providerResponses?: (ProviderResponse | null)[] | null;
   readonly place?: string | null;
-  readonly geoPlace?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -282,7 +277,6 @@ type LazySosEvent = {
   readonly requesterId: string;
   readonly providerResponses: AsyncCollection<ProviderResponse>;
   readonly place?: string | null;
-  readonly geoPlace?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

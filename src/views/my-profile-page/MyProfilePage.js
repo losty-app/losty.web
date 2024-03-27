@@ -15,14 +15,15 @@ import DashboardCard from "../../components/shared/DashboardCard";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingModal from "src/components/loading/LoadingModal";
 import { updateProviderMutation } from "src/helpers/mutationsHelper";
+import { getImageFromS3, uploadFileToS3Bucket } from "src/helpers/s3Helper";
 const Profile = ({
   firstName = "",
   lastName = "",
   tel = "",
-  profilePicture,
+  profileImageFile,
   onFirstNameChange,
   onLastNameChange,
-  onPictureChange,
+  onProfileImageFileChange,
 }) => {
   const [editingFirstName, setEditingFirstName] = useState(false);
   const [editingLastName, setEditingLastName] = useState(false);
@@ -34,7 +35,7 @@ const Profile = ({
   };
 
   const handleLastNameChange = (e) => {
-    setNewFirstName(e.target.value);
+    setNewLastName(e.target.value);
   };
 
   const handleSaveFirstName = () => {
@@ -57,11 +58,19 @@ const Profile = ({
     setEditingLastName(false);
   };
 
+  const handleFileSelect = async (event) => {
+    const file = event.target.files[0];
+    onProfileImageFileChange(file);
+    if (file) {
+    } else {
+      toast.error("נכשל להוסיף תמונה");
+    }
+  };
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={12} md={6} align="center">
         <Avatar
-          src={profilePicture}
+          src={profileImageFile}
           alt={firstName + " " + lastName}
           sx={{ width: 150, height: 150 }}
         />
@@ -71,7 +80,7 @@ const Profile = ({
             accept="image/*"
             style={{ display: "none" }}
             id="fileInput"
-            onChange={onPictureChange}
+            onChange={handleFileSelect}
           />
           <label htmlFor="fileInput">
             <IconButton
@@ -206,15 +215,25 @@ const Profile = ({
 };
 
 const MyProfilePage = () => {
+  const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [tel, setTel] = useState("");
   const [id, setId] = useState("");
-  const [profilePicture, setProfilePicture] = useState("");
+  const [profileImageFile, setProfileImageFile] = useState("");
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-
   const profile = useSelector((state) => state.profile);
+
+  const fetchProfileImage = async () => {
+    if (profile && profile.uriImage && profile.uriImage !== "") {
+      const image = await getImageFromS3(profile.uriImage);
+      setProfileImageFile(image);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfileImage();
+  }, [profile && profile.uriImage]);
 
   useEffect(() => {
     setId(profile?.id);
@@ -241,7 +260,7 @@ const MyProfilePage = () => {
     }
   };
 
-  const handleLastNameChange = async (newLastName) => {
+  const onLastNameChange = async (newLastName) => {
     setLoading(true);
     try {
       const updatedProvider = {
@@ -259,15 +278,22 @@ const MyProfilePage = () => {
     }
   };
 
-  const handlePictureChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      setProfilePicture(event.target.result);
-    };
-
-    reader.readAsDataURL(file);
+  const onProfileImageFileChange = async (file) => {
+    setLoading(true);
+    try {
+      const uploadedProfileImageUri = await uploadFileToS3Bucket(file);
+      const updatedProvider = {
+        id,
+        uriImage: uploadedProfileImageUri,
+      };
+      dispatch({ type: "UPDATE_PROFILE", payload: updatedProvider });
+      await updateProviderMutation(updatedProvider);
+      setLoading(false);
+      toast.success("תמונת הפרופיל שונה בהצלחה!");
+    } catch (error) {
+      toast.error("עדכון תמונת הפרופיל נכשלה");
+      setLoading(false);
+    }
   };
 
   return (
@@ -277,10 +303,10 @@ const MyProfilePage = () => {
           firstName={firstName}
           lastName={lastName}
           tel={tel}
-          profilePicture={profilePicture}
+          profileImageFile={profileImageFile}
           onFirstNameChange={handleFirstNameChange}
-          onLastNameChange={handleLastNameChange}
-          onPictureChange={handlePictureChange}
+          onLastNameChange={onLastNameChange}
+          onProfileImageFileChange={onProfileImageFileChange}
         />
       </DashboardCard>
       <LoadingModal open={loading} text={"מעדכן פרטי פרופיל..."} />
