@@ -59,6 +59,7 @@ export const getProvider = /* GraphQL */ `
   query GetProvider($id: ID!) {
     getProvider(id: $id) {
       id
+      providerType
       firstName
       lastName
       age
@@ -93,6 +94,7 @@ export const listProviders = /* GraphQL */ `
     listProviders(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        providerType
         firstName
         lastName
         age
@@ -241,6 +243,7 @@ export const getMessage = /* GraphQL */ `
       chatroomId
       SentBy {
         id
+        providerType
         firstName
         lastName
         age
@@ -334,6 +337,7 @@ export const getProviderResponse = /* GraphQL */ `
       sosEventId
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -479,6 +483,7 @@ export const getRequesterProvider = /* GraphQL */ `
       }
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -532,6 +537,7 @@ export const getProviderChatRoom = /* GraphQL */ `
       chatRoomId
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -642,6 +648,7 @@ export const providersByAssociationId = /* GraphQL */ `
     ) {
       items {
         id
+        providerType
         firstName
         lastName
         age

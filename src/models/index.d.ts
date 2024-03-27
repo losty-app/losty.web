@@ -2,6 +2,11 @@ import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
+export enum ProviderType {
+  REGULAR = "REGULAR",
+  ADMIN = "ADMIN"
+}
+
 export enum AttachmentType {
   IMAGE = "IMAGE",
   VIDEO = "VIDEO"
@@ -83,6 +88,7 @@ type EagerProvider = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly providerType?: ProviderType | keyof typeof ProviderType | null;
   readonly firstName: string;
   readonly lastName: string;
   readonly age?: number | null;
@@ -106,6 +112,7 @@ type LazyProvider = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly providerType?: ProviderType | keyof typeof ProviderType | null;
   readonly firstName: string;
   readonly lastName: string;
   readonly age?: number | null;

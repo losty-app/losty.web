@@ -20,8 +20,14 @@ type Requester @model @auth(rules: [{ allow: private }]) {
   providers: [Provider] @manyToMany(relationName: "RequesterProvider")
 }
 
+enum ProviderType {
+  REGULAR
+  ADMIN
+}
+
 type Provider @model @auth(rules: [{ allow: private }]) {
   id: ID!
+  providerType: ProviderType @default(value: "REGULAR")
   firstName: String!
   lastName: String!
   age: Int

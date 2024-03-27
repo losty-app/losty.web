@@ -10,6 +10,7 @@ import {
   providerResponsesBySosEventId,
   listProviders,
 } from "../graphql/queries";
+import { ProviderType } from "src/models";
 
 export const getSosEventsByRequesterId = async (requesterId) => {
   try {
@@ -71,7 +72,7 @@ export const listAllProvidersByAssociationId = async (associationId) => {
   }
 };
 
-export const findProviderByPhoneNumber = async (tel) => {
+export const findAdminByPhoneNumber = async (tel) => {
   try {
     const newTel = tel.replace(/^\+\d{1,3}/, "0");
     const result = await API.graphql(
@@ -79,6 +80,9 @@ export const findProviderByPhoneNumber = async (tel) => {
         filter: {
           tel: {
             eq: newTel,
+          },
+          providerType: {
+            eq: ProviderType.ADMIN,
           },
         },
       })
