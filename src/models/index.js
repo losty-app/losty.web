@@ -2,6 +2,11 @@
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
+const ProviderType = {
+  "REGULAR": "REGULAR",
+  "ADMIN": "ADMIN"
+};
+
 const AttachmentType = {
   "IMAGE": "IMAGE",
   "VIDEO": "VIDEO"
@@ -39,6 +44,7 @@ export {
   Invitation,
   RequesterProvider,
   ProviderChatRoom,
+  ProviderType,
   AttachmentType,
   SosEventStatus,
   ProviderResponseStatus,

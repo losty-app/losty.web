@@ -92,6 +92,7 @@ export const createProvider = /* GraphQL */ `
   ) {
     createProvider(input: $input, condition: $condition) {
       id
+      providerType
       firstName
       lastName
       age
@@ -124,6 +125,7 @@ export const updateProvider = /* GraphQL */ `
   ) {
     updateProvider(input: $input, condition: $condition) {
       id
+      providerType
       firstName
       lastName
       age
@@ -156,6 +158,7 @@ export const deleteProvider = /* GraphQL */ `
   ) {
     deleteProvider(input: $input, condition: $condition) {
       id
+      providerType
       firstName
       lastName
       age
@@ -424,6 +427,7 @@ export const createMessage = /* GraphQL */ `
       chatroomId
       SentBy {
         id
+        providerType
         firstName
         lastName
         age
@@ -462,6 +466,7 @@ export const updateMessage = /* GraphQL */ `
       chatroomId
       SentBy {
         id
+        providerType
         firstName
         lastName
         age
@@ -500,6 +505,7 @@ export const deleteMessage = /* GraphQL */ `
       chatroomId
       SentBy {
         id
+        providerType
         firstName
         lastName
         age
@@ -596,6 +602,7 @@ export const createProviderResponse = /* GraphQL */ `
       sosEventId
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -629,6 +636,7 @@ export const updateProviderResponse = /* GraphQL */ `
       sosEventId
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -662,6 +670,7 @@ export const deleteProviderResponse = /* GraphQL */ `
       sosEventId
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -827,6 +836,7 @@ export const createRequesterProvider = /* GraphQL */ `
       }
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -876,6 +886,7 @@ export const updateRequesterProvider = /* GraphQL */ `
       }
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -925,6 +936,7 @@ export const deleteRequesterProvider = /* GraphQL */ `
       }
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -957,6 +969,7 @@ export const createProviderChatRoom = /* GraphQL */ `
       chatRoomId
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -1000,6 +1013,7 @@ export const updateProviderChatRoom = /* GraphQL */ `
       chatRoomId
       provider {
         id
+        providerType
         firstName
         lastName
         age
@@ -1043,6 +1057,7 @@ export const deleteProviderChatRoom = /* GraphQL */ `
       chatRoomId
       provider {
         id
+        providerType
         firstName
         lastName
         age
