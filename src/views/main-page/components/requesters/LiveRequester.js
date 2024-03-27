@@ -75,7 +75,6 @@ const LiveRequester = ({ requester }) => {
           <Box>
             <Typography
               variant="subtitle2"
-              fontWeight={600}
               textAlign={"right"}
               style={{ color: "black" }}
             >
