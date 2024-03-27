@@ -36,8 +36,12 @@ export const signUser = async (phoneNumber, dispatch) => {
   try {
     await signIn(phoneNumber);
     const profile = await findAdminByPhoneNumber(phoneNumber);
-    await Auth.currentAuthenticatedUser({ bypassCache: true });
-    dispatch({ type: "SET_PROFILE", payload: profile });
+    if (profile) {
+      await Auth.currentAuthenticatedUser({ bypassCache: true });
+      dispatch({ type: "SET_PROFILE", payload: profile });
+    } else {
+      throw new Error();
+    }
   } catch (e) {
     throw e;
   }
