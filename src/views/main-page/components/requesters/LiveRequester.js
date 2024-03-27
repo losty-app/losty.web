@@ -23,10 +23,11 @@ const LiveRequester = ({ requester }) => {
       <TableCell>
         <Typography
           textAlign={"right"}
-          sx={{
-            fontSize: "15px",
-            fontWeight: "500",
-          }}
+          style={
+            requester.isSOS
+              ? { color: "red", fontSize: "18px", fontWeight: "bold" }
+              : { color: "black", fontSize: "15px", fontWeight: "500" }
+          }
         >
           {requester.firstName + " " + requester.lastName}
         </Typography>
@@ -43,11 +44,12 @@ const LiveRequester = ({ requester }) => {
               <Typography
                 textAlign={"right"}
                 sx={{
-                  fontSize: "16px",
+                  fontSize: "18px",
                   color: "red",
+                  fontWeight: "bold",
                 }}
               >
-                במצב חירום
+                במצב חירום 🚨
               </Typography>
             ) : (
               <Typography
@@ -75,6 +77,7 @@ const LiveRequester = ({ requester }) => {
               variant="subtitle2"
               fontWeight={600}
               textAlign={"right"}
+              style={{ color: "black" }}
             >
               {formatDateToIsraelLocale(requester.updatedAt)}
             </Typography>
@@ -94,13 +97,18 @@ const LiveRequester = ({ requester }) => {
               variant="subtitle2"
               fontWeight={600}
               color={"#1a237e"} // Dark blue color
-              size="small"
+              size={requester.isSOS ? "large" : "small"} //
               sx={{ cursor: "pointer" }} // Set cursor to pointer
               onClick={openGoogleMaps}
             >
               {"לחצ/י למיקום"}
               <IconButton sx={{ color: "#1a237e" }} onClick={openGoogleMaps}>
-                <MapSharp sx={{ fontSize: 20, color: "#1a237e" }} />
+                <MapSharp
+                  sx={{
+                    fontSize: requester.isSOS ? 22 : 15,
+                    color: "#1a237e",
+                  }}
+                />
               </IconButton>
             </Typography>
           </Box>
