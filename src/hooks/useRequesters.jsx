@@ -71,7 +71,7 @@ const useRequesters = (callFrom = "") => {
 
   useEffect(() => {
     if (!profile) return;
-    if (!requesters || requesters.length === 0) return;
+    if (!requesters || requesters.length === 0 || requesters.length > 5) return;
 
     const requesterIds = requesters.map((requester) => requester.id); // Extract requester IDs
 
