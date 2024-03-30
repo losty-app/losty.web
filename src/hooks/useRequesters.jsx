@@ -35,6 +35,7 @@ const useRequesters = (callFrom = "") => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!profile) return;
         if (!requesters || requesters.length === 0 || callFrom === "HOME") {
           await fetchRequesters();
         }

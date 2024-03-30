@@ -21,6 +21,7 @@ const useProviders = (callFrom = "") => {
   };
 
   useEffect(() => {
+    if (!profile) return;
     // Fetch providers if not available in Redux
     if (!providers || providers?.length === 0 || callFrom === "HOME") {
       fetchProviders();
