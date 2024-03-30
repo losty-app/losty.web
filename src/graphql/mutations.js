@@ -702,6 +702,7 @@ export const createAssociation = /* GraphQL */ `
     createAssociation(input: $input, condition: $condition) {
       id
       name
+      uriImage
       providers {
         nextToken
         __typename
@@ -724,6 +725,7 @@ export const updateAssociation = /* GraphQL */ `
     updateAssociation(input: $input, condition: $condition) {
       id
       name
+      uriImage
       providers {
         nextToken
         __typename
@@ -746,6 +748,7 @@ export const deleteAssociation = /* GraphQL */ `
     deleteAssociation(input: $input, condition: $condition) {
       id
       name
+      uriImage
       providers {
         nextToken
         __typename

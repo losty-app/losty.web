@@ -18,6 +18,8 @@ import { toast } from "react-toastify";
 import LoadingModal from "src/components/loading/LoadingModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageFromS3 } from "src/helpers/s3Helper";
+import icon from "src/assets/images/logos/icon.png";
+import { getAssociationById } from "src/helpers/queriesHelper";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
   const profile = useSelector((state) => state.profile);
+  const [associationImageUrl, setAssociationImageUrl] = useState("");
 
   const fetchProfileImage = async () => {
     if (profile && profile.uriImage && profile.uriImage !== "") {
@@ -35,9 +38,22 @@ const Profile = () => {
     }
   };
 
+  const fetchAssociationImageUrl = async () => {
+    try {
+      if (profile && profile.associationId && profile.associationId !== "") {
+        const association = await getAssociationById(profile.associationId);
+        console.log(association);
+        setAssociationImageUrl(association.uriImage);
+      }
+    } catch (e) {
+      return "";
+    }
+  };
+
   useEffect(() => {
     fetchProfileImage();
-  }, []);
+    fetchAssociationImageUrl();
+  }, [profile]);
 
   const handleLogout = () => {
     setIsLogoutModalOpen(true); // Open the logout confirmation modal
@@ -86,6 +102,8 @@ const Profile = () => {
           }}
         />
       </IconButton>
+
+      <img src={associationImageUrl} height={40} />
       {/* ------------------------------------------- */}
       {/* Message Dropdown */}
       {/* ------------------------------------------- */}

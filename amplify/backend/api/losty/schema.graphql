@@ -123,6 +123,7 @@ type ProviderResponse @model @auth(rules: [{ allow: private }]) {
 type Association @model @auth(rules: [{ allow: private }]) {
   id: ID!
   name: String
+  uriImage: String
   providers: [Provider] @hasMany(indexName: "byAssociation", fields: ["id"])
   requesters: [Requester] @hasMany(indexName: "byAssociation", fields: ["id"])
 }

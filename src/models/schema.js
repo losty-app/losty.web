@@ -960,6 +960,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "uriImage": {
+                    "name": "uriImage",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "providers": {
                     "name": "providers",
                     "isArray": true,
@@ -1348,5 +1355,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "41131b6c4ce632af5341b7c84c88411b"
+    "version": "2f7cff65448624e905ad8536e87274cf"
 };

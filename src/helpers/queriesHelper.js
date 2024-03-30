@@ -9,6 +9,7 @@ import {
   listRequesters,
   providerResponsesBySosEventId,
   listProviders,
+  getAssociation,
 } from "../graphql/queries";
 import { ProviderType } from "src/models";
 
@@ -54,6 +55,18 @@ export const listAllRequestersByAssociationId = async (associationId) => {
     return result.data.listRequesters.items;
   } catch (e) {
     console.log("listAllRequestersByAssociationId: ", e);
+    throw new Error(e);
+  }
+};
+
+export const getAssociationById = async (associationId) => {
+  try {
+    const result = await API.graphql(
+      graphqlOperation(getAssociation, { id: associationId })
+    );
+    return result?.data?.getAssociation;
+  } catch (e) {
+    console.log("getAssociationById: ", e);
     throw new Error(e);
   }
 };
