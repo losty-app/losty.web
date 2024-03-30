@@ -335,6 +335,7 @@ type EagerAssociation = {
   };
   readonly id: string;
   readonly name?: string | null;
+  readonly uriImage?: string | null;
   readonly providers?: (Provider | null)[] | null;
   readonly requesters?: (Requester | null)[] | null;
   readonly createdAt?: string | null;
@@ -348,6 +349,7 @@ type LazyAssociation = {
   };
   readonly id: string;
   readonly name?: string | null;
+  readonly uriImage?: string | null;
   readonly providers: AsyncCollection<Provider>;
   readonly requesters: AsyncCollection<Requester>;
   readonly createdAt?: string | null;

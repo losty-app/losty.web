@@ -391,6 +391,7 @@ export const getAssociation = /* GraphQL */ `
     getAssociation(id: $id) {
       id
       name
+      uriImage
       providers {
         nextToken
         __typename
@@ -415,6 +416,7 @@ export const listAssociations = /* GraphQL */ `
       items {
         id
         name
+        uriImage
         createdAt
         updatedAt
         __typename

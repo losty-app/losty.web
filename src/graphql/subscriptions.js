@@ -656,6 +656,7 @@ export const onCreateAssociation = /* GraphQL */ `
     onCreateAssociation(filter: $filter) {
       id
       name
+      uriImage
       providers {
         nextToken
         __typename
@@ -677,6 +678,7 @@ export const onUpdateAssociation = /* GraphQL */ `
     onUpdateAssociation(filter: $filter) {
       id
       name
+      uriImage
       providers {
         nextToken
         __typename
@@ -698,6 +700,7 @@ export const onDeleteAssociation = /* GraphQL */ `
     onDeleteAssociation(filter: $filter) {
       id
       name
+      uriImage
       providers {
         nextToken
         __typename
