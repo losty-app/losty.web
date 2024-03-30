@@ -8,6 +8,7 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
+  Grid,
 } from "@mui/material";
 
 import { IconListCheck, IconLogout, IconUser } from "@tabler/icons";
@@ -18,7 +19,6 @@ import { toast } from "react-toastify";
 import LoadingModal from "src/components/loading/LoadingModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getImageFromS3 } from "src/helpers/s3Helper";
-import icon from "src/assets/images/logos/icon.png";
 import { getAssociationById } from "src/helpers/queriesHelper";
 
 const Profile = () => {
@@ -42,7 +42,6 @@ const Profile = () => {
     try {
       if (profile && profile.associationId && profile.associationId !== "") {
         const association = await getAssociationById(profile.associationId);
-        console.log(association);
         setAssociationImageUrl(association.uriImage);
       }
     } catch (e) {
@@ -53,7 +52,7 @@ const Profile = () => {
   useEffect(() => {
     fetchProfileImage();
     fetchAssociationImageUrl();
-  }, [profile]);
+  }, []);
 
   const handleLogout = () => {
     setIsLogoutModalOpen(true); // Open the logout confirmation modal
@@ -80,30 +79,42 @@ const Profile = () => {
 
   return (
     <Box>
-      <IconButton
-        size="large"
-        aria-label="show 11 new notifications"
-        color="inherit"
-        aria-controls="msgs-menu"
-        aria-haspopup="true"
-        sx={{
-          ...(typeof anchorEl2 === "object" && {
-            color: "primary.main",
-          }),
-        }}
-        onClick={handleClick2}
+      <Grid
+        container
+        display={"flex"}
+        flexDirection={"row"}
+        alignItems={"center"}
+        justifyContent={"center"}
       >
-        <Avatar
-          src={file}
-          alt={"Profile Image"}
-          sx={{
-            width: 35,
-            height: 35,
-          }}
-        />
-      </IconButton>
+        <Grid item>
+          <img src={associationImageUrl} height={60} />
+        </Grid>
+        <Grid item>
+          <IconButton
+            size="large"
+            aria-label="show 11 new notifications"
+            color="inherit"
+            aria-controls="msgs-menu"
+            aria-haspopup="true"
+            sx={{
+              ...(typeof anchorEl2 === "object" && {
+                color: "primary.main",
+              }),
+            }}
+            onClick={handleClick2}
+          >
+            <Avatar
+              src={file}
+              alt={"Profile Image"}
+              sx={{
+                width: 40,
+                height: 40,
+              }}
+            />
+          </IconButton>
+        </Grid>
+      </Grid>
 
-      <img src={associationImageUrl} height={40} />
       {/* ------------------------------------------- */}
       {/* Message Dropdown */}
       {/* ------------------------------------------- */}

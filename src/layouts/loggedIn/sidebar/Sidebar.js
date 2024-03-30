@@ -1,11 +1,11 @@
-import { useMediaQuery, Box, Drawer } from '@mui/material';
-import Logo from '../shared/logo/Logo';
-import SidebarItems from './SidebarItems';
+import { useMediaQuery, Box, Drawer } from "@mui/material";
+import Logo from "../shared/logo/Logo";
+import SidebarItems from "./SidebarItems";
 
 const Sidebar = (props) => {
-  const mdUp = useMediaQuery((theme) => theme.breakpoints.up('md'));
+  const mdUp = useMediaQuery((theme) => theme.breakpoints.up("md"));
 
-  const sidebarWidth = '270px';
+  const sidebarWidth = "270px";
 
   if (mdUp) {
     return (
@@ -33,7 +33,7 @@ const Sidebar = (props) => {
           {/* ------------------------------------------- */}
           <Box
             sx={{
-              height: '100%',
+              height: "100%",
             }}
           >
             {/* ------------------------------------------- */}
@@ -71,7 +71,7 @@ const Sidebar = (props) => {
     >
       <Box
         sx={{
-          height: '100%',
+          height: "100%",
         }}
       >
         {/* ------------------------------------------- */}
