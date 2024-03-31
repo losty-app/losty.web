@@ -55,8 +55,23 @@ const LiveRequesters = () => {
     }
   };
 
+  const onSearch = (text) => {
+    const filteredRequesters = requesters.filter(
+      (requester) =>
+        requester.firstName.toLowerCase().includes(text.toLowerCase()) ||
+        requester.lastName.toLowerCase().includes(text.toLowerCase())
+    );
+    setSortedRequesters(filteredRequesters);
+  };
+
   return (
-    <DashboardCard title="טבלת מקבלי שירות">
+    <DashboardCard
+      title="טבלת מקבלי שירות"
+      subtitle={
+        requesters?.length ? "סה״כ: " + requesters.length + " מקבלי שירות" : ""
+      }
+      onSearch={onSearch}
+    >
       <Box
         sx={{
           direction: "rtl",

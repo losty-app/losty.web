@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent, Typography, Stack, Box } from "@mui/material";
+import SearchBar from "../search/SearchBar";
 
 const DashboardCard = ({
   title,
@@ -11,6 +12,7 @@ const DashboardCard = ({
   headtitle,
   headsubtitle,
   middlecontent,
+  onSearch,
 }) => {
   return (
     <Card
@@ -50,7 +52,9 @@ const DashboardCard = ({
                   ""
                 )}
               </Box>
+
               {action}
+              <SearchBar onSearch={onSearch} />
             </Stack>
           ) : null}
 
