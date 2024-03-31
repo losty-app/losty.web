@@ -1,0 +1,13 @@
+.search {
+  display: flex;
+  border-radius: 4rem;
+  margin-right: 2rem;
+  margin-left: 0;
+  width: 20%;
+  border-width: 2rem;
+  border-color: gray;
+}
+
+.icon {
+  margin-left: 0.5rem;
+}

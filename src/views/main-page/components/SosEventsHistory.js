@@ -63,7 +63,12 @@ const SosEventsHistory = () => {
   };
 
   return (
-    <DashboardCard title="טבלת מקרי חירום">
+    <DashboardCard
+      title="טבלת מקרי חירום"
+      subtitle={
+        sosEvents?.length ? "סה״כ: " + sosEvents.length + " מקרי חירום" : ""
+      }
+    >
       <Box
         sx={{
           direction: "rtl",
