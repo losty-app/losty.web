@@ -63,15 +63,16 @@ export const getGeneratedCode = async () => {
 export const sendConfirmationCode = async (phoneNumber, generatedCode) => {
   try {
     const message = "  הוא קוד האימות שלך";
-    const client = new SNSClient({
-      region: "us-west-2",
-      credentials: keys.AWS_SDK_CREDENTIALS,
-    });
-    const command = new PublishCommand({
-      PhoneNumber: phoneNumber,
-      Message: generatedCode + message,
-    });
-    await client.send(command);
+    console.log(generatedCode);
+    // const client = new SNSClient({
+    //   region: "us-west-2",
+    //   credentials: keys.AWS_SDK_CREDENTIALS,
+    // });
+    // const command = new PublishCommand({
+    //   PhoneNumber: phoneNumber,
+    //   Message: generatedCode + message,
+    // });
+    // await client.send(command);
   } catch (e) {
     console.warn("sending confirmation code failed: ", e);
     throw e;
