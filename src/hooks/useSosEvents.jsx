@@ -1,5 +1,5 @@
 import { API, graphqlOperation } from "aws-amplify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onCreateProviderResponse,
@@ -26,9 +26,11 @@ const useSosEvents = (callFrom = "") => {
   const requesters = useSelector((state) => state.requesters);
   const { providers } = useProviders("HOME");
   const profile = useSelector((state) => state.profile);
+  const [loading, setLoading] = useState(false);
 
   const fetchSosEvents = async () => {
     try {
+      setLoading(true);
       if (requesters?.length > 0) {
         /* This code block is responsible for fetching SOS events and their corresponding provider
         responses. */
@@ -122,6 +124,8 @@ const useSosEvents = (callFrom = "") => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -362,7 +366,7 @@ const useSosEvents = (callFrom = "") => {
     };
   }, [dispatch, sosEvents]);
 
-  return { sosEvents };
+  return { sosEvents, fetchSosEvents, loading };
 };
 
 export default useSosEvents;

@@ -111,6 +111,7 @@ const useRequesters = (callFrom = "") => {
 
   return {
     requesters,
+    fetchRequesters,
     loading,
   };
 };
