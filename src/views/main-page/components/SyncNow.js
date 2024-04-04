@@ -1,7 +1,7 @@
 import { Refresh } from "@mui/icons-material";
-import { Button, Grid, IconButton, Typography } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import useRequesters from "src/hooks/useRequesters";
 import useSosEvents from "src/hooks/useSosEvents";
 import { formatDateToIsraelLocale } from "src/utils/utils";
@@ -10,7 +10,6 @@ const SyncNow = () => {
   const dispatch = useDispatch();
   const { fetchRequesters } = useRequesters();
   const { fetchSosEvents } = useSosEvents();
-  const lastSyncTime = useSelector((state) => state.lastSyncTime);
   const [displayText, setDisplayText] = useState("לחצ/י לעדכון הכל");
 
   const handleSyncNow = async () => {
