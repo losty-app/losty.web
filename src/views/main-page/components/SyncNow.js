@@ -18,8 +18,9 @@ const SyncNow = () => {
       setDisplayText("מעדכן...");
       await fetchRequesters();
       await fetchSosEvents();
-      dispatch({ type: "SET_LAST_SYNC_TIME", payload: new Date() });
-      setDisplayText("עודכן ב-" + formatDateToIsraelLocale(lastSyncTime));
+      const newDate = new Date();
+      dispatch({ type: "SET_LAST_SYNC_TIME", payload: newDate });
+      setDisplayText("עודכן ב-" + formatDateToIsraelLocale(newDate));
     } catch (e) {
       console.log("Failed to sync");
     }
