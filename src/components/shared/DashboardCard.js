@@ -12,6 +12,7 @@ const DashboardCard = ({
   headtitle,
   headsubtitle,
   middlecontent,
+  isSearchVisible = false,
   onSearch,
 }) => {
   return (
@@ -52,9 +53,8 @@ const DashboardCard = ({
                   ""
                 )}
               </Box>
-
               {action}
-              <SearchBar onSearch={onSearch} />
+              {isSearchVisible && <SearchBar onSearch={onSearch} />}
             </Stack>
           ) : null}
 

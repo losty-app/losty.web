@@ -70,6 +70,7 @@ const LiveRequesters = () => {
       subtitle={
         requesters?.length ? "סה״כ: " + requesters.length + " מקבלי שירות" : ""
       }
+      isSearchVisible
       onSearch={onSearch}
     >
       <Box

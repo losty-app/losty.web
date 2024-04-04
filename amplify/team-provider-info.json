@@ -1,14 +1,14 @@
 {
-  "main": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-losty-main-172948-authRole",
-      "UnauthRoleArn": "arn:aws:iam::848478365673:role/amplify-losty-main-172948-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::848478365673:role/amplify-losty-main-172948-authRole",
+      "AuthRoleName": "amplify-losty-dev-84859-authRole",
+      "UnauthRoleArn": "arn:aws:iam::848478365673:role/amplify-losty-dev-84859-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::848478365673:role/amplify-losty-dev-84859-authRole",
       "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-losty-main-172948-deployment",
-      "UnauthRoleName": "amplify-losty-main-172948-unauthRole",
-      "StackName": "amplify-losty-main-172948",
-      "StackId": "arn:aws:cloudformation:us-west-2:848478365673:stack/amplify-losty-main-172948/e89e39b0-c66a-11ed-9748-069d42de9079",
+      "DeploymentBucketName": "amplify-losty-dev-84859-deployment",
+      "UnauthRoleName": "amplify-losty-dev-84859-unauthRole",
+      "StackName": "amplify-losty-dev-84859",
+      "StackId": "arn:aws:cloudformation:us-west-2:848478365673:stack/amplify-losty-dev-84859/cc2a99a0-8cd5-11ed-8d20-0ac05d110c53",
       "AmplifyAppId": "d3o2ap1oc4r3f"
     },
     "categories": {

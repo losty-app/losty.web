@@ -20,6 +20,13 @@ const useRequesters = (callFrom = "") => {
         profile.associationId
       );
 
+      if (fetchedRequesters.length != requesters.length) {
+        dispatch({
+          type: "SET_REQUESTERS",
+          payload: [],
+        });
+      }
+
       for (let fetchedRequester of fetchedRequesters) {
         dispatch({
           type: "UPDATE_REQUESTER",
@@ -104,6 +111,7 @@ const useRequesters = (callFrom = "") => {
 
   return {
     requesters,
+    fetchRequesters,
     loading,
   };
 };

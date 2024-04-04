@@ -68,6 +68,7 @@ const SosEventsHistory = () => {
       subtitle={
         sosEvents?.length ? "סה״כ: " + sosEvents.length + " מקרי חירום" : ""
       }
+      isSearchVisible
     >
       <Box
         sx={{
