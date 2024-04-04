@@ -32,11 +32,9 @@ const SyncNow = () => {
       }}
     >
       <Grid container>
-        <Button variant="outlined" color="info" style={{ cursor: "pointer" }}>
+        <Button variant="outlined" color="info">
           {displayText}
-          <IconButton size="small" color="info">
-            <Refresh />
-          </IconButton>
+          <Refresh style={{ marginRight: "0.4rem" }} />
         </Button>
       </Grid>
     </div>
