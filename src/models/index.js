@@ -7,11 +7,6 @@ const ProviderType = {
   "ADMIN": "ADMIN"
 };
 
-const AttachmentType = {
-  "IMAGE": "IMAGE",
-  "VIDEO": "VIDEO"
-};
-
 const SosEventStatus = {
   "PENDING": "PENDING",
   "FINISHED": "FINISHED"
@@ -30,22 +25,17 @@ const InvitationResponseStatus = {
   "APPROVED": "APPROVED"
 };
 
-const { Requester, Provider, Attachment, ChatRoom, Message, SosEvent, ProviderResponse, Association, Invitation, RequesterProvider, ProviderChatRoom } = initSchema(schema);
+const { Requester, Provider, SosEvent, ProviderResponse, Association, Invitation, RequesterProvider } = initSchema(schema);
 
 export {
   Requester,
   Provider,
-  Attachment,
-  ChatRoom,
-  Message,
   SosEvent,
   ProviderResponse,
   Association,
   Invitation,
   RequesterProvider,
-  ProviderChatRoom,
   ProviderType,
-  AttachmentType,
   SosEventStatus,
   ProviderResponseStatus,
   InvitationResponseStatus

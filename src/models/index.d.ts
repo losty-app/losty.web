@@ -7,11 +7,6 @@ export enum ProviderType {
   ADMIN = "ADMIN"
 }
 
-export enum AttachmentType {
-  IMAGE = "IMAGE",
-  VIDEO = "VIDEO"
-}
-
 export enum SosEventStatus {
   PENDING = "PENDING",
   FINISHED = "FINISHED"
@@ -100,7 +95,6 @@ type EagerProvider = {
   readonly associationId: string;
   readonly uriImage?: string | null;
   readonly expoPushToken?: string | null;
-  readonly ChatRooms?: (ProviderChatRoom | null)[] | null;
   readonly requesters?: (RequesterProvider | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -124,7 +118,6 @@ type LazyProvider = {
   readonly associationId: string;
   readonly uriImage?: string | null;
   readonly expoPushToken?: string | null;
-  readonly ChatRooms: AsyncCollection<ProviderChatRoom>;
   readonly requesters: AsyncCollection<RequesterProvider>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -134,130 +127,6 @@ export declare type Provider = LazyLoading extends LazyLoadingDisabled ? EagerPr
 
 export declare const Provider: (new (init: ModelInit<Provider>) => Provider) & {
   copyOf(source: Provider, mutator: (draft: MutableModel<Provider>) => MutableModel<Provider> | void): Provider;
-}
-
-type EagerAttachment = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Attachment, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly storageKey: string;
-  readonly type: AttachmentType | keyof typeof AttachmentType;
-  readonly width?: number | null;
-  readonly height?: number | null;
-  readonly duration?: number | null;
-  readonly messageId: string;
-  readonly chatroomId: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyAttachment = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Attachment, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly storageKey: string;
-  readonly type: AttachmentType | keyof typeof AttachmentType;
-  readonly width?: number | null;
-  readonly height?: number | null;
-  readonly duration?: number | null;
-  readonly messageId: string;
-  readonly chatroomId: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Attachment = LazyLoading extends LazyLoadingDisabled ? EagerAttachment : LazyAttachment
-
-export declare const Attachment: (new (init: ModelInit<Attachment>) => Attachment) & {
-  copyOf(source: Attachment, mutator: (draft: MutableModel<Attachment>) => MutableModel<Attachment> | void): Attachment;
-}
-
-type EagerChatRoom = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<ChatRoom, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly name?: string | null;
-  readonly uriImage?: string | null;
-  readonly isGroup?: boolean | null;
-  readonly Messages?: (Message | null)[] | null;
-  readonly Providers?: (ProviderChatRoom | null)[] | null;
-  readonly LastMessage?: Message | null;
-  readonly mutualRequester?: Requester | null;
-  readonly Attachments?: (Attachment | null)[] | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly chatRoomLastMessageId?: string | null;
-  readonly chatRoomMutualRequesterId?: string | null;
-}
-
-type LazyChatRoom = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<ChatRoom, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly name?: string | null;
-  readonly uriImage?: string | null;
-  readonly isGroup?: boolean | null;
-  readonly Messages: AsyncCollection<Message>;
-  readonly Providers: AsyncCollection<ProviderChatRoom>;
-  readonly LastMessage: AsyncItem<Message | undefined>;
-  readonly mutualRequester: AsyncItem<Requester | undefined>;
-  readonly Attachments: AsyncCollection<Attachment>;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly chatRoomLastMessageId?: string | null;
-  readonly chatRoomMutualRequesterId?: string | null;
-}
-
-export declare type ChatRoom = LazyLoading extends LazyLoadingDisabled ? EagerChatRoom : LazyChatRoom
-
-export declare const ChatRoom: (new (init: ModelInit<ChatRoom>) => ChatRoom) & {
-  copyOf(source: ChatRoom, mutator: (draft: MutableModel<ChatRoom>) => MutableModel<ChatRoom> | void): ChatRoom;
-}
-
-type EagerMessage = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Message, 'id'>;
-    readOnlyFields: 'updatedAt';
-  };
-  readonly id: string;
-  readonly createdAt: string;
-  readonly text: string;
-  readonly chatroomId: string;
-  readonly SentBy: Provider;
-  readonly images?: (string | null)[] | null;
-  readonly Attachments?: (Attachment | null)[] | null;
-  readonly updatedAt?: string | null;
-  readonly messageSentById: string;
-}
-
-type LazyMessage = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Message, 'id'>;
-    readOnlyFields: 'updatedAt';
-  };
-  readonly id: string;
-  readonly createdAt: string;
-  readonly text: string;
-  readonly chatroomId: string;
-  readonly SentBy: AsyncItem<Provider>;
-  readonly images?: (string | null)[] | null;
-  readonly Attachments: AsyncCollection<Attachment>;
-  readonly updatedAt?: string | null;
-  readonly messageSentById: string;
-}
-
-export declare type Message = LazyLoading extends LazyLoadingDisabled ? EagerMessage : LazyMessage
-
-export declare const Message: (new (init: ModelInit<Message>) => Message) & {
-  copyOf(source: Message, mutator: (draft: MutableModel<Message>) => MutableModel<Message> | void): Message;
 }
 
 type EagerSosEvent = {
@@ -426,38 +295,4 @@ export declare type RequesterProvider = LazyLoading extends LazyLoadingDisabled 
 
 export declare const RequesterProvider: (new (init: ModelInit<RequesterProvider>) => RequesterProvider) & {
   copyOf(source: RequesterProvider, mutator: (draft: MutableModel<RequesterProvider>) => MutableModel<RequesterProvider> | void): RequesterProvider;
-}
-
-type EagerProviderChatRoom = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<ProviderChatRoom, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly providerId?: string | null;
-  readonly chatRoomId?: string | null;
-  readonly provider: Provider;
-  readonly chatRoom: ChatRoom;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyProviderChatRoom = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<ProviderChatRoom, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly providerId?: string | null;
-  readonly chatRoomId?: string | null;
-  readonly provider: AsyncItem<Provider>;
-  readonly chatRoom: AsyncItem<ChatRoom>;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type ProviderChatRoom = LazyLoading extends LazyLoadingDisabled ? EagerProviderChatRoom : LazyProviderChatRoom
-
-export declare const ProviderChatRoom: (new (init: ModelInit<ProviderChatRoom>) => ProviderChatRoom) & {
-  copyOf(source: ProviderChatRoom, mutator: (draft: MutableModel<ProviderChatRoom>) => MutableModel<ProviderChatRoom> | void): ProviderChatRoom;
 }
